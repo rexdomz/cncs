@@ -21,7 +21,9 @@ class CreateProfilesTable extends Migration
             $table->double('loan', 15, 5);
             $table->integer('interest');
             $table->integer('term');
-            $table->string('contact', 15);
+            $table->dateTime('date_from');
+            $table->dateTime('date_to');
+            $table->string('contact');
             $table->timestamps();
         });
     }
