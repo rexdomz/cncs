@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+/*
 // List articles
 Route::get('articles', 'ArticleController@index');
 
@@ -31,5 +32,20 @@ Route::put('article', 'ArticleController@store');
 
 // Delete article
 Route::delete('article/{id}', 'ArticleController@destroy');
+*/
 
 
+// List profiles
+Route::get('profiles', 'ProfilesController@index');
+
+// List single profile
+Route::get('profile/{id}', 'ProfilesController@show');
+
+// Create new profile
+Route::post('profile', 'ProfilesController@store');
+
+// Update profile
+Route::put('profile', 'ProfilesController@store');
+
+// Delete profile
+Route::delete('profile/{id}', 'ProfilesController@destroy');

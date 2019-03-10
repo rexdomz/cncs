@@ -18,7 +18,7 @@ class CreateAreaTable extends Migration
             $table->string('area_code', 10);
             $table->string('address', 100);
             $table->string('collector', 100);            
-            $table->string('contact', 15);
+            $table->string('contact');
             $table->timestamps();
         });
     }
