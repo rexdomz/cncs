@@ -18,10 +18,23 @@ class ProfilesController extends Controller
     {
         // Get profiles
         $profiles = Profiles::paginate(10);
-
-        // Return collection of articles as a resource
-        return ProfilesResource::collection($profiles);
+        
+        // Return collection of articles as a resource        
+        return ProfilesResource::collection($profiles);        
+        
     }
+
+
+    public function get_profiles_by_area()
+    {
+        // Get profiles        
+        $profiles = Profiles::where('area', 'a1')->paginate(10);                
+
+        // Return paginated records by area
+        return ProfilesResource::collection($profiles);        
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

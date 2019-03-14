@@ -11,10 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*Route::get('/', function () {
+    return view('home');
+}); */
 
 Auth::routes();
 
+Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/registration', 'HomeController@index')->name('home');
+
+Route::get('/reports-all-accounts', 'HomeController@index')->name('home');
+
+Route::get('/reports-weekly', 'HomeController@index')->name('home');
+
+Route::get('/payment', 'HomeController@index')->name('home');
