@@ -25,4 +25,30 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function register()
+    {
+        return view('registration');
+    }
+
+    public function registered_users()
+    {
+        return view('regusers');
+    }
+
+    public function payment()
+    {
+        return view('payment');
+    }
+
+    public function collector()
+    {
+        return view('collector');
+    }
+
+    public function area()
+    {
+        return view('areas');
+    }
+
 }

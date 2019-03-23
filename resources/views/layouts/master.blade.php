@@ -8,7 +8,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script> 
 
-  <title>CNCS | Dashboard Page</title>
+  <title>CNCS|Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -16,10 +16,7 @@
     href="{{ asset('css/font-awesome.min.css') }}" > -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" > 
 
-  <link rel="stylesheet" 
-    href="{{ asset('css/app.css') }}" >
-
-  <link rel="stylesheet" href="http://cncs.com/node_modules/admin-lte/dist/css/AdminLTE.min.css">    
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}" >  
   
   <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 
@@ -33,6 +30,11 @@
  th {
   padding: 0.65em !important;
  }
+
+ .table tr {
+  border-bottom: 1px solid #eee;
+ }
+
 </style>
         
 </head>
@@ -116,19 +118,25 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <!-- li class="header">MAIN NAVIGATION</li> -->
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Accounts</span>
+        <li class="">
+        <a href="/home"><i class="fa fa-dashboard"></i> Home</a>
+        <a href="/registration"><i class="fa fa-edit"></i> New Registration</a>
+        <a href="/payment"><i class="fa fa-pie-chart"></i> Payments</a>
+        <a href="/registered-users"><i class="fa fa-table"></i>Registered Users</a>
+        <a href="/quota"><i class="fa fa-th"></i>Collector's Quota</a> 
+        <a href="/area"><i class="fa fa-laptop"></i>Areas</a>
+          <!--<a href="#">
+            <i class="fa fa-edit"></i> <span>Borrower's <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Transactions</span>
             <span class="pull-right-container">
             <span class="label label-primary pull-right">2</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/registration"><i class="fa fa-circle-o"></i> Registration</a></li>
+            <li><a href="/registration"><i class="fa fa-circle-o"></i> New Registration</a></li>
             <li><a href="/payment"><i class="fa fa-circle-o"></i> Payment</a></li>
-          </ul>
+          </ul>-->
         </li>
-        <li class="treeview">
+        <!--<li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Reports</span>
@@ -137,10 +145,23 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/reports-all-accounts"><i class="fa fa-circle-o"></i>All Accounts</a></li>
-            <li><a href="/reports-weekly"><i class="fa fa-circle-o"></i>Weekly Collector Quota</a></li>            
+            <li><a href="/reports-all-accounts"><i class="fa fa-circle-o"></i>All Records</a></li>
+            <li><a href="/reports-weekly"><i class="fa fa-circle-o"></i>Quota</a></li>            
           </ul>
-        </li>        
+        </li>--> 
+        <!--<li class="treeview">
+          <a href="#">
+            <i class="fa fa-th"></i>
+            <span>Maintenance</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right">2</span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/user-accounts"><i class="fa fa-circle-o"></i>User accounts</a></li>
+            <li><a href="/area"><i class="fa fa-circle-o"></i>Area</a></li>            
+          </ul>
+        </li>-->        
         <!--<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> Developer <span>Information</span></a></li>-->
       </ul>
     </section>
@@ -160,17 +181,19 @@
         <div class="box-header with-border">
           <h3 class="box-title">Dashboard</h3>
 
+          <!--
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
               <i class="fa fa-minus"></i></button>
             <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
               <i class="fa fa-times"></i></button>
-          </div>
+          </div> -->
+
         </div>
         <div class="box-body">
         
-            <lender-list></lender-list>
+          @yield('content')
 
         </div>
 
@@ -194,12 +217,11 @@
 
 <script src="{{ asset('js/app.js') }}"></script>
 
-<script>
-    //Date picker
+<!--<script>    
     $('#datepicker').datepicker({
       autoclose: true
     })
-</script>
+</script>-->
 
 </body>
 </html>

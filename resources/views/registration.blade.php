@@ -2,6 +2,6 @@
 
 @section('content')
 
-<home></home>
+<lender-registration></lender-registration>
 
 @endsection

@@ -14,6 +14,7 @@ try {
 } catch (e) {}
 
     require('admin-lte');
+    //require('almasaeed2010/adminlte');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

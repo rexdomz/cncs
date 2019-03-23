@@ -2,6 +2,6 @@
 
 @section('content')
 
-<home></home>
+<registered-users></registered-users>
 
 @endsection

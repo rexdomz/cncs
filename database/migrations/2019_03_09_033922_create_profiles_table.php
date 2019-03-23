@@ -18,7 +18,7 @@ class CreateProfilesTable extends Migration
             $table->string('full_name', 100);
             $table->string('address', 100);
             $table->string('area', 10);
-            $table->double('loan', 15, 5);
+            $table->double('loan', 15, 2);
             $table->integer('interest');
             $table->integer('term');
             $table->dateTime('date_from');

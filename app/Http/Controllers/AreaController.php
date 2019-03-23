@@ -17,7 +17,7 @@ class AreaController extends Controller
     public function index()
     {
         // Get profiles
-        $areas = Area::all();
+        $areas = Area::paginate(20);
         
         // Return collection of articles as a resource        
         return AreaResource::collection($areas);    

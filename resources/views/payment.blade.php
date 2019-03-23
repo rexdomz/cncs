@@ -2,6 +2,6 @@
 
 @section('content')
 
-<home></home>
+<payment-list></payment-list>
 
 @endsection

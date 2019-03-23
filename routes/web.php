@@ -21,10 +21,12 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/registration', 'HomeController@index')->name('home');
+Route::get('/registration', 'HomeController@register')->name('registration');
 
-Route::get('/reports-all-accounts', 'HomeController@index')->name('home');
+Route::get('/registered-users', 'HomeController@registered_users')->name('regusers');
 
-Route::get('/reports-weekly', 'HomeController@index')->name('home');
+Route::get('/payment', 'HomeController@payment')->name('payment');
 
-Route::get('/payment', 'HomeController@index')->name('home');
+Route::get('/quota', 'HomeController@collector')->name('collector');
+
+Route::get('/area', 'HomeController@area')->name('areas');
