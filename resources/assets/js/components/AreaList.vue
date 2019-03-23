@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin-bottom: 1em;">
         <select class="form-control select2" style="width: 100%;">
             <option value="0" selected="selected">Select Area ...</option>        
             <option v-for="area in areas" :value="area.id">{{ area.area_code }}, {{ area.address }}</option>

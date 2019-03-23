@@ -5,31 +5,47 @@
 
             <div class="col-md-8">
                 <div class="box">
-                    <div class="box-header">
+                    <!--<div class="box-header">
                         <h3 class="box-title">Profiles</h3>
-                    </div>
+                    </div>-->
+                    
                     <div class="box-body">
+                        <h5 class="box-title">Filter By:</h5>  
+                        <div class="col-md-3">
+                        <area-list></area-list>
+                        </div>
+
+                        <div class="box-tools">
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                <li v-bind:class="[{disabled: !pagination.prev_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchprofiles(pagination.prev_page_url)">Previous</a></li>
+                                <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>                    
+                                <li v-bind:class="[{disabled: !pagination.next_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchprofiles(pagination.next_page_url)">Next</a></li>
+                            </ul>
+                        </div>                                            
+
                         <table class="table">
                             <tr>                                
                                 <th>Full Name</th>                            
-                                <th>Loan Amount</th>
-                                <th>Interest</th>
+                                <th>Principal Loan</th>
+                                <th>Interest Rate</th>                                
                                 <th>Term</th>
+                                <th>Interest</th>
                                 <th>Rate/day</th>
                                 <th>Balance</th>                            
                                 <th>Maturity Date</th>                                               
                                 <th>Action</th>                              
                             </tr>
-                            <tr>                                
-                                <td>Haleigh Labadie</td>
-                                <td>10000</td>                                
-                                <td><span class="badge bg-green">10%</span></td>
-                                <td>2</td>
-                                <td>100</td>
-                                <td><span class="badge bg-red">10000</span></td>
-                                <td>12/12/12</td>
-                                <td><button type="button" class="btn btn-block btn-info btn-xs">Add Pay</button></td>                                
-                            </tr>
+                            <tr v-for="profile in profiles" v-bind:key="profile.id">                                                    
+                                <td>{{ profile.full_name }}</td>
+                                <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>                                                                
+                                <td>{{ profile.interest }}%</td>
+                                <td>{{ profile.term }} month(s)</td>
+                                <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>                                
+                                <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
+                                <td>{{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }}</td>
+                                <td></td>
+                                <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs">Add Pay</button></td>                                
+                            </tr>                                                        
                         </table>
                     </div>
                 </div>
@@ -41,24 +57,37 @@
                         <h3 class="box-title">Payment Form</h3>
                     </div>
                     <div class="box-body">
-                        <div class="form-group">                               
-                            <label for="inputFullName" class="col-sm-3 control-label">Amount</label>    
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="amount" placeholder="Amount to pay ...">                            
+                        <div style="margin: 1em 0;" class="row">
+                            <div class="form-group">                               
+                                <label for="inputFullName" class="control-label col-sm-4">Name</label>    
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Borrower's name...">                            
+                                </div>
                             </div>
                         </div>
-                        </hr>
-                        <div class="input-group date">
-                            <label for="inputFullName" class="col-sm-3 control-label">Transaction Date</label>                            
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>                            
-                            <input type="text" class="form-control pull-right" id="datepicker">                            
+                        <div style="margin: 1em 0;" class="row">
+                            <div class="form-group">                               
+                                <label for="inputFullName" class="control-label col-sm-4">Amount</label>    
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="amount" placeholder="Amount to pay ...">                            
+                                </div>
+                            </div>
                         </div>
-                        </hr>
-                        <div class="col-sm-3">
+
+                        <div style="margin: 1em 0;" class="row">
+                            <div class="input-group date">
+                                <label for="inputFullName" class="control-label col-sm-4"> Date</label>                                                        
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>                            
+                                <input type="text" class="form-control pull-right" id="datepicker">                                   
+                            </div>
+                        </div>
+
+                        <div style="margin: 0 0 1.5em 0;" class="row">
                             <button type="submit" class="btn btn-primary btn-block">Save</button>
                         </div>
+
                     </div>
                     </hr>
                     <div class="box-header">
@@ -85,9 +114,126 @@
 </template>
 
 <script>
+//npm install vue2-filters
+import Vue2Filters from 'vue2-filters'
+Vue.use(Vue2Filters)
+
 export default {
-  mounted() {
-    console.log('Component mounted.')
+  data() {
+    return {
+      profiles: [],
+      loaninterest: [],
+      ctr: 1,
+      profile: {        
+        id: '',
+        full_name: '',
+        address: '',
+        area: '',
+        loan: '',
+        interest: '',
+        term: '',
+        date_from: '',
+        date_to: '',
+        contact: ''
+      },
+      profile_id: '',
+      pagination: {},
+      edit: false
+    };
+  },
+
+  created() {
+    this.fetchprofiles();
+  },
+
+  methods: {
+    fetchprofiles(page_url) {
+      let vm = this;
+      page_url = page_url || 'http://cncs.com/api/profiles';
+      fetch(page_url)
+        .then(res => res.json())
+        .then(res => {
+          this.profiles = res.data;          
+          vm.makePagination(res.meta, res.links);
+        })
+        .catch(err => console.log(err));        
+    },
+
+    makePagination(meta, links) {
+      let pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev,
+        per_page: meta.per_page,
+        total: meta.total
+      };
+
+      this.pagination = pagination;
+    },
+    addprofile() {
+      if (this.edit === false) {
+        // Add
+        fetch('api/profile', {
+          method: 'post',
+          body: JSON.stringify(this.profile),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(res => res.json())
+          .then(data => {
+            this.clearForm();
+            alert('profile Added');
+            this.fetchprofiles();
+          })
+          .catch(err => console.log(err));
+      } else {
+        // Update
+        fetch('api/profile', {
+          method: 'put',
+          body: JSON.stringify(this.profile),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(res => res.json())
+          .then(data => {
+            this.clearForm();
+            alert('profile Updated');
+            this.fetchprofiles();
+          })
+          .catch(err => console.log(err));
+      }
+    },
+    editprofile(profile) {
+      this.edit = true;
+      this.profile.id = profile.id;
+      this.profile.profile_id = profile.id;
+      this.profile.full_name = profile.full_name;
+      /*this.profile.address = profile.address;
+      this.profile.area = profile.area;
+      this.profile.loan = profile.loan;
+      this.profile.interest = profile.interest;
+      this.profile.term = profile.term;
+      this.profile.date_from = profile.date_from;
+      this.profile.date_to = profile.date_to;
+      this.profile.contact = profile.contact;*/              
+    },
+    clearForm() {
+      this.edit = false;
+      this.profile.id = null;
+      this.profile.profile_id = null;
+      this.profile.full_name = '';
+      this.profile.address = '';
+      this.profile.area = '';
+      this.profile.loan = '';
+      this.profile.interest = '';
+      this.profile.term = '';
+      this.profile.date_from = '';
+      this.profile.date_to = '';
+      this.profile.contact = ''; 
+    }
   }
-}
- </script>
+};
+</script>
