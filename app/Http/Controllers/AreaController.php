@@ -41,9 +41,18 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $area = $request->isMethod('put') ? area::findOrFail($request->area_id) : new Area;
 
+        $area->id = $request->input('area_id');
+        $area->area_code = $request->input('area_code');        
+        $area->address = $request->input('address');        
+        $area->collector = $request->input('collector');        
+        $area->contact = $request->input('contact');        
+
+        if($article->save()) {
+            return new AreaResource($area);
+        }
+    }
     /**
      * Display the specified resource.
      *

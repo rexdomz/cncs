@@ -1,12 +1,12 @@
 <template>
   <div>
     
-    <!--<form @submit.prevent="addprofile" class="mb-3">
+    <!--<form @submit.prevent="addarea" class="mb-3">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Title" v-model="profile.title">
+        <input type="text" class="form-control" placeholder="Title" v-model="area.title">
       </div>
       <div class="form-group">
-        <textarea class="form-control" placeholder="Body" v-model="profile.body"></textarea>
+        <textarea class="form-control" placeholder="Body" v-model="area.body"></textarea>
       </div>
       <button type="submit" class="btn btn-light btn-block">Save</button>
     </form>
@@ -24,46 +24,76 @@
             <!-- /.box-header -->
             <div class="box-body">
             <div class="row">
+                <form @submit.prevent="addArea" class="mb-4">
                 
                 <div class="form-group">                               
                 <label for="inputFullName" class="col-sm-3 control-label">Area Code</label>
                 <div style="margin-bottom: 10px;" class="col-sm-8">
-                    <input type="text" class="form-control" id="areacode" v-model="profile.full_name" placeholder="Type code e,g. a1, a2, a3 ...">
+                    <input type="text" class="form-control" id="area_code" v-model="area.area_code" placeholder="Type code e,g. a1, a2, a3 ...">
                 </div>
                 </div>
 
                 <div class="form-group">                               
                 <label for="inputFullName" class="col-sm-3 control-label">Address</label>
                 <div style="margin-bottom: 10px;" class="col-sm-8">
-                    <input type="text" class="form-control" id="areaaddress" v-model="profile.address" placeholder="Type area location ...">
+                    <input type="text" class="form-control" id="address" v-model="area.address" placeholder="Type area location ...">
                 </div>
                 </div>
 
                 <div class="form-group">                               
                 <label for="inputFullName" class="col-sm-3 control-label">Collector's Name</label>
                 <div style="margin-bottom: 10px;" class="col-sm-8">
-                    <input type="text" class="form-control" id="collectorname" v-model="profile.full_name" placeholder="Type assigned collector's name ...">
+                    <input type="text" class="form-control" id="collector" v-model="area.collector" placeholder="Type assigned collector's name ...">
                 </div>
                 </div>
 
                 <div class="form-group">                               
                     <label for="inputFullName" class="col-sm-3 control-label">Contact #</label>
                     <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <input type="text" class="form-control" id="contact" v-model="profile.contact" placeholder="Contact number (cp) ...">
+                        <input type="text" class="form-control" id="contact" v-model="area.contact" placeholder="Contact number (cp) ...">
                     </div>
                 </div>
 
-                <div class="form-group">                               
+                <div style="margin-bottom: 1.5" class="form-group">                               
                     <div class="col-sm-3">&nbsp;</div>  
                     <div style="margin-bottom: 10px;" class="col-sm-8">                    
                         <button type="submit" class="btn btn-primary btn-block">Save</button>                                        
                         <button @click="clearForm()" class="btn btn-warning btn-block">Clear</button>                              
                     </div>
+                </div>   
+
+                </form>                                                            
+            </div>
+            <div style="margin-top: 2em" class="row">
+                <div class="box-tools">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li v-bind:class="[{disabled: !pagination.prev_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchareas(pagination.prev_page_url)">Previous</a></li>
+                        <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>                    
+                        <li v-bind:class="[{disabled: !pagination.next_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchareas(pagination.next_page_url)">Next</a></li>
+                    </ul>
                 </div>
-                
+                <table class="table">
+                    <tr>                    
+                    <th style="width: 235px">Area Code</th>
+                    <th style="width: 420px">Address</th>
+                    <th style="width: 180px">Collector</th>                 
+                    <th style="width: 200px">Contact</th>                    
+                    <th style="width: 80px">Action</th>   
+                    <th style="width: 80px"></th> 
+                    </tr>
+                    <tr v-for="area in areas" v-bind:key="area.id">                        
+                        <td>{{ area.area_code }}</td>
+                        <td>{{ area.address }}</td>
+                        <td>{{ area.collector }} </span></td>
+                        <td>{{ area.contact }}</td>                        
+                        <td><button @click="editarea(area)" type="button" class="btn btn-block btn-warning btn-xs">Update</button></td>
+                        <td><button @click="deletearea(area.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>
+                        
+                    </tr>
+                </table>
             </div>
-            </div>
-        </div>        
+        </div>
+    </div>        
         <!-- /.box -->
       </div>
       <!-- /.registration -->
@@ -81,7 +111,7 @@
                     <div class="col-sm-6">                                                
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ pagination.total }}</h3>
 
                             <p>Areas</p>
                             </div>
@@ -92,6 +122,7 @@
                         </div>                         
                     </div>                    
                 </div>
+
             </div>
 
         </div>
@@ -108,38 +139,33 @@
 export default {
   data() {
     return {
-      profiles: [],
+      areas: [],
       ctr: 1,
-      profile: {        
+      area: {        
         id: '',
-        full_name: '',
+        area_code: '',
         address: '',
-        area: '',
-        loan: '',
-        interest: '',
-        term: '',
-        date_from: '',
-        date_to: '',
+        collector: '',
         contact: ''
       },
-      profile_id: '',
+      area_id: '',
       pagination: {},
       edit: false
     };
   },
 
   created() {
-    this.fetchprofiles();
+    this.fetchareas();
   },
 
   methods: {
-    fetchprofiles(page_url) {
+    fetchareas(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cncs.com/api/areas';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
-          this.profiles = res.data;
+          this.areas = res.data;
           vm.makePagination(res.meta, res.links);
         })
         .catch(err => console.log(err));
@@ -156,28 +182,28 @@ export default {
 
       this.pagination = pagination;
     },
-    addprofile() {
+    addArea() {
       if (this.edit === false) {
         // Add
-        fetch('api/profile', {
+        fetch('api/area', {
           method: 'post',
-          body: JSON.stringify(this.profile),
+          body: JSON.stringify(this.area),
           headers: {
             'content-type': 'application/json'
           }
         })
-          .then(res => res.json())
+          .then(res => res.json())          
           .then(data => {
             this.clearForm();
-            alert('profile Added');
-            this.fetchprofiles();
+            alert('area Added');
+            this.fetchareas();
           })
           .catch(err => console.log(err));
       } else {
         // Update
-        fetch('api/profile', {
+        fetch('api/area', {
           method: 'put',
-          body: JSON.stringify(this.profile),
+          body: JSON.stringify(this.area),
           headers: {
             'content-type': 'application/json'
           }
@@ -185,25 +211,29 @@ export default {
           .then(res => res.json())
           .then(data => {
             this.clearForm();
-            alert('profile Updated');
-            this.fetchprofiles();
+            alert('area Updated');
+            this.fetchareas();
           })
           .catch(err => console.log(err));
       }
     },
+    editarea(area) {
+      this.edit = true;
+      this.area.id = area.id;
+      this.area.area_id = area.id;
+      this.area.area_code = area.area_code;
+      this.area.address = area.address;      
+      this.area.collector = area.collector;
+      this.area.contact = area.contact;              
+    },
     clearForm() {
-      this.edit = false;
-      this.profile.id = null;
-      this.profile.profile_id = null;
-      this.profile.full_name = '';
-      this.profile.address = '';
-      this.profile.area = '';
-      this.profile.loan = '';
-      this.profile.interest = '';
-      this.profile.term = '';
-      this.profile.date_from = '';
-      this.profile.date_to = '';
-      this.profile.contact = ''; 
+      this.edit = false;        
+      this.area.id = null;
+      this.area.area_id = null;
+      this.area.area_code = '';
+      this.area.address = '';
+      this.area.collector = '';      
+      this.area.contact = ''; 
     }
   }
 };

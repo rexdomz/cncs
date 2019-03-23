@@ -68,7 +68,7 @@
                         </div>                       
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ pagination_area.total }}</h3>
 
                             <p>Areas</p>
                             </div>
@@ -98,8 +98,15 @@
 export default {
   data() {
     return {
+      areas: [],
       profiles: [],
       ctr: 1,
+      area: {
+        id: '',
+        area_code: '',
+        address: '',
+        collector: ''
+      },
       profile: {        
         id: '',
         full_name: '',
@@ -114,15 +121,42 @@ export default {
       },
       profile_id: '',
       pagination: {},
+      pagination_area: {},
       edit: false
     };
   },
 
   created() {
     this.fetchprofiles();
+    this.fetchAreas();
   },
 
   methods: {
+
+    fetchAreas(page_url) {
+      let vm = this;
+      page_url = page_url || 'http://cncs.com/api/areas';
+      fetch(page_url)
+        .then(res => res.json())
+        .then(res => {
+          this.areas = res.data;
+          vm.makeAreaPagination(res.meta, res.links);
+        })
+        .catch(err => console.log(err));
+    },    
+    makeAreaPagination(meta, links) {
+      let pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev,
+        per_page: meta.per_page,
+        total: meta.total
+      };
+
+      this.pagination_area = pagination;
+    },
+
     fetchprofiles(page_url) {
       let vm = this;
       page_url = page_url || 'http://cncs.com/api/profiles';
@@ -133,7 +167,7 @@ export default {
           vm.makePagination(res.meta, res.links);
         })
         .catch(err => console.log(err));
-    },
+    },    
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,

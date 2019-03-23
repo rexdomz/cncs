@@ -61,7 +61,7 @@ class ProfilesController extends Controller
         //$profile->body = $request->input('body');
 
         if($article->save()) {
-            return new ArticleResource($profile);
+            return new ProfileResource($profile);
         }
     }
 
