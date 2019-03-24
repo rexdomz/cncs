@@ -24,16 +24,6 @@ class AreaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -41,7 +31,7 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        $area = $request->isMethod('put') ? area::findOrFail($request->area_id) : new Area;
+        $area = $request->isMethod('put') ? Area::findOrFail($request->area_id) : new Area;
 
         $area->id = $request->input('area_id');
         $area->area_code = $request->input('area_code');        
@@ -49,42 +39,9 @@ class AreaController extends Controller
         $area->collector = $request->input('collector');        
         $area->contact = $request->input('contact');        
 
-        if($article->save()) {
+        if($area->save()) {
             return new AreaResource($area);
         }
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

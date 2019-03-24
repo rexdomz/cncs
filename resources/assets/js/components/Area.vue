@@ -24,7 +24,7 @@
             <!-- /.box-header -->
             <div class="box-body">
             <div class="row">
-                <form @submit.prevent="addArea" class="mb-4">
+                <form @submit.prevent="addarea" class="mb-4">
                 
                 <div class="form-group">                               
                 <label for="inputFullName" class="col-sm-3 control-label">Area Code</label>
@@ -87,7 +87,7 @@
                         <td>{{ area.collector }} </span></td>
                         <td>{{ area.contact }}</td>                        
                         <td><button @click="editarea(area)" type="button" class="btn btn-block btn-warning btn-xs">Update</button></td>
-                        <td><button @click="deletearea(area.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>
+                        <!--<td><button @click="deletearea(area.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>-->
                         
                     </tr>
                 </table>
@@ -139,8 +139,7 @@
 export default {
   data() {
     return {
-      areas: [],
-      ctr: 1,
+      areas: [],      
       area: {        
         id: '',
         area_code: '',
@@ -182,7 +181,7 @@ export default {
 
       this.pagination = pagination;
     },
-    addArea() {
+    addarea() {
       if (this.edit === false) {
         // Add
         fetch('api/area', {
@@ -194,6 +193,7 @@ export default {
         })
           .then(res => res.json())          
           .then(data => {
+            console.log(data);
             this.clearForm();
             alert('area Added');
             this.fetchareas();

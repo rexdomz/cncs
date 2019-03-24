@@ -24,11 +24,11 @@
             <!-- /.box-header -->
             <div class="box-body">
             <div class="row">
-                
+                <form @submit.prevent="addprofile" class="mb-4">
                     <div class="form-group">                               
                     <label for="inputFullName" class="col-sm-3 control-label">Full Name</label>
                     <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <input type="text" class="form-control" id="fullname" v-model="profile.full_name" placeholder="Lastname, Firstname  M.I. ...">
+                        <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Lastname, Firstname  M.I. ...">
                     </div>
                     </div>
                     <div class="form-group">                               
@@ -44,60 +44,69 @@
                     </div>
                     </div>
 
-                <div class="form-group">                               
-                    <label for="inputFullName" class="col-sm-3 control-label">Loan Amount</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <input type="text" class="form-control" id="loan" v-model="profile.loan" placeholder="Amount to loan ...">
-                    </div>
-                </div>
-                <div class="form-group">                               
-                    <label for="inputFullName" class="col-sm-3 control-label">Interest Rate</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <input type="text" class="form-control" id="interest" v-model="profile.interest" placeholder="Interest ...">
-                    </div>
-                </div>
-                <div class="form-group">                               
-                    <label for="inputFullName" class="col-sm-3 control-label">Term</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <select class="form-control select2" style="width: 100%;">
-                        <option value="0" selected="selected">Select Term ...</option>        
-                        <option v-for="i in (1, 12)" :value=i > {{ i }} Month(s) </option>
-                    </select>                    
-                    </div>
-                </div>
-
-                <div class="form-group">                               
-                    <label for="inputFullName" class="col-sm-3 control-label">Date Start</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
-                    <div class="input-group date">
-                        <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
+                    <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Loan Amount</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <input type="text" class="form-control" id="loan" v-model="profile.loan" placeholder="e,g 1000, 2000, 5000...">
                         </div>
-                        <input type="text" class="form-control pull-right" id="datepicker">
                     </div>
+                    <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Interest Rate</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <input type="text" class="form-control" id="interest" v-model="profile.interest" placeholder="eg 10, 20, 30...">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">                               
-                    <label for="inputFullName" class="col-sm-3 control-label">Date End</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <input type="text" class="form-control" id="date_end" placeholder="">
+                    <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Term</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <select id="term" name="term" class="form-control select2" style="width: 100%;">
+                            <option value="0" selected="selected">Select Term ...</option>        
+                            <option v-for="i in (1, 12)" :value=i > {{ i }} Month(s) </option>
+                        </select>                    
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">                               
-                    <label for="inputFullName" class="col-sm-3 control-label">Contact #</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <input type="text" class="form-control" id="contact" v-model="profile.contact" placeholder="Contact number (cp) ...">
-                    </div>
-                </div>
 
-                <div class="form-group">                               
-                    <div class="col-sm-3">&nbsp;</div>  
-                    <div style="margin-bottom: 10px;" class="col-sm-8">                    
-                        <button type="submit" class="btn btn-primary btn-block">Save</button>                                        
-                        <button @click="clearForm()" class="btn btn-warning btn-block">Clear</button>                              
+                    <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Date Start</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                          <div class="input-group date">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="datepicker"> 
+                            <input v-model="profile.date_from" type="hidden" id="date_start"> 
+                          </div>
+                        </div>
                     </div>
-                </div>
-                
+
+                    <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Date End</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                          <div class="input-group date">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="datepicker2"> 
+                            <input v-model="profile.date_to" type="hidden" id="date_end"> 
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Contact #</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <input type="text" class="form-control" id="contact" v-model="profile.contact" placeholder="Contact number (cp) ...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">                               
+                        <div class="col-sm-3">&nbsp;</div>  
+                        <div style="margin-bottom: 10px;" class="col-sm-8">                    
+                            <button type="submit" class="btn btn-primary btn-block">Save</button>                                        
+                            <button @click="clearForm()" class="btn btn-warning btn-block">Clear</button>                              
+                        </div>
+                    </div>
+                </form> 
             </div>
             </div>
         </div>        
@@ -142,11 +151,11 @@
 </template>
 
 <script>
+
 export default {
   data() {
-    return {
-      profiles: [],
-      ctr: 1,
+    return {      
+      profiles: [],      
       profile: {        
         id: '',
         full_name: '',
@@ -155,8 +164,8 @@ export default {
         loan: '',
         interest: '',
         term: '',
-        date_from: '',
-        date_to: '',
+        date_from: null,
+        date_to: null,
         contact: ''
       },
       profile_id: '',
@@ -166,10 +175,15 @@ export default {
   },
 
   created() {
-    this.fetchprofiles();
+    this.fetchprofiles();        
   },
 
-  methods: {
+  methods: {    
+    onChangeDate(){
+      setTimeout(() => {                
+        console.log(this.dateStart);    
+      }, 500)
+    },
     fetchprofiles(page_url) {
       let vm = this;
       page_url = page_url || 'http://cncs.com/api/profiles';
@@ -195,6 +209,7 @@ export default {
     },
     addprofile() {
       if (this.edit === false) {
+        console.log(this.profile)
         // Add
         fetch('api/profile', {
           method: 'post',
@@ -238,8 +253,8 @@ export default {
       this.profile.loan = '';
       this.profile.interest = '';
       this.profile.term = '';
-      this.profile.date_from = '';
-      this.profile.date_to = '';
+      this.profile.date_from = null;
+      this.profile.date_to = null
       this.profile.contact = ''; 
     }
   }

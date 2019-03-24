@@ -10,17 +10,23 @@
               </div>                                      
 
               <div class="box-body">
-                <h5 class="box-title">Filter By:</h5>  
-                <div class="col-md-2">
-                  <area-list></area-list>
-              </div>
-              <div class="box-tools">
+                 
+                <div class="col-md-3">
+                  <div style="margin-bottom: 1em;">                    
+                    <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="form-control select2">
+                        <option value="0" selected="selected">Filter by Area</option>        
+                        <option v-for="area in areas" :value="area.id">{{ area.area_code }} - {{ area.address }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="box-tools">
                     <ul class="pagination pagination-sm no-margin pull-right">
                         <li v-bind:class="[{disabled: !pagination.prev_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchprofiles(pagination.prev_page_url)">Previous</a></li>
                         <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>                    
                         <li v-bind:class="[{disabled: !pagination.next_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchprofiles(pagination.next_page_url)">Next</a></li>
                     </ul>
-              </div>
+                </div>
 
                <table style="margin-top: 1.5em; float: left" class="table">
                     <tr>
@@ -30,8 +36,6 @@
                     <th style="width: 180px">Loan Amount</th>
                     <th style="width: 100px">Interest</th>
                     <th style="width: 155px">Term</th>
-                    <!--<th style="width: 300px">Date Start</th>
-                    <th style="width: 300px">Date End</th>-->
                     <th style="width: 200px">Contact</th>                    
                     <th style="width: 80px">Action</th>   
                     <th style="width: 80px"></th> 
@@ -40,7 +44,7 @@
                         <!--<td>{{ ctr++ }}</td>-->
                         <td>{{ profile.full_name }}</td>
                         <td>{{ profile.address }}</td>
-                        <td><span class="badge bg-green"> {{ profile.loan }} </span></td>
+                        <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>
                         <td>{{ profile.interest }}%</td>
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>
@@ -72,6 +76,14 @@
 export default {
   data() {
     return {
+      areas: [],
+      area: {
+          id: '',
+          area_code: '',
+          address: '',
+          collector: '',
+          contact: ''            
+      },      
       profiles: [],
       ctr: 1,
       profile: {        
@@ -94,9 +106,32 @@ export default {
 
   created() {
     this.fetchprofiles();
+    this.fetchAreas();
   },
 
   methods: {
+    fetchAreas(page_url) {            
+        page_url = page_url || 'http://cncs.com/api/areas';
+        fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+            this.areas = res.data;            
+            })
+            .catch(err => console.log(err));
+    },
+    fetchProfilesByAreas() {    
+        let vm = this;        
+        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
+        var id = this.area
+        console.log('Area:' + id)
+        fetch(`api/profilesbyarea/${id}`)
+          .then(res => res.json())
+          .then(res => {
+            this.profiles = res.data;
+            vm.makePagination(res.meta, res.links);
+          })
+          .catch(err => console.log(err));        
+    },
     fetchprofiles(page_url) {
       let vm = this;
       page_url = page_url || 'http://cncs.com/api/profiles';
@@ -168,6 +203,7 @@ export default {
           .catch(err => console.log(err));
       }
     },
+
     editprofile(profile) {
       this.edit = true;
       this.profile.id = profile.id;

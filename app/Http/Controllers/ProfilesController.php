@@ -25,10 +25,10 @@ class ProfilesController extends Controller
     }
 
 
-    public function get_profiles_by_area()
+    public function get_profiles_by_area($id)
     {
         // Get profiles        
-        $profiles = Profiles::where('area', 'a1')->paginate(20);                
+        $profiles = Profiles::where('area', $id)->paginate(25);                
 
         // Return paginated records by area
         return ProfilesResource::collection($profiles);        

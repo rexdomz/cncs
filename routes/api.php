@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('profiles', 'ProfilesController@index');
 
 // List profiles by area
-Route::get('profiles-by-area', 'ProfilesController@get_profiles_by_area');
+Route::get('profilesbyarea/{id}', 'ProfilesController@get_profiles_by_area');
 
 // List single profile
 Route::get('profile/{id}', 'ProfilesController@show');
@@ -38,4 +38,17 @@ Route::delete('profile/{id}', 'ProfilesController@destroy');
 
 
 /***Area Endpoints ***/
+//List areas
 Route::get('areas', 'AreaController@index');
+
+// List single area
+Route::get('area/{id}', 'AreaController@show');
+
+// Create new area
+Route::post('area', 'AreaController@store');
+
+// Update area
+Route::put('area', 'AreaController@store');
+
+// Delete area
+Route::delete('area/{id}', 'AreaController@destroy');
