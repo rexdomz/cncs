@@ -48,8 +48,9 @@
                         <td>{{ profile.interest }}%</td>
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>
-                        <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-warning btn-xs">Update</button></td>
-                        <td><button @click="deleteprofile(profile.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>
+                        <!--<td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-warning btn-xs">Update</button></td>-->
+                        <td><button @click="editprofile(profile)" type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">Update</button></td>
+                        <!--<td><button @click="deleteprofile(profile.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>-->
                         
                     </tr>
                 </table>
@@ -57,9 +58,116 @@
                 <!-- /.box-body -->
             </div>
 
+            <div class="modal modal-info fade" id="modal-info">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Borrower's Profile</h4>
+                </div>
+                <div class="modal-body" style="min-height: 500px;">
+                  
+                    <form @submit.prevent="addprofile" class="mb-4">
+                        <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Full Name</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Lastname, Firstname  M.I. ...">
+                        </div>
+                        </div>
+                        <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Address</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <input type="text" class="form-control" id="address" v-model="profile.address" placeholder="Address ...">
+                        </div>
+                        </div>
+                        <div class="form-group">                               
+                        <label for="inputFullName" class="col-sm-3 control-label">Area</label>
+                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                            <select v-model="profile.area" id="area" name="area" class="form-control select2" style="width: 100%;">
+                              <option value="0" >Select Area ...</option>        
+                              <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }}, {{ area.address }}</option>
+                          </select>
+                        </div>
+                        </div>
+
+                        <div class="form-group">                               
+                            <label for="inputFullName" class="col-sm-3 control-label">Loan Amount</label>
+                            <div style="margin-bottom: 10px;" class="col-sm-8">
+                                <input type="text" class="form-control" id="loan" v-model="profile.loan" placeholder="e,g 1000, 2000, 5000...">
+                            </div>
+                        </div>
+                        <div class="form-group">                               
+                            <label for="inputFullName" class="col-sm-3 control-label">Interest Rate</label>
+                            <div style="margin-bottom: 10px;" class="col-sm-8">
+                                <input type="text" class="form-control" id="interest" v-model="profile.interest" placeholder="eg 10, 20, 30...">
+                            </div>
+                        </div>
+                        <div class="form-group">                               
+                            <label for="inputFullName" class="col-sm-3 control-label">Term</label>
+                            <div style="margin-bottom: 10px;" class="col-sm-8">
+                                <select v-model="profile.term" id="term" name="term" class="form-control select2" style="width: 100%;">
+                                <option value="0" selected="selected">Select Term ...</option>        
+                                <option v-for="i in (1, 12)" :value=i :key="i" > {{ i }} Month(s) </option>
+                            </select>                    
+                            </div>
+                        </div>
+
+                        <div class="form-group">                               
+                            <label for="inputFullName" class="col-sm-3 control-label">Date Start</label>
+                            <div style="margin-bottom: 10px;" class="col-sm-8">
+                              <div class="input-group date">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input v-model="profile.date_from" type="text" class="form-control pull-right" id="datepicker"> 
+                                <input v-model="profile.date_from" type="hidden" id="date_start">                                 
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">                               
+                            <label for="inputFullName" class="col-sm-3 control-label">Date End</label>
+                            <div style="margin-bottom: 10px;" class="col-sm-8">
+                              <div class="input-group date">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input v-model="profile.date_to" type="text" class="form-control pull-right" id="datepicker2"> 
+                                <input v-model="profile.date_to" type="hidden" id="date_end"> 
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">                               
+                            <label for="inputFullName" class="col-sm-3 control-label">Contact #</label>
+                            <div style="margin-bottom: 10px;" class="col-sm-8">
+                                <input type="text" class="form-control" id="contact" v-model="profile.contact" placeholder="Contact number (cp) ...">
+                            </div>
+                        </div>
+
+                        <div class="form-group">                               
+                            <div class="col-sm-3">&nbsp;</div>
+                            <!--<div class="col-sm-3"><button @click="clearForm()" class="btn btn-warning btn-block">Clear</button></div>-->  
+                            <div style="margin-bottom: 10px;" class="col-sm-3"><button type="submit" class="btn btn-primary btn-block">Update</button></div>
+                        </div>
+                    </form> 
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>                  
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- /.modal -->
+
+
             <!-- /.box-body -->
                 <div class="box-footer">
-                    Showing {{ pagination.total }} records...
+                    Showing ({{ pagination.total }}) records...
                 </div>
                 <!-- /.box-footer-->
             <!-- /.box -->
@@ -84,8 +192,7 @@ export default {
           collector: '',
           contact: ''            
       },      
-      profiles: [],
-      ctr: 1,
+      profiles: [],      
       profile: {        
         id: '',
         full_name: '',
@@ -110,6 +217,9 @@ export default {
   },
 
   methods: {
+    select: function(evt) {
+      this.area.id = evt.target.value;
+    },
     fetchAreas(page_url) {            
         page_url = page_url || 'http://cn.com/api/areas';
         fetch(page_url)
@@ -123,8 +233,9 @@ export default {
         let vm = this;        
         //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
         var id = this.area
-        console.log('Area:' + id)
-        fetch(`api/profilesbyarea/${id}`)
+        var perpage = 25;
+        //console.log('Area:' + id)
+        fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
             this.profiles = res.data;
@@ -169,6 +280,7 @@ export default {
       }
     },
     addprofile() {
+      console.log(JSON.stringify(this.profile))
       if (this.edit === false) {
         // Add
         fetch('api/profile', {
@@ -186,8 +298,8 @@ export default {
           })
           .catch(err => console.log(err));
       } else {
-        // Update
-        fetch('api/profile', {
+        // Update           
+        fetch('api/profile', {          
           method: 'put',
           body: JSON.stringify(this.profile),
           headers: {
@@ -201,7 +313,7 @@ export default {
             this.fetchprofiles();
           })
           .catch(err => console.log(err));
-      }
+      }      
     },
 
     editprofile(profile) {
@@ -210,12 +322,12 @@ export default {
       this.profile.profile_id = profile.id;
       this.profile.full_name = profile.full_name;
       this.profile.address = profile.address;
-      this.profile.area = profile.area;
+      this.profile.area = profile.area;      
       this.profile.loan = profile.loan;
       this.profile.interest = profile.interest;
       this.profile.term = profile.term;
-      this.profile.date_from = profile.date_from;
-      this.profile.date_to = profile.date_to;
+      this.profile.date_from = moment(String(profile.date_from)).format('YYYY-MM-DD hh:mm:ss');
+      this.profile.date_to = moment(String(profile.date_to)).format('YYYY-MM-DD hh:mm:ss');
       this.profile.contact = profile.contact;              
     },
     clearForm() {

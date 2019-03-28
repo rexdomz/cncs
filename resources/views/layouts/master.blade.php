@@ -8,7 +8,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script> 
 
-  <title>CNCS</title>
+  <title>CN</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -224,10 +224,11 @@
 
 <script>
   $(function () {
+
+    $('#datepickerpay').datepicker('setDate', new Date());    
+
     //Date picker yyyy/mm/dd hh/mm/ss
-    $('#datepicker').datepicker({
-      changeMonth: true,
-      changeYear: true,            
+    $('#datepicker').datepicker({            
       autoclose: true
     });    
 
@@ -237,17 +238,21 @@
       //console.log($('#term').val());
       var numterm = $('#term').val();        
       date2.setDate(date2.getDate()+numterm * 30);       
-    $('#datepicker2').datepicker('setDate', date2);      
-    $('#date_end').val(date2);
+    $('#datepicker2').datepicker('setDate', date2); 
+    
+    $('#date_end').val(date2);    
+
   });
 
   $('#term').change(function() {
-    var date2 = $('#datepicker').datepicker('getDate'); 
+    $('#datepicker').val('');
+    $('#datepicker2').val('');
+    /*var date2 = $('#datepicker').datepicker('getDate'); 
     $('#date_start').val(date2);      
       var numterm = $('#term').val();        
       date2.setDate(date2.getDate()+numterm * 30);       
     $('#datepicker2').datepicker('setDate', date2);      
-    $('#date_end').val(date2);
+    $('#date_end').val(date2);*/
   });
 
   })

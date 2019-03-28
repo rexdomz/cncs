@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Profiles;
+use App\Payments;
 use App\Http\Resources\Profiles as ProfilesResource;
+use App\Http\Resources\Payments as PaymentsResource;
 
 class PaymentController extends Controller
 {

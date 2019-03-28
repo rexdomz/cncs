@@ -22,6 +22,15 @@ Vue.component('areas', require('./components/Area.vue'));
 Vue.component('area-list', require('./components/AreaList.vue'));
 Vue.component('payment-list', require('./components/Payment.vue'));
 
+import moment from 'moment'
+
+Vue.config.productionTip = false
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('YYYY/MM/DD')
+  }
+});
+
 const app = new Vue({
     el: '#app'
 });

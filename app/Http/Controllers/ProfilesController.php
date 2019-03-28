@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Profiles;
 use App\Http\Resources\Profiles as ProfilesResource;
+use Carbon\Carbon;
 
 class ProfilesController extends Controller
 {
@@ -25,10 +26,10 @@ class ProfilesController extends Controller
     }
 
 
-    public function get_profiles_by_area($id)
+    public function get_profiles_by_area($id, $perpage)
     {
         // Get profiles        
-        $profiles = Profiles::where('area', $id)->paginate(25);                
+        $profiles = Profiles::where('area', $id)->orderBy('full_name', 'asc')->paginate($perpage);                
 
         // Return paginated records by area
         return ProfilesResource::collection($profiles);        
@@ -54,13 +55,28 @@ class ProfilesController extends Controller
      */
     public function store(Request $request)
     {
-        $profile = $request->isMethod('put') ? profiles::findOrFail($request->profile_id) : new Profiles;
+        $profile = $request->isMethod('put') ? Profiles::findOrFail($request->profile_id) : new Profiles;
 
         $profile->id = $request->input('profile_id');
-        //$profile->title = $request->input('title');
-        //$profile->body = $request->input('body');
+        $profile->full_name = $request->input('full_name');
+        $profile->address = $request->input('address');
+        $profile->area = $request->input('area');
+        $profile->loan = $request->input('loan');
+        $profile->interest = $request->input('interest');
+        $profile->term = $request->input('term');
+        
+        //$profile->date_from = Carbon::createFromFormat('Y-m-d H:i:s', $request->input('date_from') );
+        //$profile->date_from = Carbon::createFromFormat('Y-m-d H:i:s', $request->input('date_to') );
+        $profile->date_from = date('Y-m-d', strtotime($request->input('date_from')));
+        $profile->date_from = date('Y-m-d', strtotime($request->input('date_to')));
+        //this.profile.date_from = '2019-01-04 00:00:00'
+        //'2019-01-29 00:00:00' toDateTimeString
+        //$profile->date_from = $request->input('date_from');      
+        //$profile->date_to = $request->input('date_to');
 
-        if($article->save()) {
+        $profile->contact = $request->input('contact');
+
+        if($profile->save()) {
             return new ProfileResource($profile);
         }
     }

@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('profiles', 'ProfilesController@index');
 
 // List profiles by area
-Route::get('profilesbyarea/{id}', 'ProfilesController@get_profiles_by_area');
+Route::get('profilesbyarea/{id}/{perpage?}', 'ProfilesController@get_profiles_by_area');
 
 // List single profile
 Route::get('profile/{id}', 'ProfilesController@show');

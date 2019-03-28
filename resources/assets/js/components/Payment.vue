@@ -3,16 +3,16 @@
     <section class="content">
         <div class="row">
 
-            <div class="col-md-8">
-                <div class="box">
-                    <!--<div class="box-header">
-                        <h3 class="box-title">Profiles</h3>
-                    </div>-->
+            <div class="col-md-9">
+                <div class="box">                    
                     
                     <div class="box-body">
                         <h5 class="box-title">Filter By:</h5>  
                         <div class="col-md-3">
-                        <area-list></area-list>
+                          <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="form-control select2">
+                              <option value="0" selected="selected">Filter by Area</option>        
+                              <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
+                          </select>
                         </div>
 
                         <div class="box-tools">
@@ -42,16 +42,19 @@
                                 <td>{{ profile.term }} month(s)</td>
                                 <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>                                
                                 <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
-                                <td>{{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }}</td>
-                                <td></td>
+                                <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
+                                <td>{{ profile.date_to | formatDate }}</td>
                                 <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs">Add Pay</button></td>                                
                             </tr>                                                        
                         </table>
                     </div>
                 </div>
+                <div class="box-footer">
+                    Showing ({{ pagination.total }}) records...
+                </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Payment Form</h3>
@@ -80,16 +83,17 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>                            
-                                <input type="text" class="form-control pull-right" id="datepicker">                                   
+                                <input type="text" class="form-control pull-right" id="datepickerpay">                                   
                             </div>
                         </div>
 
-                        <div style="margin: 0 0 1.5em 0;" class="row">
-                            <button type="submit" class="btn btn-primary btn-block">Save</button>
+                        <div style="margin: 0 0 1.5em 0;" class="row col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-block ">Save</button>
                         </div>
 
                     </div>
-                    
+                </div> <!-- /box -->
+                <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Payment History</h3>
                     </div>
@@ -105,7 +109,7 @@
                             </tr>
                         </table>
                     </div>
-                </div>
+                </div> <!-- /box -->
             </div>
 
         </div>    
@@ -121,6 +125,14 @@ Vue.use(Vue2Filters)
 export default {
   data() {
     return {
+      areas: [],
+      area: {
+          id: '',
+          area_code: '',
+          address: '',
+          collector: '',
+          contact: ''            
+      },       
       profiles: [],
       loaninterest: [],
       ctr: 1,
@@ -144,9 +156,34 @@ export default {
 
   created() {
     this.fetchprofiles();
+    this.fetchAreas();
   },
 
   methods: {
+    fetchAreas(page_url) {            
+        page_url = page_url || 'http://cn.com/api/areas';
+        fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+            this.areas = res.data;        
+            console.log(this.area)    
+            })
+            .catch(err => console.log(err));
+    },
+    fetchProfilesByAreas() {    
+        let vm = this;        
+        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
+        var id = this.area
+        var perpage = 15;
+        console.log('Area:' + id)
+        fetch(`api/profilesbyarea/${id}/${perpage}`)
+          .then(res => res.json())
+          .then(res => {
+            this.profiles = res.data;
+            vm.makePagination(res.meta, res.links);
+          })
+          .catch(err => console.log(err));        
+    },
     fetchprofiles(page_url) {
       let vm = this;
       page_url = page_url || 'http://cn.com/api/profiles';

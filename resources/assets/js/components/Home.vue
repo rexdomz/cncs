@@ -41,7 +41,7 @@
                         </div>
                         <div class="small-box bg-green">
                             <div class="inner">
-                            <h3>{{ pagination.total }}</h3>
+                            <h3>{{ pagination_profile.total }}</h3>
 
                             <p>Registered Users</p>
                             </div>
@@ -100,7 +100,6 @@ export default {
     return {
       areas: [],
       profiles: [],
-      ctr: 1,
       area: {
         id: '',
         area_code: '',
@@ -121,6 +120,7 @@ export default {
       },
       profile_id: '',
       pagination: {},
+      pagination_profile: {},
       pagination_area: {},
       edit: false
     };
@@ -159,7 +159,7 @@ export default {
 
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -178,7 +178,7 @@ export default {
         total: meta.total
       };
 
-      this.pagination = pagination;
+      this.pagination_profile = pagination;
     },
     addprofile() {
       if (this.edit === false) {

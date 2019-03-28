@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "admin-lte": "github:almasaeed2010/adminlte",
+        "moment": "^2.24.0",
         "vue2-filters": "^0.5.1"
     }
 }

@@ -209,7 +209,7 @@ export default {
     },
     addprofile() {
       if (this.edit === false) {
-        console.log(this.profile)
+        console.log(JSON.stringify(this.profile))        
         // Add
         fetch('api/profile', {
           method: 'post',
