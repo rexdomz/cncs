@@ -1121,9 +1121,9 @@ window._ = __webpack_require__(13);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(15);
+    window.$ = window.jQuery = __webpack_require__(15);
 
-  __webpack_require__(16);
+    __webpack_require__(16);
 } catch (e) {}
 
 __webpack_require__(17);
@@ -1148,9 +1148,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**
@@ -44556,7 +44556,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'http://cncs.com/api/areas';
+      page_url = page_url || 'http://cn.com/api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -45093,7 +45093,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -45449,9 +45449,11 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _vm._l((1, 12), function(i) {
-                              return _c("option", { domProps: { value: i } }, [
-                                _vm._v(" " + _vm._s(i) + " Month(s) ")
-                              ])
+                              return _c(
+                                "option",
+                                { key: i, domProps: { value: i } },
+                                [_vm._v(" " + _vm._s(i) + " Month(s) ")]
+                              )
                             })
                           ],
                           2
@@ -45902,7 +45904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
-      page_url = page_url || 'http://cncs.com/api/areas';
+      page_url = page_url || 'http://cn.com/api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -45931,7 +45933,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this3 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -46097,13 +46099,17 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm._l(_vm.areas, function(area) {
-                        return _c("option", { domProps: { value: area.id } }, [
-                          _vm._v(
-                            _vm._s(area.area_code) +
-                              " - " +
-                              _vm._s(area.address)
-                          )
-                        ])
+                        return _c(
+                          "option",
+                          { key: area.id, domProps: { value: area.id } },
+                          [
+                            _vm._v(
+                              _vm._s(area.area_code) +
+                                " - " +
+                                _vm._s(area.address)
+                            )
+                          ]
+                        )
                       })
                     ],
                     2
@@ -46501,7 +46507,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -46529,7 +46534,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'http://cncs.com/api/areas';
+      page_url = page_url || 'http://cn.com/api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -47166,7 +47171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchAreas: function fetchAreas(page_url) {
             var _this = this;
 
-            page_url = page_url || 'http://cncs.com/api/areas';
+            page_url = page_url || 'http://cn.com/api/areas';
             fetch(page_url).then(function (res) {
                 return res.json();
             }).then(function (res) {
@@ -47200,7 +47205,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _vm._l(_vm.areas, function(area) {
-          return _c("option", { domProps: { value: area.id } }, [
+          return _c("option", { key: area.id, domProps: { value: area.id } }, [
             _vm._v(_vm._s(area.area_code) + ", " + _vm._s(area.address))
           ])
         })
@@ -47427,7 +47432,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {

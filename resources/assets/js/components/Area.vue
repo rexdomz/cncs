@@ -84,11 +84,10 @@
                     <tr v-for="area in areas" v-bind:key="area.id">                        
                         <td>{{ area.area_code }}</td>
                         <td>{{ area.address }}</td>
-                        <td>{{ area.collector }} </span></td>
+                        <td>{{ area.collector }} </td>
                         <td>{{ area.contact }}</td>                        
                         <td><button @click="editarea(area)" type="button" class="btn btn-block btn-warning btn-xs">Update</button></td>
-                        <!--<td><button @click="deletearea(area.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>-->
-                        
+                        <!--<td><button @click="deletearea(area.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>-->                        
                     </tr>
                 </table>
             </div>
@@ -160,7 +159,7 @@ export default {
   methods: {
     fetchareas(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cncs.com/api/areas';
+      page_url = page_url || 'http://cn.com/api/areas';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {

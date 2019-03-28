@@ -15,7 +15,7 @@
                   <div style="margin-bottom: 1em;">                    
                     <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="form-control select2">
                         <option value="0" selected="selected">Filter by Area</option>        
-                        <option v-for="area in areas" :value="area.id">{{ area.area_code }} - {{ area.address }}</option>
+                        <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
                     </select>
                   </div>
                 </div>
@@ -111,7 +111,7 @@ export default {
 
   methods: {
     fetchAreas(page_url) {            
-        page_url = page_url || 'http://cncs.com/api/areas';
+        page_url = page_url || 'http://cn.com/api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {
@@ -134,7 +134,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {

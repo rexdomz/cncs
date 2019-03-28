@@ -61,7 +61,7 @@
                         <div style="margin-bottom: 10px;" class="col-sm-8">
                             <select id="term" name="term" class="form-control select2" style="width: 100%;">
                             <option value="0" selected="selected">Select Term ...</option>        
-                            <option v-for="i in (1, 12)" :value=i > {{ i }} Month(s) </option>
+                            <option v-for="i in (1, 12)" :value=i :key="i" > {{ i }} Month(s) </option>
                         </select>                    
                         </div>
                     </div>
@@ -186,7 +186,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {

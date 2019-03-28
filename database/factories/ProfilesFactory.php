@@ -11,7 +11,7 @@ $factory->define(App\Profiles::class, function (Faker $faker) {
         'interest'  => $faker->randomDigit,
         'term'  => $faker->randomDigit,
         'date_from'  => $faker->dateTimeThisYear('+1 week'),
-        'date_to'  => $faker->dateTimeThisYear('+1 month'),
-        'contact'  => $faker->phoneNumber(15)        
+        'date_to'  => $faker->dateTimeThisYear('+2 month'),
+        'contact'  => $faker->phoneNumber(10)        
     ];
 });

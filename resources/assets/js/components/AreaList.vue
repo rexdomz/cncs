@@ -2,7 +2,7 @@
     <div style="margin-bottom: 1em;">
         <select id="area" name="area" class="form-control select2" style="width: 100%;">
             <option value="0" selected="selected">Select Area ...</option>        
-            <option v-for="area in areas" :value="area.id">{{ area.area_code }}, {{ area.address }}</option>
+            <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }}, {{ area.address }}</option>
         </select>
     </div>
 </template>
@@ -30,7 +30,7 @@
 
         methods: {
             fetchAreas(page_url) {            
-                page_url = page_url || 'http://cncs.com/api/areas';
+                page_url = page_url || 'http://cn.com/api/areas';
                 fetch(page_url)
                     .then(res => res.json())
                     .then(res => {

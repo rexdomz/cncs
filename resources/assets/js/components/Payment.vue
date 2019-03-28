@@ -89,7 +89,7 @@
                         </div>
 
                     </div>
-                    </hr>
+                    
                     <div class="box-header">
                         <h3 class="box-title">Payment History</h3>
                     </div>
@@ -149,7 +149,7 @@ export default {
   methods: {
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cncs.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
