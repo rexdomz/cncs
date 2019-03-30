@@ -11,4 +11,11 @@ class Profiles extends Model
         //'profiles'
     ];
 
+    protected $dates = [
+        'date_from' => 'date:Y-m-d h:i:s',
+        'date_to' => 'date:Y-m-d h:i:s',
+        'created_at',
+        'updated_at'
+    ];
+
 }

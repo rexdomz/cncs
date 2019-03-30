@@ -31,7 +31,7 @@ Route::get('profile/{id}', 'ProfilesController@show');
 Route::post('profile', 'ProfilesController@store');
 
 // Update profile
-Route::put('profile', 'ProfilesController@store');
+Route::put('profiler', 'ProfilesController@store');
 
 // Delete profile
 Route::delete('profile/{id}', 'ProfilesController@destroy');
@@ -52,3 +52,9 @@ Route::put('area', 'AreaController@store');
 
 // Delete area
 Route::delete('area/{id}', 'AreaController@destroy');
+
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Page Not Found. If error persists, contact RexDomz'], 404);
+});

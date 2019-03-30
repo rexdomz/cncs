@@ -181,6 +181,7 @@ export default {
       this.pagination = pagination;
     },
     addarea() {
+      console.log(JSON.stringify(this.area))
       if (this.edit === false) {
         // Add
         fetch('api/area', {
@@ -200,6 +201,7 @@ export default {
           .catch(err => console.log(err));
       } else {
         // Update
+
         fetch('api/area', {
           method: 'put',
           body: JSON.stringify(this.area),

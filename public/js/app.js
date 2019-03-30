@@ -62787,10 +62787,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -62828,23 +62824,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    select: function select(evt) {
-      this.area.id = evt.target.value;
+    addprofile: function addprofile() {
+      var _this = this;
+
+      console.log(JSON.stringify(this.profile));
+      if (this.edit === false) {
+        fetch('api/profile', {
+          method: 'post',
+          body: JSON.stringify(this.profile),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this.clearForm();
+          alert('profile Added');
+          _this.fetchprofiles();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      } else {
+        fetch('api/profiler', {
+          method: 'put',
+          body: JSON.stringify(this.profile),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this.clearForm();
+          alert('Profile Updated');
+          _this.fetchprofiles();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      }
     },
     fetchAreas: function fetchAreas(page_url) {
-      var _this = this;
+      var _this2 = this;
 
       page_url = page_url || 'http://cn.com/api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.areas = res.data;
+        _this2.areas = res.data;
       }).catch(function (err) {
         return console.log(err);
       });
     },
     fetchProfilesByAreas: function fetchProfilesByAreas() {
-      var _this2 = this;
+      var _this3 = this;
 
       var vm = this;
       //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
@@ -62854,21 +62885,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       fetch('api/profilesbyarea/' + id + '/' + perpage).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this2.profiles = res.data;
+        _this3.profiles = res.data;
         vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
       });
     },
     fetchprofiles: function fetchprofiles(page_url) {
-      var _this3 = this;
+      var _this4 = this;
 
       var vm = this;
       page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this3.profiles = res.data;
+        _this4.profiles = res.data;
         vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
@@ -62883,11 +62914,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         per_page: meta.per_page,
         total: meta.total
       };
-
       this.pagination = pagination;
     },
     deleteprofile: function deleteprofile(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       if (confirm('Are You Sure?')) {
         fetch('api/profile/' + id, {
@@ -62896,46 +62926,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           return res.json();
         }).then(function (data) {
           alert('profile Removed');
-          _this4.fetchprofiles();
-        }).catch(function (err) {
-          return console.log(err);
-        });
-      }
-    },
-    addprofile: function addprofile() {
-      var _this5 = this;
-
-      console.log(JSON.stringify(this.profile));
-      if (this.edit === false) {
-        // Add
-        fetch('api/profile', {
-          method: 'post',
-          body: JSON.stringify(this.profile),
-          headers: {
-            'content-type': 'application/json'
-          }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
-          _this5.clearForm();
-          alert('profile Added');
-          _this5.fetchprofiles();
-        }).catch(function (err) {
-          return console.log(err);
-        });
-      } else {
-        // Update           
-        fetch('api/profile', {
-          method: 'put',
-          body: JSON.stringify(this.profile),
-          headers: {
-            'content-type': 'application/json'
-          }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
-          _this5.clearForm();
-          alert('profile Updated');
           _this5.fetchprofiles();
         }).catch(function (err) {
           return console.log(err);
@@ -62952,8 +62942,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.profile.loan = profile.loan;
       this.profile.interest = profile.interest;
       this.profile.term = profile.term;
-      this.profile.date_from = moment(String(profile.date_from)).format('YYYY-MM-DD hh:mm:ss');
-      this.profile.date_to = moment(String(profile.date_to)).format('YYYY-MM-DD hh:mm:ss');
+      this.profile.date_from = profile.date_from;
+      this.profile.date_to = profile.date_to;
       this.profile.contact = profile.contact;
     },
     clearForm: function clearForm() {
@@ -63244,6 +63234,7 @@ var render = function() {
                                   staticClass: "form-control",
                                   attrs: {
                                     type: "text",
+                                    name: "full_name",
                                     id: "full_name",
                                     placeholder: "Lastname, Firstname  M.I. ..."
                                   },
@@ -63877,18 +63868,9 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-sm-3" }, [_vm._v(" ")]),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "col-sm-3", staticStyle: { "margin-bottom": "10px" } },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary btn-block",
-              attrs: { type: "submit" }
-            },
-            [_vm._v("Update")]
-          )
-        ]
+        "button",
+        { staticClass: "btn btn-primary btn-block", attrs: { type: "submit" } },
+        [_vm._v("Update Record")]
       )
     ])
   },
@@ -64158,6 +64140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     addarea: function addarea() {
       var _this2 = this;
 
+      console.log(JSON.stringify(this.area));
       if (this.edit === false) {
         // Add
         fetch('api/area', {
@@ -64178,6 +64161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
       } else {
         // Update
+
         fetch('api/area', {
           method: 'put',
           body: JSON.stringify(this.area),

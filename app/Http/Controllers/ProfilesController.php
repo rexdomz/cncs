@@ -55,30 +55,31 @@ class ProfilesController extends Controller
      */
     public function store(Request $request)
     {
-        $profile = $request->isMethod('put') ? Profiles::findOrFail($request->profile_id) : new Profiles;
-
-        $profile->id = $request->input('profile_id');
-        $profile->full_name = $request->input('full_name');
-        $profile->address = $request->input('address');
-        $profile->area = $request->input('area');
-        $profile->loan = $request->input('loan');
-        $profile->interest = $request->input('interest');
-        $profile->term = $request->input('term');
+        try {
+            $profile = $request->isMethod('put') ? Profiles::findOrFail($request->profile_id) : new Profiles;            
         
-        //$profile->date_from = Carbon::createFromFormat('Y-m-d H:i:s', $request->input('date_from') );
-        //$profile->date_from = Carbon::createFromFormat('Y-m-d H:i:s', $request->input('date_to') );
-        $profile->date_from = date('Y-m-d', strtotime($request->input('date_from')));
-        $profile->date_from = date('Y-m-d', strtotime($request->input('date_to')));
-        //this.profile.date_from = '2019-01-04 00:00:00'
-        //'2019-01-29 00:00:00' toDateTimeString
-        //$profile->date_from = $request->input('date_from');      
-        //$profile->date_to = $request->input('date_to');
+            $profile->id = $request->input('profile_id');
+            $profile->full_name = $request->input('full_name');
+            $profile->address = $request->input('address');
+            $profile->area = $request->input('area');
+            $profile->loan = $request->input('loan');
+            $profile->interest = $request->input('interest');
+            $profile->term = $request->input('term');
+            $profile->date_from = $request->input('date_from');      
+            $profile->date_to = $request->input('date_to');
+            //$profile->date_from = strtotime('Y-m-d H:i:s', $request->input('date_from'));      
+            //$profile->date_to = strtotime('Y-m-d H:i:s', $request->input('date_to'));
+            $profile->contact = $request->input('contact');
 
-        $profile->contact = $request->input('contact');
-
-        if($profile->save()) {
-            return new ProfileResource($profile);
+            if($profile->save()) {
+                return new ProfilesResource($profile);
+            }
+            
+        } catch (ModelNotFoundException $ex) {
+        } catch (Exception $ex) {
+            abort(500, 'Could not create office or assign it to administrator');
         }
+
     }
 
     /**

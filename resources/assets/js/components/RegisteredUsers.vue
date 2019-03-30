@@ -47,11 +47,8 @@
                         <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>
                         <td>{{ profile.interest }}%</td>
                         <td>{{ profile.term }} month(s)</td>
-                        <td>{{ profile.contact }}</td>
-                        <!--<td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-warning btn-xs">Update</button></td>-->
+                        <td>{{ profile.contact }}</td>                        
                         <td><button @click="editprofile(profile)" type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">Update</button></td>
-                        <!--<td><button @click="deleteprofile(profile.id)" type="button" class="btn btn-block btn-danger btn-xs">Deactivate</button></td>-->
-                        
                     </tr>
                 </table>
                 </div>
@@ -72,7 +69,7 @@
                         <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Full Name</label>
                         <div style="margin-bottom: 10px;" class="col-sm-8">
-                            <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Lastname, Firstname  M.I. ...">
+                            <input type="text" class="form-control" name="full_name" id="full_name" v-model="profile.full_name" placeholder="Lastname, Firstname  M.I. ...">
                         </div>
                         </div>
                         <div class="form-group">                               
@@ -147,9 +144,8 @@
                         </div>
 
                         <div class="form-group">                               
-                            <div class="col-sm-3">&nbsp;</div>
-                            <!--<div class="col-sm-3"><button @click="clearForm()" class="btn btn-warning btn-block">Clear</button></div>-->  
-                            <div style="margin-bottom: 10px;" class="col-sm-3"><button type="submit" class="btn btn-primary btn-block">Update</button></div>
+                            <div class="col-sm-3">&nbsp;</div>                            
+                            <button type="submit" class="btn btn-primary btn-block">Update Record</button>
                         </div>
                     </form> 
                   
@@ -216,9 +212,40 @@ export default {
     this.fetchAreas();
   },
 
-  methods: {
-    select: function(evt) {
-      this.area.id = evt.target.value;
+  methods: {      
+    addprofile() {
+      console.log(JSON.stringify(this.profile))
+      if (this.edit === false) {
+        fetch('api/profile', {
+            method: 'post',
+            body: JSON.stringify(this.profile),
+            headers: {
+              'content-type': 'application/json'
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            this.clearForm();
+            alert('profile Added');
+            this.fetchprofiles();
+          })
+          .catch(err => console.log(err));
+      } else {       
+        fetch('api/profiler', {
+            method: 'put',
+            body: JSON.stringify(this.profile),
+            headers: {
+              'content-type': 'application/json'
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            this.clearForm();
+            alert('Profile Updated');
+            this.fetchprofiles();
+          })
+          .catch(err => console.log(err));               
+      }      
     },
     fetchAreas(page_url) {            
         page_url = page_url || 'http://cn.com/api/areas';
@@ -263,7 +290,6 @@ export default {
         per_page: meta.per_page,
         total: meta.total
       };
-
       this.pagination = pagination;
     },
     deleteprofile(id) {
@@ -279,43 +305,6 @@ export default {
           .catch(err => console.log(err));
       }
     },
-    addprofile() {
-      console.log(JSON.stringify(this.profile))
-      if (this.edit === false) {
-        // Add
-        fetch('api/profile', {
-          method: 'post',
-          body: JSON.stringify(this.profile),
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            this.clearForm();
-            alert('profile Added');
-            this.fetchprofiles();
-          })
-          .catch(err => console.log(err));
-      } else {
-        // Update           
-        fetch('api/profile', {          
-          method: 'put',
-          body: JSON.stringify(this.profile),
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            this.clearForm();
-            alert('profile Updated');
-            this.fetchprofiles();
-          })
-          .catch(err => console.log(err));
-      }      
-    },
-
     editprofile(profile) {
       this.edit = true;
       this.profile.id = profile.id;
@@ -326,8 +315,8 @@ export default {
       this.profile.loan = profile.loan;
       this.profile.interest = profile.interest;
       this.profile.term = profile.term;
-      this.profile.date_from = moment(String(profile.date_from)).format('YYYY-MM-DD hh:mm:ss');
-      this.profile.date_to = moment(String(profile.date_to)).format('YYYY-MM-DD hh:mm:ss');
+      this.profile.date_from = profile.date_from;
+      this.profile.date_to = profile.date_to;
       this.profile.contact = profile.contact;              
     },
     clearForm() {

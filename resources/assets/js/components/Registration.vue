@@ -211,7 +211,7 @@ export default {
       if (this.edit === false) {
         console.log(JSON.stringify(this.profile))        
         // Add
-        fetch('api/profile', {
+        fetch(`api/profile`, {
           method: 'post',
           body: JSON.stringify(this.profile),
           headers: {
@@ -227,7 +227,7 @@ export default {
           .catch(err => console.log(err));
       } else {
         // Update
-        fetch('api/profile', {
+        fetch(`api/profile`, {
           method: 'put',
           body: JSON.stringify(this.profile),
           headers: {
