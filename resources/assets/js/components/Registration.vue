@@ -73,8 +73,9 @@
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" class="form-control pull-right" id="datepicker"> 
-                            <input v-model="profile.date_from" type="hidden" id="date_start"> 
+                            <!--<input class="form-control pull-right" id="datepicker">--> 
+                            <input id="myDate" class="form-control pull-right" type="date" :value="myDate && myDate.toISOString().split('T')[0]" @input="myDate = $event.target.valueAsDate">
+                            <input v-model="myDate" type="hidden">
                           </div>
                         </div>
                     </div>
@@ -86,8 +87,12 @@
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" class="form-control pull-right" id="datepicker2"> 
-                            <input v-model="profile.date_to" type="hidden" id="date_end"> 
+                            <!--<input type="text" class="form-control pull-right" id="datepicker2"> -->
+                            <!--<p class="form-control pull-right">{{ myDate2 | setupDate }}</p>-->
+                            <!--<input id="myDate" class="form-control pull-right" type="date" :value="myDate2 && myDate2.toISOString().split('T')[0]" @input="myDate2 = $event.target.valueAsDate">-->
+                            <!--<input id="myDate2" class="form-control pull-right" v-model="myDate2" type="text" >-->
+                            <input id="myDate2" class="form-control pull-right" type="date" :value="myDate2 && myDate2.toISOString().split('T')[0]" @input="myDate2 = $event.target.valueAsDate">
+                            <input v-model="myDate2" type="hidden">
                           </div>
                         </div>
                     </div>
@@ -124,7 +129,7 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-sm-6">                                                
+                    <div class="col-sm-8">                                                
                         <div class="small-box bg-green">
                             <div class="inner">
                             <h3>{{ pagination.total }}</h3>
@@ -133,10 +138,18 @@
                             </div>
                             <div class="icon">
                             <i class="ion ion-person-add"></i>
-                            </div>
-                            
-                        </div>                           
+                            </div>                            
+                        </div> 
+                        <div class="alert alert-danger" role="alert" v-if="errors.length">                                    
+                            <b>Please correct the following error(s):</b>
+                            <ul>
+                              <li v-for="error in errors">{{ error }}</li>
+                            </ul>                    
+                        </div>                          
                     </div>                    
+                </div>
+                <div class="row">   
+                  
                 </div>
             </div>
 
@@ -154,8 +167,12 @@
 
 export default {
   data() {
-    return {      
-      profiles: [],      
+    return {   
+      myDate: null,  
+      myDate2: null, 
+      myDate3: null,
+      profiles: [],  
+      errors: [],    
       profile: {        
         id: '',
         full_name: '',
@@ -174,16 +191,20 @@ export default {
     };
   },
 
-  created() {
+  watch: {
+    myDate() {      
+      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + 30));
+      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - 30));          
+      console.log('1st: '+ this.myDate3.toISOString().split('T')[0]);
+      console.log('2nd: '+ this.myDate2.toISOString().split('T')[0]);
+    }
+  },
+
+created() {
     this.fetchprofiles();        
   },
 
-  methods: {    
-    onChangeDate(){
-      setTimeout(() => {                
-        console.log(this.dateStart);    
-      }, 500)
-    },
+  methods: {   
     fetchprofiles(page_url) {
       let vm = this;
       page_url = page_url || 'http://cn.com/api/profiles';
@@ -208,7 +229,26 @@ export default {
       this.pagination = pagination;
     },
     addprofile() {
-      if (this.edit === false) {
+      this.errors = [];
+      /*if (!this.profile.full_name) {
+        this.errors.push('Full name required.');
+      }
+      if (!this.profile.area) {
+        this.errors.push('Area required.');
+      }
+      if (!this.profile.loan) {
+        this.errors.push('Loan required.');
+      }
+      if (!this.profile.interest) {
+        this.errors.push('Interest required.');
+      }
+      if (!this.profile.term) {
+        this.errors.push('Term required.');
+      }*/
+      this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm');      
+      this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm');
+      console.log(JSON.stringify(this.profile))        
+      /*if (this.edit === false) {
         console.log(JSON.stringify(this.profile))        
         // Add
         fetch(`api/profile`, {
@@ -224,24 +264,8 @@ export default {
             alert('profile Added');
             this.fetchprofiles();
           })
-          .catch(err => console.log(err));
-      } else {
-        // Update
-        fetch(`api/profile`, {
-          method: 'put',
-          body: JSON.stringify(this.profile),
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            this.clearForm();
-            alert('profile Updated');
-            this.fetchprofiles();
-          })
-          .catch(err => console.log(err));
-      }
+          .catch(err => console.log(err)); 
+      }*/
     },
     clearForm() {
       this.edit = false;

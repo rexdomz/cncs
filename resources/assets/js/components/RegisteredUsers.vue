@@ -12,7 +12,7 @@
               <div class="box-body">
                  
                 <div class="col-md-3">
-                  <div style="margin-bottom: 1em;">                    
+                  <div>                    
                     <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="form-control select2">
                         <option value="0" selected="selected">Filter by Area</option>        
                         <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
@@ -34,17 +34,18 @@
                     <th style="width: 235px">Full Name</th>
                     <th style="width: 420px">Address</th>
                     <th style="width: 180px">Loan Amount</th>
+                    <th>Balance</th> 
                     <th style="width: 100px">Interest</th>
                     <th style="width: 155px">Term</th>
                     <th style="width: 200px">Contact</th>                    
                     <th style="width: 80px">Action</th>   
                     <th style="width: 80px"></th> 
                     </tr>
-                    <tr v-for="profile in profiles" v-bind:key="profile.id">
-                        <!--<td>{{ ctr++ }}</td>-->
+                    <tr v-for="profile in profiles" v-bind:key="profile.id">                        
                         <td>{{ profile.full_name }}</td>
                         <td>{{ profile.address }}</td>
                         <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>
+                        <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
                         <td>{{ profile.interest }}%</td>
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>                        
@@ -144,8 +145,9 @@
                         </div>
 
                         <div class="form-group">                               
-                            <div class="col-sm-3">&nbsp;</div>                            
-                            <button type="submit" class="btn btn-primary btn-block">Update Record</button>
+                            <div class="col-sm-3">
+                              <button type="submit" class="btn btn-primary btn-block">Update Record</button>
+                            </div>
                         </div>
                     </form> 
                   
@@ -179,7 +181,7 @@
 <script>
 export default {
   data() {
-    return {
+    return {      
       areas: [],
       area: {
           id: '',
@@ -212,7 +214,7 @@ export default {
     this.fetchAreas();
   },
 
-  methods: {      
+  methods: {    
     addprofile() {
       console.log(JSON.stringify(this.profile))
       if (this.edit === false) {
@@ -257,8 +259,7 @@ export default {
             .catch(err => console.log(err));
     },
     fetchProfilesByAreas() {    
-        let vm = this;        
-        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
+        let vm = this;                
         var id = this.area
         var perpage = 25;
         //console.log('Area:' + id)

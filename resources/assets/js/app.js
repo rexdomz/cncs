@@ -27,8 +27,20 @@ import moment from 'moment'
 Vue.config.productionTip = false
 Vue.filter('formatDate', function(value) {
   if (value) {
-    return moment(String(value)).format('YYYY/MM/DD')
+    return moment(String(value)).format('D MMM YYYY')
   }
+});
+
+Vue.filter('setupDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('MM/DD/YYYY')
+  }
+});
+
+Vue.filter('capitalize', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.charAt(0).toUpperCase() + value.slice(1)
 });
 
 const app = new Vue({

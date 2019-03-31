@@ -28,7 +28,7 @@
 <style>
  td,
  th {
-  padding: 0.65em !important;
+  padding: 0.35em !important;
  }
 
  .table tr {
@@ -226,12 +226,15 @@
   $(function () {
 
     $('#datepickerpay').datepicker('setDate', new Date());    
-
-    //Date picker yyyy/mm/dd hh/mm/ss
-    $('#datepicker').datepicker({            
-      autoclose: true
-    });    
-
+    
+    $('#datepicker').datepicker({
+      //autoclose: true,
+      onSelect: function() {
+        var event = new Event('input');
+        this.dispatchEvent(event);
+      }
+    });
+ /*
   $('#datepicker').change(function() {
     var date2 = $('#datepicker').datepicker('getDate'); 
     $('#date_start').val(date2);
@@ -239,20 +242,20 @@
       var numterm = $('#term').val();        
       date2.setDate(date2.getDate()+numterm * 30);       
     $('#datepicker2').datepicker('setDate', date2); 
-    
+   
     $('#date_end').val(date2);    
-
   });
 
+  $('#myDate').change(function() {
+    var date2 = $('#myDate').datepicker('getDate'); 
+    date2.setDate(date2.getDate()+numterm * 30);
+    alert(date2);
+  });
+  */
+
   $('#term').change(function() {
-    $('#datepicker').val('');
-    $('#datepicker2').val('');
-    /*var date2 = $('#datepicker').datepicker('getDate'); 
-    $('#date_start').val(date2);      
-      var numterm = $('#term').val();        
-      date2.setDate(date2.getDate()+numterm * 30);       
-    $('#datepicker2').datepicker('setDate', date2);      
-    $('#date_end').val(date2);*/
+    $('#myDate').val(new Date());
+    $('#myDate2').val('');
   });
 
   })

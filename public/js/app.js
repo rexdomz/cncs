@@ -17947,8 +17947,20 @@ Vue.component('payment-list', __webpack_require__(184));
 Vue.config.productionTip = false;
 Vue.filter('formatDate', function (value) {
   if (value) {
-    return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('YYYY/MM/DD');
+    return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('D MMM YYYY');
   }
+});
+
+Vue.filter('setupDate', function (value) {
+  if (value) {
+    return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('MM/DD/YYYY');
+  }
+});
+
+Vue.filter('capitalize', function (value) {
+  if (!value) return '';
+  value = value.toString();
+  return value.charAt(0).toUpperCase() + value.slice(1);
 });
 
 var app = new Vue({
@@ -61873,12 +61885,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      myDate: null,
+      myDate2: null,
+      myDate3: null,
       profiles: [],
+      errors: [],
       profile: {
         id: '',
         full_name: '',
@@ -61896,28 +61925,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       edit: false
     };
   },
+
+
+  watch: {
+    myDate: function myDate() {
+      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + 30));
+      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - 30));
+      console.log('1st: ' + this.myDate3.toISOString().split('T')[0]);
+      console.log('2nd: ' + this.myDate2.toISOString().split('T')[0]);
+    }
+  },
+
   created: function created() {
     this.fetchprofiles();
   },
 
 
   methods: {
-    onChangeDate: function onChangeDate() {
-      var _this = this;
-
-      setTimeout(function () {
-        console.log(_this.dateStart);
-      }, 500);
-    },
     fetchprofiles: function fetchprofiles(page_url) {
-      var _this2 = this;
+      var _this = this;
 
       var vm = this;
       page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this2.profiles = res.data;
+        _this.profiles = res.data;
         vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
@@ -61936,44 +61969,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.pagination = pagination;
     },
     addprofile: function addprofile() {
-      var _this3 = this;
-
-      if (this.edit === false) {
-        console.log(JSON.stringify(this.profile));
+      this.errors = [];
+      /*if (!this.profile.full_name) {
+        this.errors.push('Full name required.');
+      }
+      if (!this.profile.area) {
+        this.errors.push('Area required.');
+      }
+      if (!this.profile.loan) {
+        this.errors.push('Loan required.');
+      }
+      if (!this.profile.interest) {
+        this.errors.push('Interest required.');
+      }
+      if (!this.profile.term) {
+        this.errors.push('Term required.');
+      }*/
+      this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm');
+      this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm');
+      console.log(JSON.stringify(this.profile));
+      /*if (this.edit === false) {
+        console.log(JSON.stringify(this.profile))        
         // Add
-        fetch('api/profile', {
+        fetch(`api/profile`, {
           method: 'post',
           body: JSON.stringify(this.profile),
           headers: {
             'content-type': 'application/json'
           }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
-          _this3.clearForm();
-          alert('profile Added');
-          _this3.fetchprofiles();
-        }).catch(function (err) {
-          return console.log(err);
-        });
-      } else {
-        // Update
-        fetch('api/profile', {
-          method: 'put',
-          body: JSON.stringify(this.profile),
-          headers: {
-            'content-type': 'application/json'
-          }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
-          _this3.clearForm();
-          alert('profile Updated');
-          _this3.fetchprofiles();
-        }).catch(function (err) {
-          return console.log(err);
-        });
-      }
+        })
+          .then(res => res.json())
+          .then(data => {
+            this.clearForm();
+            alert('profile Added');
+            this.fetchprofiles();
+          })
+          .catch(err => console.log(err)); 
+      }*/
     },
     clearForm: function clearForm() {
       this.edit = false;
@@ -62304,7 +62336,17 @@ var render = function() {
                           _vm._v(" "),
                           _c("input", {
                             staticClass: "form-control pull-right",
-                            attrs: { type: "text", id: "datepicker" }
+                            attrs: { id: "myDate", type: "date" },
+                            domProps: {
+                              value:
+                                _vm.myDate &&
+                                _vm.myDate.toISOString().split("T")[0]
+                            },
+                            on: {
+                              input: function($event) {
+                                _vm.myDate = $event.target.valueAsDate
+                              }
+                            }
                           }),
                           _vm._v(" "),
                           _c("input", {
@@ -62312,22 +62354,18 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.profile.date_from,
-                                expression: "profile.date_from"
+                                value: _vm.myDate,
+                                expression: "myDate"
                               }
                             ],
-                            attrs: { type: "hidden", id: "date_start" },
-                            domProps: { value: _vm.profile.date_from },
+                            attrs: { type: "hidden" },
+                            domProps: { value: _vm.myDate },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(
-                                  _vm.profile,
-                                  "date_from",
-                                  $event.target.value
-                                )
+                                _vm.myDate = $event.target.value
                               }
                             }
                           })
@@ -62358,7 +62396,17 @@ var render = function() {
                           _vm._v(" "),
                           _c("input", {
                             staticClass: "form-control pull-right",
-                            attrs: { type: "text", id: "datepicker2" }
+                            attrs: { id: "myDate2", type: "date" },
+                            domProps: {
+                              value:
+                                _vm.myDate2 &&
+                                _vm.myDate2.toISOString().split("T")[0]
+                            },
+                            on: {
+                              input: function($event) {
+                                _vm.myDate2 = $event.target.valueAsDate
+                              }
+                            }
                           }),
                           _vm._v(" "),
                           _c("input", {
@@ -62366,22 +62414,18 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.profile.date_to,
-                                expression: "profile.date_to"
+                                value: _vm.myDate2,
+                                expression: "myDate2"
                               }
                             ],
-                            attrs: { type: "hidden", id: "date_end" },
-                            domProps: { value: _vm.profile.date_to },
+                            attrs: { type: "hidden" },
+                            domProps: { value: _vm.myDate2 },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(
-                                  _vm.profile,
-                                  "date_to",
-                                  $event.target.value
-                                )
+                                _vm.myDate2 = $event.target.value
                               }
                             }
                           })
@@ -62487,7 +62531,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "box-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-6" }, [
+              _c("div", { staticClass: "col-sm-8" }, [
                 _c("div", { staticClass: "small-box bg-green" }, [
                   _c("div", { staticClass: "inner" }, [
                     _c("h3", [_vm._v(_vm._s(_vm.pagination.total))]),
@@ -62496,9 +62540,34 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _vm._m(4)
-                ])
+                ]),
+                _vm._v(" "),
+                _vm.errors.length
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-danger",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _c("b", [
+                          _vm._v("Please correct the following error(s):")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          _vm._l(_vm.errors, function(error) {
+                            return _c("li", [_vm._v(_vm._s(error))])
+                          }),
+                          0
+                        )
+                      ]
+                    )
+                  : _vm._e()
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" })
           ])
         ])
       ])
@@ -62787,6 +62856,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -62878,7 +62949,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this3 = this;
 
       var vm = this;
-      //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
       var id = this.area;
       var perpage = 25;
       //console.log('Area:' + id)
@@ -62980,7 +63050,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "box-body" }, [
               _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticStyle: { "margin-bottom": "1em" } }, [
+                _c("div", [
                   _c(
                     "select",
                     {
@@ -63137,6 +63207,24 @@ var render = function() {
                           _vm._v(
                             " " +
                               _vm._s(_vm._f("currency")(profile.loan, "P")) +
+                              " "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticClass: "badge bg-blue" }, [
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                _vm._f("currency")(
+                                  profile.loan +
+                                    profile.loan *
+                                      (profile.interest / 100) *
+                                      profile.term,
+                                  "P"
+                                )
+                              ) +
                               " "
                           )
                         ])
@@ -63812,6 +63900,8 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { staticStyle: { width: "180px" } }, [_vm._v("Loan Amount")]),
       _vm._v(" "),
+      _c("th", [_vm._v("Balance")]),
+      _vm._v(" "),
       _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Interest")]),
       _vm._v(" "),
       _c("th", { staticStyle: { width: "155px" } }, [_vm._v("Term")]),
@@ -63865,13 +63955,16 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-sm-3" }, [_vm._v(" ")]),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary btn-block", attrs: { type: "submit" } },
-        [_vm._v("Update Record")]
-      )
+      _c("div", { staticClass: "col-sm-3" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-block",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("Update Record")]
+        )
+      ])
     ])
   },
   function() {
