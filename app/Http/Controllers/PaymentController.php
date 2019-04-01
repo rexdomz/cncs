@@ -20,75 +20,39 @@ class PaymentController extends Controller
     public function index()
     {
         // Get profiles
-        $profiles = Profiles::paginate(10);
+        $payments = Payments::paginate(25);
         
         // Return collection of articles as a resource        
-        return ProfilesResource::collection($profiles);     
+        return PaymentsResource::collection($payments);     
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function get_payments_by_user($id, $perpage)
     {
-        //
+        // Get payments history
+        $payments = Payments::where('profile_id', $id)->orderBy('date_pay', 'desc')->paginate($perpage);                
+
+        // Return paginated records by area
+        return PaymentsResource::collection($payments);        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-    }
+        try {
+            $payment = $request->isMethod('put') ? Payments::findOrFail($request->pay_id) : new Payments;            
+            $payment->id = $request->input('pay_id');
+            $payment->profile_id = $request->input('profile_id');
+            $payment->pay = $request->input('pay');            
+            $payment->date_pay = $request->input('date_pay');                  
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            if($payment->save()) {
+                return new PaymentsResource($payment);
+            }
+            
+        } catch (ModelNotFoundException $ex) {
+        } catch (Exception $ex) {
+            abort(500, 'Could not create office or assign it to administrator');
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

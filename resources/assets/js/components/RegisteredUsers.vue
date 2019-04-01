@@ -49,7 +49,7 @@
                         <td>{{ profile.interest }}%</td>
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>                        
-                        <td><button @click="editprofile(profile)" type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">Update</button></td>
+                        <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs" data-toggle="modal" data-target="#modal-info">Update</button></td>
                     </tr>
                 </table>
                 </div>
@@ -83,7 +83,7 @@
                         <label for="inputFullName" class="col-sm-3 control-label">Area</label>
                         <div style="margin-bottom: 10px;" class="col-sm-8">
                             <select v-model="profile.area" id="area" name="area" class="form-control select2" style="width: 100%;">
-                              <option value="0" >Select Area ...</option>        
+                              <option value="0" selected="selected">Select Area ...</option>        
                               <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }}, {{ area.address }}</option>
                           </select>
                         </div>
@@ -104,10 +104,10 @@
                         <div class="form-group">                               
                             <label for="inputFullName" class="col-sm-3 control-label">Term</label>
                             <div style="margin-bottom: 10px;" class="col-sm-8">
-                                <select v-model="profile.term" id="term" name="term" class="form-control select2" style="width: 100%;">
+                            <select v-model="profile.term" id="term" name="term" class="form-control select2" style="width: 100%;">
                                 <option value="0" selected="selected">Select Term ...</option>        
                                 <option v-for="i in (1, 12)" :value=i :key="i" > {{ i }} Month(s) </option>
-                            </select>                    
+                            </select>                 
                             </div>
                         </div>
 
@@ -118,8 +118,11 @@
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
-                                <input v-model="profile.date_from" type="text" class="form-control pull-right" id="datepicker"> 
-                                <input v-model="profile.date_from" type="hidden" id="date_start">                                 
+                                <!--<input v-model="profile.date_from" type="text" class="form-control pull-right" id="datepicker">                                 
+                                <input v-model="profile.date_from" type="hidden" id="date_start">-->                                
+                                <input id="myDate" class="form-control pull-right" type="text" v-model="profile.date_from" placeholder="2019-04-01"> 
+                                <!--<input id="myDate" class="form-control pull-right" type="date" :value="myDate && myDate.toISOString().split('T')[0]" @input="myDate = $event.target.valueAsDate">
+                                <input v-model="myDate" type="hidden">-->
                               </div>
                             </div>
                         </div>
@@ -131,8 +134,9 @@
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
-                                <input v-model="profile.date_to" type="text" class="form-control pull-right" id="datepicker2"> 
-                                <input v-model="profile.date_to" type="hidden" id="date_end"> 
+                                <input id="myDate" class="form-control pull-right" type="text" v-model="profile.date_to" placeholder="2019-04-01"> 
+                                <!--<input v-model="profile.date_to" type="text" class="form-control pull-right" id="datepicker2"> 
+                                <input v-model="profile.date_to" type="hidden" id="date_end">--> 
                               </div>
                             </div>
                         </div>
@@ -146,7 +150,7 @@
 
                         <div class="form-group">                               
                             <div class="col-sm-3">
-                              <button type="submit" class="btn btn-primary btn-block">Update Record</button>
+                              <button type="submit" class="btn btn-primary btn-xs">Update Record</button>
                             </div>
                         </div>
                     </form> 
@@ -181,7 +185,10 @@
 <script>
 export default {
   data() {
-    return {      
+    return {
+      myDate: null,  
+      myDate2: null, 
+      myDate3: null,      
       areas: [],
       area: {
           id: '',
@@ -207,6 +214,15 @@ export default {
       pagination: {},
       edit: false
     };
+  },
+
+  watch: {
+    myDate() {      
+      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + this.profile.term * 30));
+      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - this.profile.term * 30));          
+      console.log('1st: '+ this.myDate3.toISOString().split('T')[0]);
+      console.log('2nd: '+ this.myDate2.toISOString().split('T')[0]);
+    }
   },
 
   created() {

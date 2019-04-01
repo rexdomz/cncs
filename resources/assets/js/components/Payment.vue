@@ -3,7 +3,7 @@
     <section class="content">
         <div class="row">
 
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div class="box">                    
                     
                     <div class="box-body">
@@ -31,7 +31,7 @@
                                 <th>Term</th>
                                 <th>Interest</th>
                                 <th>Rate/day</th>
-                                <th>Balance</th>                            
+                                <!--<th>Balance</th>-->                            
                                 <th>Maturity Date</th>                                               
                                 <th>Action</th>                              
                             </tr>
@@ -42,9 +42,9 @@
                                 <td>{{ profile.term }} month(s)</td>
                                 <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>                                
                                 <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
-                                <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
-                                <td>{{ profile.date_to | formatDate }}</td>
-                                <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs">Add Pay</button></td>                                
+                                <!--<td>{{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }}</td>-->
+                                <td><span v-bind:style=" checkDate(profile) ? 'color: #000;' : 'color: red;' " >{{ profile.date_to | formatDate }}</span></td>
+                                <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs">View Payment</button></td>                                
                             </tr>                                                        
                         </table>
                     </div>
@@ -54,58 +54,66 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Payment Form</h3>
                     </div>
-                    <div class="box-body">
+                    <div class="box-body">                        
                         <div style="margin: 1em 0;" class="row">
-                            <div class="form-group">                               
-                                <label for="inputFullName" class="control-label col-sm-4">Name</label>    
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Borrower's name...">                            
-                                </div>
-                            </div>
+                              <div class="form-group">                               
+                                  <label for="inputFullName" class="control-label col-sm-4">Name</label>    
+                                  <div class="col-sm-12">
+                                      <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Borrower's name...">                            
+                                  </div>
+                              </div>
                         </div>
-                        <div style="margin: 1em 0;" class="row">
-                            <div class="form-group">                               
-                                <label for="inputFullName" class="control-label col-sm-4">Amount</label>    
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount to pay ...">                            
-                                </div>
-                            </div>
-                        </div>
+                        <form @submit.prevent="addpayment" class="mb-4">                          
+                          <div style="margin: 1em 0;" class="row">
+                              <div class="form-group">                               
+                                  <label for="inputFullName" class="control-label col-sm-4">Amount</label>    
+                                  <div class="col-sm-12">
+                                      <input type="text" class="form-control" id="amount" v-model="payment.pay" placeholder="Amount to pay ...">                            
+                                  </div>
+                              </div>
+                          </div>
 
-                        <div style="margin: 1em 0;" class="row">
-                            <div class="input-group date">
-                                <label for="inputFullName" class="control-label col-sm-4"> Date</label>                                                        
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>                            
-                                <input type="text" class="form-control pull-right" id="datepickerpay">                                   
-                            </div>
-                        </div>
+                          <div style="margin: 1em 0;" class="row">
+                              <div class="input-group date">
+                                  <label for="inputFullName" class="control-label col-sm-4"> Date</label>                                                        
+                                  <div class="input-group-addon">
+                                      <i class="fa fa-calendar" style="margin: 0 20px 0 5px;"></i>
+                                  </div>                            
+                                  <!--<input id="payDate" class="form-control pull-right" type="date" :value="payDate && payDate.toISOString().split('T')[0]" @input="payDate = $event.target.valueAsDate">-->
+                                  <input v-model="payDate" id="payDate" type="date" class="form-control pull-right" style="padding: 0;margin: 0 15px 0 0;">
+                                  <input v-model="payDate" type="hidden">                                   
+                              </div>
+                          </div>
 
-                        <div style="margin: 0 0 1.5em 0;" class="row col-sm-4">
-                            <button type="submit" class="btn btn-primary btn-block ">Save</button>
-                        </div>
+                          <div style="margin: 0;" class="row col-sm-4">
+                            <div class="form-group"> 
+                              <button type="submit" value="submit" class="btn btn-primary btn-block">Save</button>                              
+                            </div>
+                          </div>
+
+                        </form>
 
                     </div>
                 </div> <!-- /box -->
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Payment History</h3>
+                        <p>Balance: <span class="badge bg-blue">Php </span> | Loan: <span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></p>
                     </div>
                     <div class="box-body">
                         <table class="table">
                             <tr>                                
                                 <th>Payment</th>                            
-                                <th>Date</th>                  
+                                <th>Date paid</th>                  
                             </tr>
-                            <tr>                                
-                                <td>0</td>
-                                <td>---</td>                                                           
+                            <tr v-for="payment in payments" v-bind:key="payment.id">                                                    
+                                <td>{{ payment.pay | currency('P') }}</td>                                
+                                <td>{{ payment.date_pay | formatDate }}</td>                         
                             </tr>
                         </table>
                     </div>
@@ -123,8 +131,9 @@ import Vue2Filters from 'vue2-filters'
 Vue.use(Vue2Filters)
 
 export default {
-  data() {
+  data() {    
     return {
+      payDate: new Date().toISOString().slice(0,10),
       areas: [],
       area: {
           id: '',
@@ -132,7 +141,16 @@ export default {
           address: '',
           collector: '',
           contact: ''            
-      },       
+      },  
+      payments: [],
+      payment: {        
+        id: '',
+        profile_id: '',
+        pay: '',
+        date_pay: ''     
+      },        
+      pay_id: '',    
+      profile_id: '',           
       profiles: [],
       loaninterest: [],
       ctr: 1,
@@ -146,12 +164,20 @@ export default {
         term: '',
         date_from: '',
         date_to: '',
-        contact: ''
-      },
+        contact: '',
+        date_expire: false        
+      },            
       profile_id: '',
       pagination: {},
-      edit: false
+      edit: false,
+      payedit:  false
     };
+  },
+
+  filters: {
+    formatDate(value) {                
+      return moment(String(value)).format('D MMM YYYY');      
+    }
   },
 
   created() {
@@ -160,6 +186,18 @@ export default {
   },
 
   methods: {
+    checkDate(profile) {
+      var date = moment(profile.date_to)
+      var now = moment().valueOf();
+      if (date > now) {
+        this.profile.date_expire = true;     
+        return true;   
+      } else {
+        this.profile.date_expire = false;        
+        return false;
+      }        
+    },
+
     fetchAreas(page_url) {            
         page_url = page_url || 'http://cn.com/api/areas';
         fetch(page_url)
@@ -174,7 +212,7 @@ export default {
         let vm = this;        
         //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
         var id = this.area
-        var perpage = 15;
+        var perpage = 20;
         console.log('Area:' + id)
         fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
@@ -208,26 +246,44 @@ export default {
 
       this.pagination = pagination;
     },
-    addprofile() {
-      if (this.edit === false) {
-        // Add
-        fetch('api/profile', {
+
+    fetchPaymentsByID(id) {    
+        let vm = this;                        
+        var perpage = 20;                
+        fetch(`api/paymentsbyid/${id}/${perpage}`)
+          .then(res => res.json())
+          .then(res => {
+            this.payments = res.data;
+            console.log(this.payments);
+            vm.makePagination(res.meta, res.links);
+          })
+          .catch(err => console.log(err));                  
+    },
+
+    addpayment() {      
+      if (this.payedit === false) {        
+        this.payment.profile_id = this.profile.id;        
+        this.payment.date_pay = moment(String(this.payDate)).format('YYYY-MM-DD hh:mm:ss');   
+        console.log("test: " + JSON.stringify(this.payment));     
+        // Add        
+        fetch('api/newpayment', {
           method: 'post',
-          body: JSON.stringify(this.profile),
+          body: JSON.stringify(this.payment),
           headers: {
             'content-type': 'application/json'
           }
         })
           .then(res => res.json())
           .then(data => {
-            this.clearForm();
-            alert('profile Added');
-            this.fetchprofiles();
+            //this.clearForm();
+            alert('Payment Added');
+            //this.fetchprofiles();
+            this.fetchPaymentsByID(this.payment.profile_id);
           })
           .catch(err => console.log(err));
       } else {
         // Update
-        fetch('api/profile', {
+        fetch('api/updatepayment', {
           method: 'put',
           body: JSON.stringify(this.profile),
           headers: {
@@ -236,41 +292,26 @@ export default {
         })
           .then(res => res.json())
           .then(data => {
-            this.clearForm();
-            alert('profile Updated');
-            this.fetchprofiles();
+            //this.clearForm();
+            alert('Payment Updated');
+            //this.fetchprofiles();
           })
-          .catch(err => console.log(err));
+          .catch(err => console.log(err));          
       }
     },
     editprofile(profile) {
       this.edit = true;
       this.profile.id = profile.id;
       this.profile.profile_id = profile.id;
-      this.profile.full_name = profile.full_name;
-      /*this.profile.address = profile.address;
-      this.profile.area = profile.area;
-      this.profile.loan = profile.loan;
+      this.profile.full_name = profile.full_name;    
+      this.profile.loan = profile.loan;      
       this.profile.interest = profile.interest;
       this.profile.term = profile.term;
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
-      this.profile.contact = profile.contact;*/              
-    },
-    clearForm() {
-      this.edit = false;
-      this.profile.id = null;
-      this.profile.profile_id = null;
-      this.profile.full_name = '';
-      this.profile.address = '';
-      this.profile.area = '';
-      this.profile.loan = '';
-      this.profile.interest = '';
-      this.profile.term = '';
-      this.profile.date_from = '';
-      this.profile.date_to = '';
-      this.profile.contact = ''; 
+      this.fetchPaymentsByID(profile.id);        
     }
+
   }
 };
 </script>

@@ -25,7 +25,7 @@ Route::get('/registration', 'HomeController@register')->name('registration');
 
 Route::get('/registered-users', 'HomeController@registered_users')->name('regusers');
 
-Route::get('/payment', 'HomeController@payment')->name('payment');
+Route::get('/user-payment', 'HomeController@payment')->name('payment');
 
 Route::get('/quota', 'HomeController@collector')->name('collector');
 

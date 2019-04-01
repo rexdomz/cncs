@@ -40,7 +40,10 @@
                     <div class="form-group">                               
                     <label for="inputFullName" class="col-sm-3 control-label">Area</label>
                     <div style="margin-bottom: 10px;" class="col-sm-8">
-                        <area-list></area-list>
+                        <select v-model="profile.area" id="area" name="area" class="form-control select2" style="width: 100%;">
+                            <option value="0" selected="selected">Select Area ...</option>        
+                            <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }}, {{ area.address }}</option>
+                        </select>
                     </div>
                     </div>
 
@@ -59,7 +62,7 @@
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Term</label>
                         <div style="margin-bottom: 10px;" class="col-sm-8">
-                            <select id="term" name="term" class="form-control select2" style="width: 100%;">
+                            <select v-model="profile.term" id="term" name="term" class="form-control select2" style="width: 100%;">
                             <option value="0" selected="selected">Select Term ...</option>        
                             <option v-for="i in (1, 12)" :value=i :key="i" > {{ i }} Month(s) </option>
                         </select>                    
@@ -86,10 +89,7 @@
                           <div class="input-group date">
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
-                            </div>
-                            <!--<input type="text" class="form-control pull-right" id="datepicker2"> -->
-                            <!--<p class="form-control pull-right">{{ myDate2 | setupDate }}</p>-->
-                            <!--<input id="myDate" class="form-control pull-right" type="date" :value="myDate2 && myDate2.toISOString().split('T')[0]" @input="myDate2 = $event.target.valueAsDate">-->
+                            </div>                            
                             <!--<input id="myDate2" class="form-control pull-right" v-model="myDate2" type="text" >-->
                             <input id="myDate2" class="form-control pull-right" type="date" :value="myDate2 && myDate2.toISOString().split('T')[0]" @input="myDate2 = $event.target.valueAsDate">
                             <input v-model="myDate2" type="hidden">
@@ -142,9 +142,7 @@
                         </div> 
                         <div class="alert alert-danger" role="alert" v-if="errors.length">                                    
                             <b>Please correct the following error(s):</b>
-                            <ul>
-                              <li v-for="error in errors">{{ error }}</li>
-                            </ul>                    
+                            <ul><li v-for="error in errors" :key="error.index" >{{ error }}</li></ul>                    
                         </div>                          
                     </div>                    
                 </div>
@@ -173,6 +171,14 @@ export default {
       myDate3: null,
       profiles: [],  
       errors: [],    
+      areas: [],
+      area: {
+          id: '',
+          area_code: '',
+          address: '',
+          collector: '',
+          contact: ''            
+      },
       profile: {        
         id: '',
         full_name: '',
@@ -193,15 +199,16 @@ export default {
 
   watch: {
     myDate() {      
-      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + 30));
-      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - 30));          
+      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + this.profile.term * 30));
+      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - this.profile.term * 30));          
       console.log('1st: '+ this.myDate3.toISOString().split('T')[0]);
       console.log('2nd: '+ this.myDate2.toISOString().split('T')[0]);
     }
   },
 
 created() {
-    this.fetchprofiles();        
+    this.fetchprofiles();      
+    this.fetchAreas();  
   },
 
   methods: {   
@@ -230,7 +237,7 @@ created() {
     },
     addprofile() {
       this.errors = [];
-      /*if (!this.profile.full_name) {
+      if (!this.profile.full_name) {
         this.errors.push('Full name required.');
       }
       if (!this.profile.area) {
@@ -244,11 +251,18 @@ created() {
       }
       if (!this.profile.term) {
         this.errors.push('Term required.');
+      }
+      /*if (!this.profile.date_from) {
+        this.errors.push('Invalid start date.');
+      }
+      if (!this.profile.date_to) {
+        this.errors.push('Invalid end date.');
       }*/
-      this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm');      
-      this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm');
-      console.log(JSON.stringify(this.profile))        
-      /*if (this.edit === false) {
+      console.log(this.errors.length);
+      this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm:ss');      
+      this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm:ss');
+      console.log(JSON.stringify(this.profile));        
+      if (this.edit === false && this.errors.length <= 0 ) {
         console.log(JSON.stringify(this.profile))        
         // Add
         fetch(`api/profile`, {
@@ -265,7 +279,16 @@ created() {
             this.fetchprofiles();
           })
           .catch(err => console.log(err)); 
-      }*/
+      }
+    },
+    fetchAreas(page_url) {            
+        page_url = page_url || 'http://cn.com/api/areas';
+        fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+            this.areas = res.data;            
+            })
+            .catch(err => console.log(err));
     },
     clearForm() {
       this.edit = false;

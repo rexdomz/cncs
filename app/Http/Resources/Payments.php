@@ -14,6 +14,12 @@ class Payments extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        //return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'profile_id' => $this->profile_id,
+            'pay' => $this->pay,
+            'date_pay' => $this->date_pay            
+        ];
     }
 }

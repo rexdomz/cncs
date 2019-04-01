@@ -17945,11 +17945,6 @@ Vue.component('payment-list', __webpack_require__(184));
 
 
 Vue.config.productionTip = false;
-Vue.filter('formatDate', function (value) {
-  if (value) {
-    return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('D MMM YYYY');
-  }
-});
 
 Vue.filter('setupDate', function (value) {
   if (value) {
@@ -61896,8 +61891,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -61908,6 +61901,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       myDate3: null,
       profiles: [],
       errors: [],
+      areas: [],
+      area: {
+        id: '',
+        area_code: '',
+        address: '',
+        collector: '',
+        contact: ''
+      },
       profile: {
         id: '',
         full_name: '',
@@ -61929,8 +61930,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   watch: {
     myDate: function myDate() {
-      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + 30));
-      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - 30));
+      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + this.profile.term * 30));
+      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - this.profile.term * 30));
       console.log('1st: ' + this.myDate3.toISOString().split('T')[0]);
       console.log('2nd: ' + this.myDate2.toISOString().split('T')[0]);
     }
@@ -61938,6 +61939,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   created: function created() {
     this.fetchprofiles();
+    this.fetchAreas();
   },
 
 
@@ -61969,8 +61971,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.pagination = pagination;
     },
     addprofile: function addprofile() {
+      var _this2 = this;
+
       this.errors = [];
-      /*if (!this.profile.full_name) {
+      if (!this.profile.full_name) {
         this.errors.push('Full name required.');
       }
       if (!this.profile.area) {
@@ -61984,28 +61988,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       if (!this.profile.term) {
         this.errors.push('Term required.');
+      }
+      /*if (!this.profile.date_from) {
+        this.errors.push('Invalid start date.');
+      }
+      if (!this.profile.date_to) {
+        this.errors.push('Invalid end date.');
       }*/
-      this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm');
-      this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm');
+      console.log(this.errors.length);
+      this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm:ss');
+      this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm:ss');
       console.log(JSON.stringify(this.profile));
-      /*if (this.edit === false) {
-        console.log(JSON.stringify(this.profile))        
+      if (this.edit === false && this.errors.length <= 0) {
+        console.log(JSON.stringify(this.profile));
         // Add
-        fetch(`api/profile`, {
+        fetch('api/profile', {
           method: 'post',
           body: JSON.stringify(this.profile),
           headers: {
             'content-type': 'application/json'
           }
-        })
-          .then(res => res.json())
-          .then(data => {
-            this.clearForm();
-            alert('profile Added');
-            this.fetchprofiles();
-          })
-          .catch(err => console.log(err)); 
-      }*/
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this2.clearForm();
+          alert('profile Added');
+          _this2.fetchprofiles();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    fetchAreas: function fetchAreas(page_url) {
+      var _this3 = this;
+
+      page_url = page_url || 'http://cn.com/api/areas';
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this3.areas = res.data;
+      }).catch(function (err) {
+        return console.log(err);
+      });
     },
     clearForm: function clearForm() {
       this.edit = false;
@@ -62168,8 +62192,65 @@ var render = function() {
                         staticClass: "col-sm-8",
                         staticStyle: { "margin-bottom": "10px" }
                       },
-                      [_c("area-list")],
-                      1
+                      [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.profile.area,
+                                expression: "profile.area"
+                              }
+                            ],
+                            staticClass: "form-control select2",
+                            staticStyle: { width: "100%" },
+                            attrs: { id: "area", name: "area" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.profile,
+                                  "area",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "0", selected: "selected" } },
+                              [_vm._v("Select Area ...")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.areas, function(area) {
+                              return _c(
+                                "option",
+                                { key: area.id, domProps: { value: area.id } },
+                                [
+                                  _vm._v(
+                                    _vm._s(area.area_code) +
+                                      ", " +
+                                      _vm._s(area.address)
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ]
                     )
                   ]),
                   _vm._v(" "),
@@ -62289,9 +62370,36 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.profile.term,
+                                expression: "profile.term"
+                              }
+                            ],
                             staticClass: "form-control select2",
                             staticStyle: { width: "100%" },
-                            attrs: { id: "term", name: "term" }
+                            attrs: { id: "term", name: "term" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.profile,
+                                  "term",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
                           },
                           [
                             _c(
@@ -62557,7 +62665,9 @@ var render = function() {
                         _c(
                           "ul",
                           _vm._l(_vm.errors, function(error) {
-                            return _c("li", [_vm._v(_vm._s(error))])
+                            return _c("li", { key: error.index }, [
+                              _vm._v(_vm._s(error))
+                            ])
                           }),
                           0
                         )
@@ -62858,10 +62968,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      myDate: null,
+      myDate2: null,
+      myDate3: null,
       areas: [],
       area: {
         id: '',
@@ -62888,6 +63005,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       edit: false
     };
   },
+
+
+  watch: {
+    myDate: function myDate() {
+      this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + this.profile.term * 30));
+      this.myDate3 = new Date(this.myDate.setDate(this.myDate.getDate() - this.profile.term * 30));
+      console.log('1st: ' + this.myDate3.toISOString().split('T')[0]);
+      console.log('2nd: ' + this.myDate2.toISOString().split('T')[0]);
+    }
+  },
+
   created: function created() {
     this.fetchprofiles();
     this.fetchAreas();
@@ -63240,7 +63368,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-info",
+                            staticClass: "btn btn-block btn-info btn-xs",
                             attrs: {
                               type: "button",
                               "data-toggle": "modal",
@@ -63449,9 +63577,16 @@ var render = function() {
                                     }
                                   },
                                   [
-                                    _c("option", { attrs: { value: "0" } }, [
-                                      _vm._v("Select Area ...")
-                                    ]),
+                                    _c(
+                                      "option",
+                                      {
+                                        attrs: {
+                                          value: "0",
+                                          selected: "selected"
+                                        }
+                                      },
+                                      [_vm._v("Select Area ...")]
+                                    ),
                                     _vm._v(" "),
                                     _vm._l(_vm.areas, function(area) {
                                       return _c(
@@ -63686,32 +63821,11 @@ var render = function() {
                                       }
                                     ],
                                     staticClass: "form-control pull-right",
-                                    attrs: { type: "text", id: "datepicker" },
-                                    domProps: { value: _vm.profile.date_from },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.profile,
-                                          "date_from",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.profile.date_from,
-                                        expression: "profile.date_from"
-                                      }
-                                    ],
-                                    attrs: { type: "hidden", id: "date_start" },
+                                    attrs: {
+                                      id: "myDate",
+                                      type: "text",
+                                      placeholder: "2019-04-01"
+                                    },
                                     domProps: { value: _vm.profile.date_from },
                                     on: {
                                       input: function($event) {
@@ -63761,32 +63875,11 @@ var render = function() {
                                       }
                                     ],
                                     staticClass: "form-control pull-right",
-                                    attrs: { type: "text", id: "datepicker2" },
-                                    domProps: { value: _vm.profile.date_to },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.profile,
-                                          "date_to",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.profile.date_to,
-                                        expression: "profile.date_to"
-                                      }
-                                    ],
-                                    attrs: { type: "hidden", id: "date_end" },
+                                    attrs: {
+                                      id: "myDate",
+                                      type: "text",
+                                      placeholder: "2019-04-01"
+                                    },
                                     domProps: { value: _vm.profile.date_to },
                                     on: {
                                       input: function($event) {
@@ -63958,10 +64051,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-sm-3" }, [
         _c(
           "button",
-          {
-            staticClass: "btn btn-primary btn-block",
-            attrs: { type: "submit" }
-          },
+          { staticClass: "btn btn-primary btn-xs", attrs: { type: "submit" } },
           [_vm._v("Update Record")]
         )
       ])
@@ -64955,6 +65045,16 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_filters__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_filters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_filters__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -65081,7 +65181,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
+      payDate: new Date().toISOString().slice(0, 10),
       areas: [],
       area: {
         id: '',
@@ -65090,6 +65193,15 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         collector: '',
         contact: ''
       },
+      payments: [],
+      payment: {
+        id: '',
+        profile_id: '',
+        pay: '',
+        date_pay: ''
+      },
+      pay_id: '',
+      profile_id: '',
       profiles: [],
       loaninterest: [],
       ctr: 1,
@@ -65103,13 +65215,19 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         term: '',
         date_from: '',
         date_to: '',
-        contact: ''
-      },
-      profile_id: '',
-      pagination: {},
-      edit: false
-    };
+        contact: '',
+        date_expire: false
+      }
+    }, _defineProperty(_ref, 'profile_id', ''), _defineProperty(_ref, 'pagination', {}), _defineProperty(_ref, 'edit', false), _defineProperty(_ref, 'payedit', false), _ref;
   },
+
+
+  filters: {
+    formatDate: function formatDate(value) {
+      return moment(String(value)).format('D MMM YYYY');
+    }
+  },
+
   created: function created() {
     this.fetchprofiles();
     this.fetchAreas();
@@ -65117,6 +65235,17 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
 
 
   methods: {
+    checkDate: function checkDate(profile) {
+      var date = moment(profile.date_to);
+      var now = moment().valueOf();
+      if (date > now) {
+        this.profile.date_expire = true;
+        return true;
+      } else {
+        this.profile.date_expire = false;
+        return false;
+      }
+    },
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
@@ -65136,7 +65265,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var vm = this;
       //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
       var id = this.area;
-      var perpage = 15;
+      var perpage = 20;
       console.log('Area:' + id);
       fetch('api/profilesbyarea/' + id + '/' + perpage).then(function (res) {
         return res.json();
@@ -65173,29 +65302,48 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
 
       this.pagination = pagination;
     },
-    addprofile: function addprofile() {
+    fetchPaymentsByID: function fetchPaymentsByID(id) {
       var _this4 = this;
 
-      if (this.edit === false) {
-        // Add
-        fetch('api/profile', {
+      var vm = this;
+      var perpage = 20;
+      fetch('api/paymentsbyid/' + id + '/' + perpage).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this4.payments = res.data;
+        console.log(_this4.payments);
+        vm.makePagination(res.meta, res.links);
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+    addpayment: function addpayment() {
+      var _this5 = this;
+
+      if (this.payedit === false) {
+        this.payment.profile_id = this.profile.id;
+        this.payment.date_pay = moment(String(this.payDate)).format('YYYY-MM-DD hh:mm:ss');
+        console.log("test: " + JSON.stringify(this.payment));
+        // Add        
+        fetch('api/newpayment', {
           method: 'post',
-          body: JSON.stringify(this.profile),
+          body: JSON.stringify(this.payment),
           headers: {
             'content-type': 'application/json'
           }
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this4.clearForm();
-          alert('profile Added');
-          _this4.fetchprofiles();
+          //this.clearForm();
+          alert('Payment Added');
+          //this.fetchprofiles();
+          _this5.fetchPaymentsByID(_this5.payment.profile_id);
         }).catch(function (err) {
           return console.log(err);
         });
       } else {
         // Update
-        fetch('api/profile', {
+        fetch('api/updatepayment', {
           method: 'put',
           body: JSON.stringify(this.profile),
           headers: {
@@ -65204,9 +65352,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this4.clearForm();
-          alert('profile Updated');
-          _this4.fetchprofiles();
+          //this.clearForm();
+          alert('Payment Updated');
+          //this.fetchprofiles();
         }).catch(function (err) {
           return console.log(err);
         });
@@ -65217,28 +65365,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       this.profile.id = profile.id;
       this.profile.profile_id = profile.id;
       this.profile.full_name = profile.full_name;
-      /*this.profile.address = profile.address;
-      this.profile.area = profile.area;
       this.profile.loan = profile.loan;
       this.profile.interest = profile.interest;
       this.profile.term = profile.term;
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
-      this.profile.contact = profile.contact;*/
-    },
-    clearForm: function clearForm() {
-      this.edit = false;
-      this.profile.id = null;
-      this.profile.profile_id = null;
-      this.profile.full_name = '';
-      this.profile.address = '';
-      this.profile.area = '';
-      this.profile.loan = '';
-      this.profile.interest = '';
-      this.profile.term = '';
-      this.profile.date_from = '';
-      this.profile.date_to = '';
-      this.profile.contact = '';
+      this.fetchPaymentsByID(profile.id);
     }
   }
 });
@@ -65551,7 +65683,7 @@ var render = function() {
   return _c("div", [
     _c("section", { staticClass: "content" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-9" }, [
+        _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "box" }, [
             _c("div", { staticClass: "box-body" }, [
               _c("h5", { staticClass: "box-title" }, [_vm._v("Filter By:")]),
@@ -65745,25 +65877,19 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("td", [
-                        _c("span", { staticClass: "badge bg-blue" }, [
-                          _vm._v(
-                            " " +
-                              _vm._s(
-                                _vm._f("currency")(
-                                  profile.loan +
-                                    profile.loan *
-                                      (profile.interest / 100) *
-                                      profile.term,
-                                  "P"
-                                )
-                              ) +
-                              " "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm._f("formatDate")(profile.date_to)))
+                        _c(
+                          "span",
+                          {
+                            style: _vm.checkDate(profile)
+                              ? "color: #000;"
+                              : "color: red;"
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm._f("formatDate")(profile.date_to))
+                            )
+                          ]
+                        )
                       ]),
                       _vm._v(" "),
                       _c("td", [
@@ -65778,7 +65904,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Add Pay")]
+                          [_vm._v("View Payment")]
                         )
                       ])
                     ])
@@ -65798,7 +65924,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "box" }, [
             _vm._m(1),
             _vm._v(" "),
@@ -65852,15 +65978,179 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._m(3),
-              _vm._v(" "),
-              _vm._m(4)
+              _c(
+                "form",
+                {
+                  staticClass: "mb-4",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.addpayment($event)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "row", staticStyle: { margin: "1em 0" } },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-sm-4",
+                            attrs: { for: "inputFullName" }
+                          },
+                          [_vm._v("Amount")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-12" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.payment.pay,
+                                expression: "payment.pay"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "amount",
+                              placeholder: "Amount to pay ..."
+                            },
+                            domProps: { value: _vm.payment.pay },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.payment,
+                                  "pay",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "row", staticStyle: { margin: "1em 0" } },
+                    [
+                      _c("div", { staticClass: "input-group date" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-sm-4",
+                            attrs: { for: "inputFullName" }
+                          },
+                          [_vm._v(" Date")]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.payDate,
+                              expression: "payDate"
+                            }
+                          ],
+                          staticClass: "form-control pull-right",
+                          staticStyle: { padding: "0", margin: "0 15px 0 0" },
+                          attrs: { id: "payDate", type: "date" },
+                          domProps: { value: _vm.payDate },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.payDate = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.payDate,
+                              expression: "payDate"
+                            }
+                          ],
+                          attrs: { type: "hidden" },
+                          domProps: { value: _vm.payDate },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.payDate = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm._m(3)
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
-          _vm._m(5)
+          _c("div", { staticClass: "box" }, [
+            _c("div", { staticClass: "box-header" }, [
+              _c("h3", { staticClass: "box-title" }, [
+                _vm._v("Payment History")
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("Balance: "),
+                _c("span", { staticClass: "badge bg-blue" }, [_vm._v("Php ")]),
+                _vm._v(" | Loan: "),
+                _c("span", { staticClass: "badge bg-green" }, [
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm._f("currency")(_vm.profile.loan, "P")) +
+                      " "
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "box-body" }, [
+              _c(
+                "table",
+                { staticClass: "table" },
+                [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _vm._l(_vm.payments, function(payment) {
+                    return _c("tr", { key: payment.id }, [
+                      _c("td", [
+                        _vm._v(_vm._s(_vm._f("currency")(payment.pay, "P")))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm._f("formatDate")(payment.date_pay)))
+                      ])
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
         ])
       ])
     ])
@@ -65884,8 +66174,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Maturity Date")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")])
@@ -65903,54 +66191,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row", staticStyle: { margin: "1em 0" } }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c(
-          "label",
-          {
-            staticClass: "control-label col-sm-4",
-            attrs: { for: "inputFullName" }
-          },
-          [_vm._v("Amount")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-12" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "amount",
-              placeholder: "Amount to pay ..."
-            }
-          })
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row", staticStyle: { margin: "1em 0" } }, [
-      _c("div", { staticClass: "input-group date" }, [
-        _c(
-          "label",
-          {
-            staticClass: "control-label col-sm-4",
-            attrs: { for: "inputFullName" }
-          },
-          [_vm._v(" Date")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-addon" }, [
-          _c("i", { staticClass: "fa fa-calendar" })
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control pull-right",
-          attrs: { type: "text", id: "datepickerpay" }
-        })
-      ])
+    return _c("div", { staticClass: "input-group-addon" }, [
+      _c("i", {
+        staticClass: "fa fa-calendar",
+        staticStyle: { margin: "0 20px 0 5px" }
+      })
     ])
   },
   function() {
@@ -65959,16 +66204,18 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "row col-sm-4", staticStyle: { margin: "0 0 1.5em 0" } },
+      { staticClass: "row col-sm-4", staticStyle: { margin: "0" } },
       [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary btn-block ",
-            attrs: { type: "submit" }
-          },
-          [_vm._v("Save")]
-        )
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block",
+              attrs: { type: "submit", value: "submit" }
+            },
+            [_vm._v("Save")]
+          )
+        ])
       ]
     )
   },
@@ -65976,26 +66223,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box" }, [
-      _c("div", { staticClass: "box-header" }, [
-        _c("h3", { staticClass: "box-title" }, [_vm._v("Payment History")])
-      ]),
+    return _c("tr", [
+      _c("th", [_vm._v("Payment")]),
       _vm._v(" "),
-      _c("div", { staticClass: "box-body" }, [
-        _c("table", { staticClass: "table" }, [
-          _c("tr", [
-            _c("th", [_vm._v("Payment")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Date")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("0")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("---")])
-          ])
-        ])
-      ])
+      _c("th", [_vm._v("Date paid")])
     ])
   }
 ]

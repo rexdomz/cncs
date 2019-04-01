@@ -121,7 +121,7 @@
         <li class="">
         <a href="/home"><i class="fa fa-dashboard"></i> Home</a>
         <a href="/registration"><i class="fa fa-edit"></i> New Registration</a>
-        <a href="/payment"><i class="fa fa-pie-chart"></i> Payments</a>
+        <a href="/user-payment"><i class="fa fa-pie-chart"></i> Payments</a>
         <a href="/registered-users"><i class="fa fa-table"></i>Registered Users</a>
         <a href="/quota"><i class="fa fa-th"></i>Collector's Quota</a> 
         <a href="/area"><i class="fa fa-laptop"></i>Areas</a>
@@ -133,7 +133,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/registration"><i class="fa fa-circle-o"></i> New Registration</a></li>
-            <li><a href="/payment"><i class="fa fa-circle-o"></i> Payment</a></li>
+            <li><a href="/user-payment"><i class="fa fa-circle-o"></i> Payment</a></li>
           </ul>-->
         </li>
         <!--<li class="treeview">
@@ -225,7 +225,7 @@
 <script>
   $(function () {
 
-    $('#datepickerpay').datepicker('setDate', new Date());    
+    $('#datepickerpay').datepicker('setDate', new Date());         
     
     $('#datepicker').datepicker({
       //autoclose: true,
@@ -254,8 +254,8 @@
   */
 
   $('#term').change(function() {
-    $('#myDate').val(new Date());
-    $('#myDate2').val('');
+    $('#myDate').val();
+    $('#myDate2').val('');    
   });
 
   })

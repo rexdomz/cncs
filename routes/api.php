@@ -54,6 +54,19 @@ Route::put('area', 'AreaController@store');
 Route::delete('area/{id}', 'AreaController@destroy');
 
 
+/***Payment Endpoints ***/
+//List payments
+Route::get('payments', 'PaymentController@index');
+
+// List profiles by area
+Route::get('paymentsbyid/{id}/{perpage?}', 'PaymentController@get_payments_by_user');
+
+// Create new payment
+Route::post('newpayment', 'PaymentController@store');
+
+// Update payment
+Route::put('updatepayment', 'PaymentController@store');
+
 Route::fallback(function(){
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact RexDomz'], 404);
