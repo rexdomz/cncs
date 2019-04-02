@@ -35,6 +35,14 @@
   border-bottom: 1px solid #eee;
  }
 
+ select.area {
+    text-transform: none;
+    font-size: 12pt !important;
+    padding: 0 !important;
+    height: 30px !important;
+    margin-left: -12px !important;
+}
+
 </style>
         
 </head>

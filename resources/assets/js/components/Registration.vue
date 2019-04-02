@@ -166,7 +166,7 @@
 export default {
   data() {
     return {   
-      myDate: null,  
+      myDate:   ``,  
       myDate2: null, 
       myDate3: null,
       profiles: [],  
@@ -258,7 +258,7 @@ created() {
       if (!this.profile.date_to) {
         this.errors.push('Invalid end date.');
       }*/
-      console.log(this.errors.length);
+      //console.log(this.errors.length);
       this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm:ss');      
       this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm:ss');
       console.log(JSON.stringify(this.profile));        

@@ -13,7 +13,7 @@
                  
                 <div class="col-md-3">
                   <div>                    
-                    <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="form-control select2">
+                    <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="area form-control select2">
                         <option value="0" selected="selected">Filter by Area</option>        
                         <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
                     </select>
@@ -82,7 +82,7 @@
                         <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Area</label>
                         <div style="margin-bottom: 10px;" class="col-sm-8">
-                            <select v-model="profile.area" id="area" name="area" class="form-control select2" style="width: 100%;">
+                            <select v-model="profile.area" id="area" name="area" class="form-control select2">
                               <option value="0" selected="selected">Select Area ...</option>        
                               <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }}, {{ area.address }}</option>
                           </select>
@@ -260,7 +260,7 @@ export default {
           .then(data => {
             this.clearForm();
             alert('Profile Updated');
-            this.fetchprofiles();
+            //this.fetchprofiles();
           })
           .catch(err => console.log(err));               
       }      
@@ -332,8 +332,8 @@ export default {
       this.profile.loan = profile.loan;
       this.profile.interest = profile.interest;
       this.profile.term = profile.term;
-      this.profile.date_from = profile.date_from;
-      this.profile.date_to = profile.date_to;
+      this.profile.date_from = moment(String(profile.date_from)).format('YYYY-MM-DD'); 
+      this.profile.date_to = moment(String(profile.date_to)).format('YYYY-MM-DD');
       this.profile.contact = profile.contact;              
     },
     clearForm() {

@@ -23,6 +23,15 @@ class AreaController extends Controller
         return AreaResource::collection($areas);    
     }
 
+    public function show($id)
+    {
+        // Get article
+        $area = Area::findOrFail($id);
+
+        // Return single article as a resource
+        return new AreaResource($area);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

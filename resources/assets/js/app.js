@@ -21,6 +21,7 @@ Vue.component('registered-users', require('./components/RegisteredUsers.vue'));
 Vue.component('areas', require('./components/Area.vue'));
 Vue.component('area-list', require('./components/AreaList.vue'));
 Vue.component('payment-list', require('./components/Payment.vue'));
+Vue.component('quota', require('./components/Quota.vue'));
 
 import moment from 'moment'
 

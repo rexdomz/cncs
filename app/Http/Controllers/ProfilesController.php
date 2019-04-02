@@ -28,8 +28,12 @@ class ProfilesController extends Controller
 
     public function get_profiles_by_area($id, $perpage)
     {
-        // Get profiles        
-        $profiles = Profiles::where('area', $id)->orderBy('full_name', 'asc')->paginate($perpage);                
+        // Get profiles    
+        if ( $id > 0 ) {
+            $profiles = Profiles::where('area', $id)->orderBy('full_name', 'asc')->paginate($perpage);
+        } else {            
+            $profiles = Profiles::orderBy('full_name', 'asc')->paginate($perpage);            
+        }
 
         // Return paginated records by area
         return ProfilesResource::collection($profiles);        

@@ -35,7 +35,7 @@
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="/payment" class="small-box-footer">
+                            <a href="/user-payment" class="small-box-footer">
                             View/Add <i class="fa fa-arrow-circle-right"></i>
                             </a>
                         </div>

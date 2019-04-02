@@ -2,6 +2,6 @@
 
 @section('content')
 
-<p>Collector's Quota page </p>
+<quota></quota>
 
 @endsection

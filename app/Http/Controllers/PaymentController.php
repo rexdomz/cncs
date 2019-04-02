@@ -54,5 +54,15 @@ class PaymentController extends Controller
         }
 
     }
+
+    public function destroy($id)
+    {
+        // Get profile
+        $payment = Payments::findOrFail($id);
+
+        if($payment->delete()) {
+            return new PaymentsResource($payment);
+        }                  
+    }
    
 }

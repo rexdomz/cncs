@@ -67,6 +67,10 @@ Route::post('newpayment', 'PaymentController@store');
 // Update payment
 Route::put('updatepayment', 'PaymentController@store');
 
+// Delete payment
+Route::delete('deletepayment/{id}', 'PaymentController@destroy');
+
+
 Route::fallback(function(){
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact RexDomz'], 404);
