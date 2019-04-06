@@ -99,14 +99,15 @@
 
                     </div>
                 </div> <!-- /box -->
-                <div class="box">
+                <div id="PrintArea" class="box">
                     <div class="box-header">
                         <h3 class="box-title">Payment History</h3>
                         <h5><strong> Name: {{ profile.full_name | capitalize }} </strong></h5>
                         <p>                          
-                         <span style="width: 70px;float: left;">Balance: </span><span class="badge bg-blue">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }} </span> <br>
-                         <span style="width: 70px;float: left;">Loan: </span><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span> <br>
-                         <span style="width: 70px;float: left;"> Rate/day: </span><span class="badge bg-green"> {{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</span>
+                         <span style="width: 130px;float: left;">Balance: </span><span class="badge bg-blue">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }} </span> <br>
+                         <span style="width: 130px;float: left;">Principal Loan: </span><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span> <br>
+                         <span style="width: 130px;float: left;">Interest rate: </span><span class="badge bg-green"> {{ profile.interest }}% </span> <br>
+                         <span style="width: 130px;float: left;"> Rate/day: </span><span class="badge bg-green"> {{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</span>
                         </p>
                     </div>
                     <div class="box-body">
@@ -123,9 +124,12 @@
                                 <td><button @click="deletepay(payment.id)" type="button" class="btn btn-block btn-danger btn-xs">remove</button></td>                                
                             </tr>
                             <tr><td><strong> payments: {{ totalAmount | currency('P') }} </strong></td></tr>
-                        </table>
+                        </table>                        
                     </div>
                 </div> <!-- /box -->
+                <div style="margin: 15px 0;" class="row col-sm-3">
+                  <a :href=paymentHref class="btnPrint btn btn-block btn-info btn-xs">Print</a>
+                </div>
             </div>
 
                 <div class="modal modal-info fade" id="modal-info">
@@ -147,17 +151,6 @@
                                   </div>
                               </div>
                           </div>
-
-                          <!--<div style="margin: 1em 0;" class="row">
-                              <div class="input-group date">
-                                  <label for="inputFullName" class="control-label col-sm-4"> Date</label>                                                        
-                                  <div class="input-group-addon">
-                                      <i class="fa fa-calendar" style="margin: 0 20px 0 5px;"></i>
-                                  </div>                                                              
-                                  <input v-model="payDate" id="payDate" type="date" class="form-control pull-right" style="padding: 0;margin: 0 15px 0 0;">
-                                  <input v-model="payDate" type="hidden">                                   
-                              </div>
-                          </div>-->
 
                           <div style="margin: 0;" class="row col-sm-4">
                             <div class="form-group"> 
@@ -182,6 +175,7 @@
 </template>
 
 <script>
+
 //npm install vue2-filters
 import Vue2Filters from 'vue2-filters'
 Vue.use(Vue2Filters)
@@ -248,6 +242,10 @@ export default {
               sum += e.pay;
           });
           return sum
+      },
+      paymentHref () {
+        //console.log(this.profile.id);
+        return "/payment-view/" + this.profile.id;
       }
   },
 
@@ -312,7 +310,9 @@ export default {
 
       this.pagination = pagination;
     },
-
+    printPay(){
+      console.log(this.payments);
+    },
     fetchPaymentsByID(id) {    
         let vm = this;                        
         var perpage = 20;                

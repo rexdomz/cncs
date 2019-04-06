@@ -30,3 +30,7 @@ Route::get('/user-payment', 'HomeController@payment')->name('payment');
 Route::get('/quota', 'HomeController@collector')->name('collector');
 
 Route::get('/area', 'HomeController@area')->name('areas');
+
+//Print
+//Route::get('/print-sample', 'PrintController@index');
+Route::get('/payment-view/{id}', 'PrintController@printPreview');

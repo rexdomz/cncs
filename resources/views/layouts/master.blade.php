@@ -24,6 +24,8 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         -->
+<!--<script src="{{ asset('js/print/jquery.min.js') }}"></script>
+<script src="{{ asset('js/print/jquery.printPage.js') }}"></script>-->
 
 <style>
  td,
@@ -227,10 +229,23 @@
 
 <!-- date-range-picker -->
 <script src="{{ asset('js/moment.min.js') }}"></script>
-<script src="{{ asset('js/daterangepicker.js') }}"></script>
-<script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+<!--<script src="{{ asset('js/daterangepicker.js') }}"></script>
+<script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>-->
 
-<script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.btnPrint').printPage();        
+
+        $('#term').change(function() {
+          $('#myDate').val();
+          $('#myDate2').val('');    
+        });
+
+    });
+
+  /*
   $(function () {
 
     $('#datepickerpay').datepicker('setDate', new Date());         
@@ -242,6 +257,7 @@
         this.dispatchEvent(event);
       }
     });
+    */
  /*
   $('#datepicker').change(function() {
     var date2 = $('#datepicker').datepicker('getDate'); 
@@ -261,12 +277,6 @@
   });
   */
 
-  $('#term').change(function() {
-    $('#myDate').val();
-    $('#myDate2').val('');    
-  });
-
-  })
 </script>
 
 </body>

@@ -7,6 +7,9 @@
 
 require('./bootstrap');
 
+require('../js/print/jquery.min.js'); 
+require('../js/print/jquery.printPage.js'); 
+
 window.Vue = require('vue');
 
 /**
