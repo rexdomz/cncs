@@ -276,7 +276,7 @@ export default {
         let vm = this;        
         //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
         var id = this.area
-        var perpage = 20;
+        var perpage = 25;
         console.log('Area:' + id)
         fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
@@ -315,7 +315,7 @@ export default {
     },
     fetchPaymentsByID(id) {    
         let vm = this;                        
-        var perpage = 20;                
+        var perpage = 60;                
         fetch(`api/paymentsbyid/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
@@ -387,7 +387,8 @@ export default {
       this.profile.term = profile.term;
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
-      this.fetchPaymentsByID(profile.id);        
+      this.fetchPaymentsByID(profile.id); 
+      //this.fetchProfilesByAreas();       
     },
     editpayment(payment) {
       this.payedit = true;

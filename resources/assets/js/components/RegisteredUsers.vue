@@ -50,6 +50,7 @@
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>                        
                         <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs" data-toggle="modal" data-target="#modal-info">Update</button></td>
+                        <td><button @click="deleteProfile(profile.id)" class="btn btn-danger btn-xs">Delete</button></td>
                     </tr>
                 </table>
                 </div>
@@ -260,7 +261,7 @@ export default {
           .then(data => {
             this.clearForm();
             alert('Profile Updated');
-            //this.fetchprofiles();
+            this.fetchProfilesByAreas();
           })
           .catch(err => console.log(err));               
       }      
@@ -309,7 +310,7 @@ export default {
       };
       this.pagination = pagination;
     },
-    deleteprofile(id) {
+    deleteProfile(id) {
       if (confirm('Are You Sure?')) {
         fetch(`api/profile/${id}`, {
           method: 'delete'
@@ -317,7 +318,8 @@ export default {
           .then(res => res.json())
           .then(data => {
             alert('profile Removed');
-            this.fetchprofiles();
+            //this.fetchprofiles();
+            this.fetchProfilesByAreas();
           })
           .catch(err => console.log(err));
       }
