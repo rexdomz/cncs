@@ -64509,7 +64509,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         per_page: meta.per_page,
         total: meta.total
       };
-
       this.pagination = pagination;
     },
     addprofile: function addprofile() {
@@ -64537,6 +64536,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!this.profile.date_to) {
         this.errors.push('Invalid end date.');
       }*/
+      if (!this.profile.contact) {
+        this.errors.push('Contact number required.');
+      }
       //console.log(this.errors.length);
       this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm:ss');
       this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm:ss');
@@ -67855,14 +67857,39 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
   },
 
   methods: {
-    fetchAreas: function fetchAreas(page_url) {
+    fetchprofiles: function fetchprofiles(page_url) {
       var _this = this;
+
+      var vm = this;
+      page_url = page_url || 'api/profiles';
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.profiles = res.data;
+        vm.makePagination(res.meta, res.links);
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev,
+        per_page: meta.per_page,
+        total: meta.total
+      };
+      this.pagination = pagination;
+    },
+    fetchAreas: function fetchAreas(page_url) {
+      var _this2 = this;
 
       page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.areas = res.data;
+        _this2.areas = res.data;
       }).catch(function (err) {
         return console.log(err);
       });
@@ -67879,7 +67906,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       }
     },
     fetchProfilesByAreas: function fetchProfilesByAreas() {
-      var _this2 = this;
+      var _this3 = this;
 
       var vm = this;
       var id = this.area;
@@ -67888,37 +67915,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       fetch('api/profilesbyarea/' + id + '/' + perpage).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this2.profiles = res.data;
-        vm.makePagination(res.meta, res.links);
-      }).catch(function (err) {
-        return console.log(err);
-      });
-    },
-    fetchprofiles: function fetchprofiles(page_url) {
-      var _this3 = this;
-
-      var vm = this;
-      page_url = page_url || 'api/profiles';
-      fetch(page_url).then(function (res) {
-        return res.json();
-      }).then(function (res) {
         _this3.profiles = res.data;
         vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
       });
-    },
-    makePagination: function makePagination(meta, links) {
-      var pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev,
-        per_page: meta.per_page,
-        total: meta.total
-      };
-
-      this.pagination = pagination;
     },
     printPay: function printPay() {
       console.log(this.payments);

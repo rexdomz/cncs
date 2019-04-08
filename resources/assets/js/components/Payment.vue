@@ -249,6 +249,28 @@ export default {
   },
 
   methods: {
+    fetchprofiles(page_url) {
+      let vm = this;
+      page_url = page_url || 'api/profiles';
+      fetch(page_url)
+        .then(res => res.json())
+        .then(res => {
+          this.profiles = res.data;
+          vm.makePagination(res.meta, res.links);
+        })
+        .catch(err => console.log(err));
+    },
+    makePagination(meta, links) {
+      let pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev,
+        per_page: meta.per_page,
+        total: meta.total
+      };
+      this.pagination = pagination;
+    },
     fetchAreas(page_url) {            
         page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
         fetch(page_url)
@@ -281,30 +303,6 @@ export default {
             vm.makePagination(res.meta, res.links);
           })
           .catch(err => console.log(err));        
-    },
-    fetchprofiles(page_url) {
-      let vm = this;
-      page_url = page_url || 'api/profiles';
-      fetch(page_url)
-        .then(res => res.json())
-        .then(res => {
-          this.profiles = res.data;          
-          vm.makePagination(res.meta, res.links);
-        })
-        .catch(err => console.log(err));        
-    },
-
-    makePagination(meta, links) {
-      let pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev,
-        per_page: meta.per_page,
-        total: meta.total
-      };
-
-      this.pagination = pagination;
     },
     printPay(){
       console.log(this.payments);
