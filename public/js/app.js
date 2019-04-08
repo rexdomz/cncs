@@ -67869,7 +67869,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
-      page_url = page_url || 'api/areas';
+      page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
