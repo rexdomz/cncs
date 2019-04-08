@@ -251,8 +251,8 @@ export default {
   methods: {
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'api/profiles';
-      fetch(page_url)
+      //page_url = page_url || 'api/profiles';
+      fetch('api/profiles')
         .then(res => res.json())
         .then(res => {
           this.profiles = res.data;
@@ -272,8 +272,8 @@ export default {
       this.pagination = pagination;
     },
     fetchAreas(page_url) {            
-        page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
-        fetch(page_url)
+        //page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
+        fetch('api/areas')
             .then(res => res.json())
             .then(res => {
             this.areas = res.data;            
