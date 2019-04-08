@@ -267,7 +267,7 @@ export default {
       }      
     },
     fetchAreas(page_url) {            
-        page_url = page_url || 'api/areas';
+        page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {

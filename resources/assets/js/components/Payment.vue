@@ -243,8 +243,7 @@ export default {
           });
           return sum
       },
-      paymentHref () {
-        //console.log(this.profile.id);
+      paymentHref () {        
         return "/payment-view/" + this.profile.id;
       }
   },
