@@ -278,8 +278,7 @@ export default {
     fetchProfilesByAreas() {    
         let vm = this;                
         var id = this.area
-        var perpage = 25;
-        //console.log('Area:' + id)
+        var perpage = 25;        
         fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {

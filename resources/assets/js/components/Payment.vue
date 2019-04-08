@@ -261,20 +261,17 @@ export default {
         return false;
       }        
     },
-
     fetchAreas(page_url) {            
         page_url = page_url || 'api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {
-            this.areas = res.data;        
-            console.log(this.area)    
+            this.areas = res.data;            
             })
             .catch(err => console.log(err));
-    },
+    },    
     fetchProfilesByAreas() {    
-        let vm = this;        
-        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
+        let vm = this;                
         var id = this.area
         var perpage = 25;
         console.log('Area:' + id)
