@@ -135,7 +135,7 @@ export default {
 
     fetchAreas(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -159,7 +159,7 @@ export default {
 
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
