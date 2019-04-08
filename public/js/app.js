@@ -67855,17 +67855,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
   },
 
   methods: {
-    checkDate: function checkDate(profile) {
-      var date = moment(profile.date_to);
-      var now = moment().valueOf();
-      if (date > now) {
-        this.profile.date_expire = true;
-        return true;
-      } else {
-        this.profile.date_expire = false;
-        return false;
-      }
-    },
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
@@ -67877,6 +67866,17 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       }).catch(function (err) {
         return console.log(err);
       });
+    },
+    checkDate: function checkDate(profile) {
+      var date = moment(profile.date_to);
+      var now = moment().valueOf();
+      if (date > now) {
+        this.profile.date_expire = true;
+        return true;
+      } else {
+        this.profile.date_expire = false;
+        return false;
+      }
     },
     fetchProfilesByAreas: function fetchProfilesByAreas() {
       var _this2 = this;

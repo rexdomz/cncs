@@ -249,17 +249,6 @@ export default {
   },
 
   methods: {
-    checkDate(profile) {
-      var date = moment(profile.date_to)
-      var now = moment().valueOf();
-      if (date > now) {
-        this.profile.date_expire = true;     
-        return true;   
-      } else {
-        this.profile.date_expire = false;        
-        return false;
-      }        
-    },
     fetchAreas(page_url) {            
         page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
         fetch(page_url)
@@ -268,7 +257,18 @@ export default {
             this.areas = res.data;            
             })
             .catch(err => console.log(err));
-    },    
+    },  
+    checkDate(profile) {
+      var date = moment(profile.date_to);
+      var now = moment().valueOf();
+      if (date > now) {
+        this.profile.date_expire = true;     
+        return true;   
+      } else {
+        this.profile.date_expire = false;        
+        return false;
+      }        
+    },      
     fetchProfilesByAreas() {    
         let vm = this;                
         var id = this.area
