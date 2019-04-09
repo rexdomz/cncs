@@ -243,8 +243,7 @@ export default {
           });
           return sum
       },
-      paymentHref () {
-        //console.log(this.profile.id);
+      paymentHref () {        
         return "/payment-view/" + this.profile.id;
       }
   },
@@ -273,11 +272,9 @@ export default {
             .catch(err => console.log(err));
     },
     fetchProfilesByAreas() {    
-        let vm = this;        
-        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
+        let vm = this;                
         var id = this.area
-        var perpage = 25;
-        console.log('Area:' + id)
+        var perpage = 25;        
         fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
@@ -371,7 +368,7 @@ export default {
         })
           .then(res => res.json())
           .then(data => {
-            alert('profile Removed');
+            alert('payment Removed');
             this.fetchPaymentsByID(this.payment.profile_id);
           })
           .catch(err => console.log(err));
@@ -387,8 +384,7 @@ export default {
       this.profile.term = profile.term;
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
-      this.fetchPaymentsByID(profile.id); 
-      //this.fetchProfilesByAreas();       
+      this.fetchPaymentsByID(profile.id);             
     },
     editpayment(payment) {
       this.payedit = true;
@@ -401,8 +397,7 @@ export default {
     clearForm() {
       this.payedit = false;
       this.payment.id = null;
-      this.payment.pay_id = null;
-      //this.payment.profile_id = payment.profile_id; 
+      this.payment.pay_id = null;      
       this.payment.pay = '';
       this.payment.date_pay = new Date().toISOString().slice(0,10);
     }

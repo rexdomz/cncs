@@ -64531,6 +64531,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!this.profile.term) {
         this.errors.push('Term required.');
       }
+      if (!this.profile.contact) {
+        this.errors.push('Contact information required.');
+      }
       /*if (!this.profile.date_from) {
         this.errors.push('Invalid start date.');
       }
@@ -67851,7 +67854,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       return sum;
     },
     paymentHref: function paymentHref() {
-      //console.log(this.profile.id);
       return "/payment-view/" + this.profile.id;
     }
   },
@@ -67885,10 +67887,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this2 = this;
 
       var vm = this;
-      //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
       var id = this.area;
       var perpage = 25;
-      console.log('Area:' + id);
       fetch('api/profilesbyarea/' + id + '/' + perpage).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -67993,7 +67993,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          alert('profile Removed');
+          alert('payment Removed');
           _this6.fetchPaymentsByID(_this6.payment.profile_id);
         }).catch(function (err) {
           return console.log(err);
@@ -68011,7 +68011,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
       this.fetchPaymentsByID(profile.id);
-      //this.fetchProfilesByAreas();       
     },
     editpayment: function editpayment(payment) {
       this.payedit = true;
@@ -68025,7 +68024,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       this.payedit = false;
       this.payment.id = null;
       this.payment.pay_id = null;
-      //this.payment.profile_id = payment.profile_id; 
       this.payment.pay = '';
       this.payment.date_pay = new Date().toISOString().slice(0, 10);
     }

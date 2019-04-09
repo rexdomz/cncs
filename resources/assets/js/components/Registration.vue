@@ -252,6 +252,9 @@ created() {
       if (!this.profile.term) {
         this.errors.push('Term required.');
       }
+      if (!this.profile.contact) {
+        this.errors.push('Contact information required.');
+      }
       /*if (!this.profile.date_from) {
         this.errors.push('Invalid start date.');
       }
