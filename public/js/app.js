@@ -67873,12 +67873,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
-      page_url = page_url || 'api/areas';
-      fetch(page_url).then(function (res) {
+      //page_url = page_url || 'api/areas';
+      fetch('api/areas').then(function (res) {
         return res.json();
       }).then(function (res) {
         _this.areas = res.data;
-        console.log(_this.area);
+        console.log("areas:" + _this.areas);
       }).catch(function (err) {
         return console.log(err);
       });

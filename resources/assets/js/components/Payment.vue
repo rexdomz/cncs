@@ -262,12 +262,12 @@ export default {
     },
 
     fetchAreas(page_url) {            
-        page_url = page_url || 'api/areas';
-        fetch(page_url)
+        //page_url = page_url || 'api/areas';
+        fetch(`api/areas`)
             .then(res => res.json())
             .then(res => {
             this.areas = res.data;        
-            console.log(this.area)    
+            console.log("areas:"+ this.areas)    
             })
             .catch(err => console.log(err));
     },
