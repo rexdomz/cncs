@@ -159,7 +159,7 @@ export default {
   methods: {
     fetchareas(page_url) {
       let vm = this;
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {

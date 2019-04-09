@@ -63925,7 +63925,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -63951,7 +63951,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -64490,7 +64490,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -64564,7 +64564,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchAreas: function fetchAreas(page_url) {
       var _this3 = this;
 
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -65515,6 +65515,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -65607,7 +65611,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchAreas: function fetchAreas(page_url) {
       var _this2 = this;
 
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -65636,7 +65640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -65884,6 +65888,21 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("currency")(
+                              profile.loan *
+                                (profile.interest / 100) *
+                                profile.term,
+                              "P"
+                            )
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c("td", [
                         _c("span", { staticClass: "badge bg-blue" }, [
                           _vm._v(
@@ -65902,7 +65921,20 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("currency")(
+                              (profile.loan +
+                                profile.loan *
+                                  (profile.interest / 100) *
+                                  profile.term) /
+                                (profile.term * 30),
+                              "P"
+                            )
+                          )
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
                       _vm._v(" "),
@@ -66545,23 +66577,27 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "235px" } }, [_vm._v("Full Name")]),
+      _c("th", [_vm._v("Full Name")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "420px" } }, [_vm._v("Address")]),
+      _c("th", [_vm._v("Address")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "180px" } }, [_vm._v("Loan Amount")]),
+      _c("th", [_vm._v("Principal Loan")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
+      _c("th", [_vm._v("Rate")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Interest")]),
+      _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "155px" } }, [_vm._v("Term")]),
+      _c("th", [_vm._v("Amount Loan")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "200px" } }, [_vm._v("Contact")]),
+      _c("th", [_vm._v("Rate/Day")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "80px" } }, [_vm._v("Action")]),
+      _c("th", [_vm._v("Term")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "80px" } })
+      _c("th", [_vm._v("Contact")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")]),
+      _vm._v(" "),
+      _c("th")
     ])
   },
   function() {
@@ -66856,7 +66892,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -67495,7 +67531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchAreas: function fetchAreas(page_url) {
             var _this = this;
 
-            page_url = page_url || 'http://cn.com/api/areas';
+            page_url = page_url || 'api/areas';
             fetch(page_url).then(function (res) {
                 return res.json();
             }).then(function (res) {
@@ -67871,7 +67907,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -67902,7 +67938,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this3 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -69409,7 +69445,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchAreas: function fetchAreas(page_url) {
       var _this2 = this;
 
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -69437,7 +69473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
