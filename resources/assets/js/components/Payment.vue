@@ -243,45 +243,15 @@ export default {
           });
           return sum
       },
-      paymentHref () {        
+      paymentHref () {
+        //console.log(this.profile.id);
         return "/payment-view/" + this.profile.id;
       }
   },
 
   methods: {
-    fetchprofiles(page_url) {
-      let vm = this;
-      //page_url = page_url || 'api/profiles';
-      fetch('api/profiles')
-        .then(res => res.json())
-        .then(res => {
-          this.profiles = res.data;
-          vm.makePagination(res.meta, res.links);
-        })
-        .catch(err => console.log(err));
-    },
-    makePagination(meta, links) {
-      let pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev,
-        per_page: meta.per_page,
-        total: meta.total
-      };
-      this.pagination = pagination;
-    },
-    fetchAreas(page_url) {            
-        //page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
-        fetch('api/areas')
-            .then(res => res.json())
-            .then(res => {
-            this.areas = res.data;            
-            })
-            .catch(err => console.log(err));
-    },  
     checkDate(profile) {
-      var date = moment(profile.date_to);
+      var date = moment(profile.date_to)
       var now = moment().valueOf();
       if (date > now) {
         this.profile.date_expire = true;     
@@ -290,9 +260,21 @@ export default {
         this.profile.date_expire = false;        
         return false;
       }        
-    },      
+    },
+
+    fetchAreas(page_url) {            
+        page_url = page_url || 'api/areas';
+        fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+            this.areas = res.data;        
+            console.log(this.area)    
+            })
+            .catch(err => console.log(err));
+    },
     fetchProfilesByAreas() {    
-        let vm = this;                
+        let vm = this;        
+        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
         var id = this.area
         var perpage = 25;
         console.log('Area:' + id)
@@ -303,6 +285,30 @@ export default {
             vm.makePagination(res.meta, res.links);
           })
           .catch(err => console.log(err));        
+    },
+    fetchprofiles(page_url) {
+      let vm = this;
+      page_url = page_url || 'api/profiles';
+      fetch(page_url)
+        .then(res => res.json())
+        .then(res => {
+          this.profiles = res.data;          
+          vm.makePagination(res.meta, res.links);
+        })
+        .catch(err => console.log(err));        
+    },
+
+    makePagination(meta, links) {
+      let pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev,
+        per_page: meta.per_page,
+        total: meta.total
+      };
+
+      this.pagination = pagination;
     },
     printPay(){
       console.log(this.payments);

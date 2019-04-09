@@ -267,7 +267,7 @@ export default {
       }      
     },
     fetchAreas(page_url) {            
-        page_url = page_url || 'http://lendapp.ewebmo.com/api/areas';
+        page_url = page_url || 'api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {
@@ -278,7 +278,8 @@ export default {
     fetchProfilesByAreas() {    
         let vm = this;                
         var id = this.area
-        var perpage = 25;        
+        var perpage = 25;
+        //console.log('Area:' + id)
         fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {

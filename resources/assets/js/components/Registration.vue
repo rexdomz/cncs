@@ -232,6 +232,7 @@ created() {
         per_page: meta.per_page,
         total: meta.total
       };
+
       this.pagination = pagination;
     },
     addprofile() {
@@ -257,9 +258,6 @@ created() {
       if (!this.profile.date_to) {
         this.errors.push('Invalid end date.');
       }*/
-      if (!this.profile.contact) {
-        this.errors.push('Contact number required.');
-      }
       //console.log(this.errors.length);
       this.profile.date_from = moment(String(this.myDate3)).format('YYYY-MM-DD hh:mm:ss');      
       this.profile.date_to = moment(String(this.myDate2)).format('YYYY-MM-DD hh:mm:ss');
