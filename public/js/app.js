@@ -64519,6 +64519,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!this.profile.full_name) {
         this.errors.push('Full name required.');
       }
+      if (!this.profile.address) {
+        this.errors.push('Address required.');
+      }
       if (!this.profile.area) {
         this.errors.push('Area required.');
       }
@@ -64530,6 +64533,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       if (!this.profile.term) {
         this.errors.push('Term required.');
+      }
+      if (!this.profile.contact) {
+        this.errors.push('Contact information required.');
       }
       /*if (!this.profile.date_from) {
         this.errors.push('Invalid start date.');
@@ -68606,14 +68612,6 @@ var render = function() {
                 2
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "box-footer" }, [
-            _vm._v(
-              "\n                  Showing (" +
-                _vm._s(_vm.pagination.total) +
-                ") records...\n              "
-            )
           ])
         ]),
         _vm._v(" "),

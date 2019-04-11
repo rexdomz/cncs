@@ -240,6 +240,9 @@ created() {
       if (!this.profile.full_name) {
         this.errors.push('Full name required.');
       }
+      if (!this.profile.address) {
+        this.errors.push('Address required.');
+      }
       if (!this.profile.area) {
         this.errors.push('Area required.');
       }
@@ -251,6 +254,9 @@ created() {
       }
       if (!this.profile.term) {
         this.errors.push('Term required.');
+      }
+      if (!this.profile.contact) {
+        this.errors.push('Contact information required.');
       }
       /*if (!this.profile.date_from) {
         this.errors.push('Invalid start date.');

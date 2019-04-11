@@ -49,9 +49,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="box-footer">
+                <!--<div class="box-footer">
                     Showing ({{ pagination.total }}) records...
-                </div>
+                </div>-->
             </div>
 
             <div class="col-md-4">
