@@ -64519,6 +64519,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!this.profile.full_name) {
         this.errors.push('Full name required.');
       }
+      if (!this.profile.address) {
+        this.errors.push('Address required.');
+      }
       if (!this.profile.area) {
         this.errors.push('Area required.');
       }
@@ -65518,6 +65521,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -65887,6 +65894,21 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("currency")(
+                              profile.loan *
+                                (profile.interest / 100) *
+                                profile.term,
+                              "P"
+                            )
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c("td", [
                         _c("span", { staticClass: "badge bg-blue" }, [
                           _vm._v(
@@ -65905,7 +65927,20 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("currency")(
+                              (profile.loan +
+                                profile.loan *
+                                  (profile.interest / 100) *
+                                  profile.term) /
+                                (profile.term * 30),
+                              "P"
+                            )
+                          )
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
                       _vm._v(" "),
@@ -66548,23 +66583,27 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "235px" } }, [_vm._v("Full Name")]),
+      _c("th", [_vm._v("Full Name")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "420px" } }, [_vm._v("Address")]),
+      _c("th", [_vm._v("Address")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "180px" } }, [_vm._v("Loan Amount")]),
+      _c("th", [_vm._v("Principal Loan")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
+      _c("th", [_vm._v("Rate")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Interest")]),
+      _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "155px" } }, [_vm._v("Term")]),
+      _c("th", [_vm._v("Amount Loan")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "200px" } }, [_vm._v("Contact")]),
+      _c("th", [_vm._v("Rate/Day")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "80px" } }, [_vm._v("Action")]),
+      _c("th", [_vm._v("Term")]),
       _vm._v(" "),
-      _c("th", { staticStyle: { width: "80px" } })
+      _c("th", [_vm._v("Contact")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")]),
+      _vm._v(" "),
+      _c("th")
     ])
   },
   function() {
@@ -67854,6 +67893,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       return sum;
     },
     paymentHref: function paymentHref() {
+      //console.log(this.profile.id);
       return "/payment-view/" + this.profile.id;
     }
   },
@@ -67873,12 +67913,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
-      //page_url = page_url || 'api/areas';
-      fetch('api/areas').then(function (res) {
+      page_url = page_url || 'api/areas';
+      fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
         _this.areas = res.data;
-        console.log("areas:" + _this.areas);
+        console.log(_this.area);
       }).catch(function (err) {
         return console.log(err);
       });
@@ -67887,8 +67927,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this2 = this;
 
       var vm = this;
+      //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
       var id = this.area;
       var perpage = 25;
+      console.log('Area:' + id);
       fetch('api/profilesbyarea/' + id + '/' + perpage).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -67936,8 +67978,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         return res.json();
       }).then(function (res) {
         _this4.payments = res.data;
-        console.log(_this4.payments);
-        vm.makePagination(res.meta, res.links);
+        //console.log(this.payments);
+        //vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
       });
@@ -67993,7 +68035,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          alert('payment Removed');
+          alert('profile Removed');
           _this6.fetchPaymentsByID(_this6.payment.profile_id);
         }).catch(function (err) {
           return console.log(err);
@@ -68011,6 +68053,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
       this.fetchPaymentsByID(profile.id);
+      //this.fetchProfilesByAreas();       
     },
     editpayment: function editpayment(payment) {
       this.payedit = true;
@@ -68024,6 +68067,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       this.payedit = false;
       this.payment.id = null;
       this.payment.pay_id = null;
+      //this.payment.profile_id = payment.profile_id; 
       this.payment.pay = '';
       this.payment.date_pay = new Date().toISOString().slice(0, 10);
     }
@@ -68568,14 +68612,6 @@ var render = function() {
                 2
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "box-footer" }, [
-            _vm._v(
-              "\n                  Showing (" +
-                _vm._s(_vm.pagination.total) +
-                ") records...\n              "
-            )
           ])
         ]),
         _vm._v(" "),
