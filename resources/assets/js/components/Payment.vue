@@ -224,15 +224,16 @@ export default {
     };
   },
 
+  created() {
+    this.fetchprofiles();
+    this.fetchAreas();
+    this.fetchAreasPay();
+  },
+
   filters: {
     formatDate(value) {                
       return moment(String(value)).format('D MMM YYYY');      
     }
-  },
-
-  created() {
-    this.fetchprofiles();
-    this.fetchAreas();
   },
 
   computed: {
@@ -261,7 +262,14 @@ export default {
         return false;
       }        
     },
-
+    fetchAreasPay() {
+      fetch(`api/areas`)
+      .then(res => res.json())
+            .then(res => {
+            this.areas = res.data;            
+            })
+            .catch(err => console.log(err));
+    }
     fetchAreas(page_url) {            
         page_url = page_url || 'api/areas';
         fetch(page_url)
@@ -273,8 +281,7 @@ export default {
             .catch(err => console.log(err));
     },
     fetchProfilesByAreas() {    
-        let vm = this;        
-        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
+        let vm = this;                
         var id = this.area
         var perpage = 25;
         console.log('Area:' + id)
