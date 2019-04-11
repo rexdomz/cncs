@@ -269,7 +269,7 @@ export default {
             this.areas = res.data;            
             })
             .catch(err => console.log(err));
-    }
+    },
     fetchAreas(page_url) {            
         page_url = page_url || 'api/areas';
         fetch(page_url)
