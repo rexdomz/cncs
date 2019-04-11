@@ -67871,7 +67871,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     fetchAreas: function fetchAreas(page_url) {
       var _this = this;
 
-      page_url = page_url || 'http://cn.com/api/areas';
+      page_url = page_url || 'api/areas';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -67902,7 +67902,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this3 = this;
 
       var vm = this;
-      page_url = page_url || 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
