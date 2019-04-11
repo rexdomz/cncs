@@ -31,22 +31,26 @@
                <table style="margin-top: 1.5em; float: left" class="table">
                     <tr>
                     <!--<th style="width: 100px">Record ID </th>-->
-                    <th style="width: 235px">Full Name</th>
-                    <th style="width: 420px">Address</th>
-                    <th style="width: 180px">Loan Amount</th>
-                    <th>Balance</th> 
-                    <th style="width: 100px">Interest</th>
-                    <th style="width: 155px">Term</th>
-                    <th style="width: 200px">Contact</th>                    
-                    <th style="width: 80px">Action</th>   
-                    <th style="width: 80px"></th> 
+                    <th >Full Name</th>
+                    <th >Address</th>
+                    <th >Principal Loan</th>
+                    <th >Rate</th>
+                    <th >Interest</th>
+                    <th>Amount Loan</th>  
+                    <th>Rate/Day</th>                   
+                    <th >Term</th>
+                    <th >Contact</th>                    
+                    <th >Action</th>   
+                    <th ></th> 
                     </tr>
                     <tr v-for="profile in profiles" v-bind:key="profile.id">                        
                         <td>{{ profile.full_name }}</td>
                         <td>{{ profile.address }}</td>
                         <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>
-                        <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
                         <td>{{ profile.interest }}%</td>
+                        <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>
+                        <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
+                        <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>                        
                         <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs" data-toggle="modal" data-target="#modal-info">Update</button></td>

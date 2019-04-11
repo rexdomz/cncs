@@ -49,9 +49,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="box-footer">
+                <!--<div class="box-footer">
                     Showing ({{ pagination.total }}) records...
-                </div>
+                </div>-->
             </div>
 
             <div class="col-md-4">
@@ -243,7 +243,8 @@ export default {
           });
           return sum
       },
-      paymentHref () {        
+      paymentHref () {
+        //console.log(this.profile.id);
         return "/payment-view/" + this.profile.id;
       }
   },
@@ -262,19 +263,21 @@ export default {
     },
 
     fetchAreas(page_url) {            
-        //page_url = page_url || 'api/areas';
-        fetch(`api/areas`)
+        page_url = page_url || 'api/areas';
+        fetch(page_url)
             .then(res => res.json())
             .then(res => {
             this.areas = res.data;        
-            console.log("areas:"+ this.areas)    
+            console.log(this.area)    
             })
             .catch(err => console.log(err));
     },
     fetchProfilesByAreas() {    
-        let vm = this;                
+        let vm = this;        
+        //page_url = page_url || 'http://cncs.com/api/profilesbyarea/${id}';
         var id = this.area
-        var perpage = 25;        
+        var perpage = 25;
+        console.log('Area:' + id)
         fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
@@ -317,8 +320,8 @@ export default {
           .then(res => res.json())
           .then(res => {
             this.payments = res.data;
-            console.log(this.payments);
-            vm.makePagination(res.meta, res.links);
+            //console.log(this.payments);
+            //vm.makePagination(res.meta, res.links);
           })
           .catch(err => console.log(err));                  
     },
@@ -368,7 +371,7 @@ export default {
         })
           .then(res => res.json())
           .then(data => {
-            alert('payment Removed');
+            alert('profile Removed');
             this.fetchPaymentsByID(this.payment.profile_id);
           })
           .catch(err => console.log(err));
@@ -384,7 +387,8 @@ export default {
       this.profile.term = profile.term;
       this.profile.date_from = profile.date_from;
       this.profile.date_to = profile.date_to;
-      this.fetchPaymentsByID(profile.id);             
+      this.fetchPaymentsByID(profile.id); 
+      //this.fetchProfilesByAreas();       
     },
     editpayment(payment) {
       this.payedit = true;
@@ -397,7 +401,8 @@ export default {
     clearForm() {
       this.payedit = false;
       this.payment.id = null;
-      this.payment.pay_id = null;      
+      this.payment.pay_id = null;
+      //this.payment.profile_id = payment.profile_id; 
       this.payment.pay = '';
       this.payment.date_pay = new Date().toISOString().slice(0,10);
     }

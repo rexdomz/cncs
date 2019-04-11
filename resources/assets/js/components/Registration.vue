@@ -240,6 +240,9 @@ created() {
       if (!this.profile.full_name) {
         this.errors.push('Full name required.');
       }
+      if (!this.profile.address) {
+        this.errors.push('Address required.');
+      }
       if (!this.profile.area) {
         this.errors.push('Area required.');
       }
