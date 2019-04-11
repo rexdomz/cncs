@@ -320,8 +320,8 @@ export default {
           .then(res => res.json())
           .then(res => {
             this.payments = res.data;
-            console.log(this.payments);
-            vm.makePagination(res.meta, res.links);
+            //console.log(this.payments);
+            //vm.makePagination(res.meta, res.links);
           })
           .catch(err => console.log(err));                  
     },

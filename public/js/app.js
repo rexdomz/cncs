@@ -67978,8 +67978,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         return res.json();
       }).then(function (res) {
         _this4.payments = res.data;
-        console.log(_this4.payments);
-        vm.makePagination(res.meta, res.links);
+        //console.log(this.payments);
+        //vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
       });
