@@ -27,17 +27,18 @@
                             <tr>                                
                                 <th>Full Name</th>                            
                                 <th>Loan Amount</th>
-                                <th>Interest Rate</th>                                
+                                <th>Balance</th>
+                                <th>Interest(%)</th>                                
                                 <th>Term</th>
-                                <th>Interest</th>
-                                <th>Rate/day</th>
-                                <!--<th>Balance</th>-->                            
+                                <th>Interest(Php)</th>
+                                <th>Rate/day</th>                                
                                 <th>Maturity Date</th>                                               
                                 <th>Action</th>                              
                             </tr>
                             <tr v-for="profile in profiles" v-bind:key="profile.id">                                                    
-                                <td>{{ profile.full_name }}</td>
-                                <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>                                                                
+                                <td>{{ profile.full_name }}</td>                                                                                           
+                                <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
+                                <td><span class="badge bg-red">{{ ( ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) ) - profile.totalpay | currency('P') }}</span></td>
                                 <td>{{ profile.interest }}%</td>
                                 <td>{{ profile.term }} month(s)</td>
                                 <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>                                

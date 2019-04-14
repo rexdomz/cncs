@@ -66587,7 +66587,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Address")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Loan Amount")]),
+      _c("th", [_vm._v("Principal Loan")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate")]),
       _vm._v(" "),
@@ -67823,6 +67823,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 //npm install vue2-filters
@@ -68534,11 +68535,37 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(profile.full_name))]),
                       _vm._v(" "),
                       _c("td", [
-                        _c("span", { staticClass: "badge bg-green" }, [
+                        _c("span", { staticClass: "badge bg-blue" }, [
                           _vm._v(
                             " " +
-                              _vm._s(_vm._f("currency")(profile.loan, "P")) +
+                              _vm._s(
+                                _vm._f("currency")(
+                                  profile.loan +
+                                    profile.loan *
+                                      (profile.interest / 100) *
+                                      profile.term,
+                                  "P"
+                                )
+                              ) +
                               " "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticClass: "badge bg-red" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("currency")(
+                                profile.loan +
+                                  profile.loan *
+                                    (profile.interest / 100) *
+                                    profile.term -
+                                  _vm.totalAmount -
+                                  profile.totalpay,
+                                "P"
+                              )
+                            )
                           )
                         ])
                       ]),
@@ -69071,11 +69098,13 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Loan Amount")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Interest Rate")]),
+      _c("th", [_vm._v("Balance")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Interest(%)")]),
       _vm._v(" "),
       _c("th", [_vm._v("Term")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Interest")]),
+      _c("th", [_vm._v("Interest(Php)")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
       _vm._v(" "),
@@ -69898,9 +69927,9 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("Full Name")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Loan Amount")]),
+      _c("th", [_vm._v("Principal Loan")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Total Loan")]),
+      _c("th", [_vm._v("Loan Amount")]),
       _vm._v(" "),
       _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
