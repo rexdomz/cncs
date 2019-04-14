@@ -36,7 +36,7 @@
                     <th >Principal Loan</th>
                     <th >Rate</th>
                     <th >Interest</th>
-                    <th>Total Loan</th>  
+                    <th>Loan Amount</th>  
                     <th>Rate/Day</th>                   
                     <th >Term</th>
                     <th >Contact</th>                    

@@ -21,16 +21,16 @@
                             <li v-bind:class="[{disabled: !pagination.next_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchprofiles(pagination.next_page_url)">Next</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <table style="margin-top: 1.5em; float: left" class="table">
                             <tr>                    
                             <th>Full Name</th>                    
                             <th>Principal Loan</th>
                             <th>Loan Amount</th> 
                             <th>Balance</th>                            
-                            <th>Interest</th>
-                            <th>Term</th>
-                            
+                            <th>Interest(%)</th>
+                            <th>Interest(Php)
+                            <th>Term</th>                            
                             <th>Rate/day</th>
                             <th>Rate/Week</th>
                             </tr>
@@ -40,6 +40,7 @@
                                 <td><span class="badge bg-blue">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }}</span></td>
                                 <td><span class="badge bg-red">{{ ( ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) ) - profile.totalpay | currency('P') }}</span></td>
                                 <td>{{ profile.interest }}%</td>
+                                <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>
                                 <td>{{ profile.term }} month(s)</td>
                                 
                                 <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
@@ -47,7 +48,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div><p>Filter by Area:                    
                             <select @change="fetchProfilesByAreas()" v-model="area" id="area" name="area" class="form-control select2" style="height: 30px !important; width: 50%; margin: 10px 0 5px 0;">
                                 <option value="0" selected="selected">Default (all area)</option>        

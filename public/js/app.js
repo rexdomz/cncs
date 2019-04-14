@@ -66593,7 +66593,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Total Loan")]),
+      _c("th", [_vm._v("Loan Amount")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/Day")]),
       _vm._v(" "),
@@ -67824,6 +67824,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 //npm install vue2-filters
@@ -68552,17 +68554,15 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
-                      _vm._v(" "),
                       _c("td", [
                         _vm._v(
                           _vm._s(
                             _vm._f("currency")(
-                              profile.loan *
-                                (profile.interest / 100) *
-                                profile.term,
+                              (profile.loan +
+                                profile.loan *
+                                  (profile.interest / 100) *
+                                  profile.term) /
+                                (profile.term * 30),
                               "P"
                             )
                           )
@@ -68573,11 +68573,12 @@ var render = function() {
                         _vm._v(
                           _vm._s(
                             _vm._f("currency")(
-                              (profile.loan +
+                              ((profile.loan +
                                 profile.loan *
                                   (profile.interest / 100) *
                                   profile.term) /
-                                (profile.term * 30),
+                                (profile.term * 30)) *
+                                7,
                               "P"
                             )
                           )
@@ -69080,13 +69081,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Loan Amount")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Interest(%)")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Term")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Interest(Php)")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Rate/Week")]),
       _vm._v(" "),
       _c("th", [_vm._v("Maturity Date")]),
       _vm._v(" "),
@@ -69265,6 +69262,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -69648,7 +69646,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-8" }, [
+              _c("div", { staticClass: "col-md-9" }, [
                 _c(
                   "table",
                   {
@@ -69709,6 +69707,19 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
                         _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("currency")(
+                                profile.loan *
+                                  (profile.interest / 100) *
+                                  profile.term,
+                                "P"
+                              )
+                            )
+                          )
+                        ]),
+                        _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
                         _vm._v(" "),
                         _c("td", [
@@ -69748,7 +69759,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "col-md-3" }, [
                 _c("div", [
                   _c("p", [
                     _vm._v(
@@ -69915,8 +69926,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Balance")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Interest")]),
+      _c("th", [_vm._v("Interest(%)")]),
       _vm._v(" "),
+      _c("th", [_vm._v("Interest(Php)\n                          ")]),
       _c("th", [_vm._v("Term")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
