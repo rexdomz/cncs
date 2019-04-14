@@ -27,8 +27,8 @@
 </head>
 <body>                    
 
-    <h3>Qouta</h3>    
-    <h4>Area Collector: {{ $collector }}</h4>           
+    <h3>Qouta | <i>All records</i> </h3>         
+    <h5>Area Collector: {{ $collector }}</h5>           
     <h5><span style="float: left;">Daily: P{{ number_format($daily, 2) }} </span> &nbsp; </h5>
     <h5><span style="float: left;">Weekly: P{{ number_format($weekly, 2) }}</span> &nbsp; </h5>    
     <br>

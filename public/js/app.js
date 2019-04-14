@@ -69418,7 +69418,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         id: -1,
         area_code: '',
         address: '',
-        collector: 'all',
+        collector: 'All',
         contact: ''
       },
       payments: [],
@@ -69896,9 +69896,12 @@ var render = function() {
                         "span",
                         { staticStyle: { width: "150px", float: "left" } },
                         [
+                          _c("strong", [_vm._v("Daily")]),
                           _vm._v(
-                            "Daily/page(" +
+                            "|page(" +
                               _vm._s(_vm.pagination.current_page) +
+                              " of " +
+                              _vm._s(_vm.pagination.last_page) +
                               "): "
                           )
                         ]
@@ -69917,9 +69920,12 @@ var render = function() {
                         "span",
                         { staticStyle: { width: "150px", float: "left" } },
                         [
+                          _c("strong", [_vm._v("Weekly")]),
                           _vm._v(
-                            "Weekly/page(" +
+                            "|page(" +
                               _vm._s(_vm.pagination.current_page) +
+                              " of " +
+                              _vm._s(_vm.pagination.last_page) +
                               "): "
                           )
                         ]

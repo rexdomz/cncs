@@ -58,8 +58,8 @@
                             <div class="box-header">
                                 <h3 class="box-title">Collections</h3><br>
                                 <i>Note: Total number of lenders per page is 25.</i><br>                                
-                                <p><span style="width: 150px;float: left;">Daily/page({{ pagination.current_page }}): </span><span class="badge bg-blue">{{ totalAmountDaily | currency('P') }} </span> <br>
-                                <span style="width: 150px;float: left;">Weekly/page({{ pagination.current_page }}): </span><span class="badge bg-green"> {{ totalAmountWeekly | currency('P') }} </span> <br>
+                                <p><span style="width: 150px;float: left;"><strong>Daily</strong>|page({{ pagination.current_page }} of {{ pagination.last_page }}): </span><span class="badge bg-blue">{{ totalAmountDaily | currency('P') }} </span> <br>
+                                <span style="width: 150px;float: left;"><strong>Weekly</strong>|page({{ pagination.current_page }} of {{ pagination.last_page }}): </span><span class="badge bg-green"> {{ totalAmountWeekly | currency('P') }} </span> <br>
                                 <span style="width: 150px;float: left;"> Area Collector: </span> {{ area.collector }} <br>
                                 <span style="width: 150px;float: left;"> Total(lenders): </span> {{ pagination.total }}</p>                                
                             </div>
@@ -100,7 +100,7 @@ export default {
           id: -1,
           area_code: '',
           address: '',
-          collector: 'all',
+          collector: 'All',
           contact: ''            
       },   
       payments: [],
