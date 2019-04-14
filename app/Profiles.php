@@ -19,7 +19,7 @@ class Profiles extends Model
         'updated_at'
     ];
 
-    protected $appends = ['totalpay'];
+    protected $appends = ['totalpay', 'etc'];
 
     function getTotalPayAttribute() {                            
         $payments = DB::table('payments')->where('profile_id', $this->id)->orderBy('date_pay', 'desc')->get();              
@@ -28,7 +28,10 @@ class Profiles extends Model
             $totalPayment += $item->pay;
         }                    
         return $totalPayment;        
-
+      }
+    
+      function getEtcAttribute() {
+          //return 'rexdomz';
       }
 
 }

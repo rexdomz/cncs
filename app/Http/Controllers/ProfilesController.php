@@ -23,8 +23,7 @@ class ProfilesController extends Controller
         // Get profiles
         $profiles = Profiles::orderBy('full_name', 'asc')->paginate(25);                        
                         
-        //dd($profiles);          
-        
+        //dd($profiles);                  
         // Return collection of articles as a resource               
         return ProfilesResource::collection($profiles);        
         
