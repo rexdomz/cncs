@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Profiles;
 use App\Payments;
+use App\Area;
 //use App\Http\Resources\Profiles as ProfilesResource;
 //use App\Http\Resources\Payments as PaymentsResource;
 
@@ -33,12 +34,28 @@ class PrintController extends Controller
         $originalBalance = $profile->loan + ($profile->loan * ($profile->interest/100) * $profile->term);
 
         $ratePerDay = 0;
-        $ratePerDay = $originalBalance/($profile->term * 30);
-        //$RatePerDay = (($profile->loan) + ($profile->loan * ($profile->interest/100) * $profile->term)) / ($profile->term * 30);
+        $ratePerDay = $originalBalance/($profile->term * 30);        
 
         // Return paginated records by area                
         return view('printresult', array('payments' => $payments, 'profile' => $profile, 'totalPayment' => $totalPayment, 'originalBalance' => $originalBalance, 'ratePerDay' => $ratePerDay));
     }
 
+    public function printQouta($id, $collector) {
+        //get profile                
+        if ($id >= 0) {
+            $profiles = Profiles::where('area', '=', $id)->orderBy('full_name', 'asc')->get();
+        } else {
+            $profiles = Profiles::orderBy('full_name', 'asc')->get();
+        }
+
+        $daily = 0;
+        $weekly = 0;
+        foreach($profiles as $profile) {
+            $daily += (($profile->loan) + ($profile->loan * ($profile->interest/100) * $profile->term)) / ($profile->term * 30);
+        }
+        $weekly = $daily * 7;
+
+        return view('printqouta', array('profiles' => $profiles, 'collector'=> $collector, 'daily' => $daily, 'weekly'=>$weekly ));
+    }
 
 }

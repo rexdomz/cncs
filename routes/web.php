@@ -32,5 +32,6 @@ Route::get('/quota', 'HomeController@collector')->name('collector');
 Route::get('/area', 'HomeController@area')->name('areas');
 
 //Print
-//Route::get('/print-sample', 'PrintController@index');
 Route::get('/payment-view/{id}', 'PrintController@printPreview');
+
+Route::get('/qouta-view/{id}/{collector}', 'PrintController@printQouta');

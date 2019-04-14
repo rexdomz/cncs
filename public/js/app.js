@@ -69415,10 +69415,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       myDate3: null,
       areas: [],
       area: {
-        id: '',
+        id: -1,
         area_code: '',
         address: '',
-        collector: 'All',
+        collector: 'all',
         contact: ''
       },
       payments: [],
@@ -69485,6 +69485,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sum += e.pay;
       });
       return sum;
+    },
+    paymentHref: function paymentHref() {
+      return "/qouta-view/" + this.area.id + "/" + this.area.collector;
     }
   },
 
@@ -69858,28 +69861,20 @@ var render = function() {
                           ]
                         }
                       },
-                      [
-                        _c(
+                      _vm._l(_vm.areas, function(area) {
+                        return _c(
                           "option",
-                          { attrs: { value: "0", selected: "selected" } },
-                          [_vm._v("Default (all area)")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.areas, function(area) {
-                          return _c(
-                            "option",
-                            { key: area.id, domProps: { value: area } },
-                            [
-                              _vm._v(
-                                _vm._s(area.area_code) +
-                                  " - " +
-                                  _vm._s(area.address)
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
+                          { key: area.id, domProps: { value: area } },
+                          [
+                            _vm._v(
+                              _vm._s(area.area_code) +
+                                " - " +
+                                _vm._s(area.address)
+                            )
+                          ]
+                        )
+                      }),
+                      0
                     )
                   ])
                 ]),
@@ -69887,14 +69882,26 @@ var render = function() {
                 _c("div", { staticClass: "box" }, [
                   _c("div", { staticClass: "box-header" }, [
                     _c("h3", { staticClass: "box-title" }, [
-                      _vm._v("Collectibles")
+                      _vm._v("Collections")
                     ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("i", [
+                      _vm._v("Note: Total number of lenders per page is 25.")
+                    ]),
+                    _c("br"),
                     _vm._v(" "),
                     _c("p", [
                       _c(
                         "span",
                         { staticStyle: { width: "150px", float: "left" } },
-                        [_vm._v("Daily: ")]
+                        [
+                          _vm._v(
+                            "Daily/page(" +
+                              _vm._s(_vm.pagination.current_page) +
+                              "): "
+                          )
+                        ]
                       ),
                       _c("span", { staticClass: "badge bg-blue" }, [
                         _vm._v(
@@ -69909,7 +69916,13 @@ var render = function() {
                       _c(
                         "span",
                         { staticStyle: { width: "150px", float: "left" } },
-                        [_vm._v("Weekly: ")]
+                        [
+                          _vm._v(
+                            "Weekly/page(" +
+                              _vm._s(_vm.pagination.current_page) +
+                              "): "
+                          )
+                        ]
                       ),
                       _c("span", { staticClass: "badge bg-green" }, [
                         _vm._v(
@@ -69940,7 +69953,16 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "box-body" })
+                  _c("div", { staticClass: "box-body" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btnPrint btn btn-block btn-info btn-xs",
+                        attrs: { href: _vm.paymentHref }
+                      },
+                      [_vm._v("Print")]
+                    )
+                  ])
                 ])
               ])
             ])

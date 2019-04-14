@@ -13,6 +13,7 @@
     td, th {
         text-align: left;
         padding: 6px 10px;
+        font-size: 11px;
     }
     tr {
         border: 1px solid #eee;
