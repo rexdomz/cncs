@@ -37,6 +37,7 @@
                     <th >Rate</th>
                     <th >Interest</th>
                     <th>Loan Amount</th>  
+                    <th>Balance</th>                            
                     <th>Rate/Day</th>                   
                     <th >Term</th>
                     <th >Contact</th>                    
@@ -48,8 +49,9 @@
                         <td>{{ profile.address }}</td>
                         <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>
                         <td>{{ profile.interest }}%</td>
-                        <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>
+                        <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>                        
                         <td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>
+                        <td><span class="badge bg-red">{{ ( ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) ) - profile.totalpay | currency('P') }}</span></td>
                         <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
                         <td>{{ profile.term }} month(s)</td>
                         <td>{{ profile.contact }}</td>                        
@@ -201,7 +203,15 @@ export default {
           address: '',
           collector: '',
           contact: ''            
-      },      
+      },   
+      payments: [],
+      payment: {        
+        id: '',
+        profile_id: '',
+        pay: '',
+        date_pay: ''     
+      },        
+      pay_id: '',   
       profiles: [],      
       profile: {        
         id: '',
@@ -233,6 +243,30 @@ export default {
   created() {
     this.fetchprofiles();
     this.fetchAreas();
+  },
+
+  computed: {
+      totalAmountDaily: function () {
+          var sum = 0;
+          this.profiles.forEach(e => {
+              sum += ( ((e.loan) + (e.loan * (e.interest/100) * e.term)) / (e.term * 30) );
+          });
+          return sum
+      },
+      totalAmountWeekly: function () {
+          var sum = 0;
+          this.profiles.forEach(e => {
+              sum += ( ((e.loan) + (e.loan * (e.interest/100) * e.term)) / (e.term * 30) * 7);
+          });
+          return sum
+      },
+      totalAmount: function () {
+          var sum = 0;
+          this.payments.forEach(e => {
+              sum += e.pay;
+          });
+          return sum
+      }
   },
 
   methods: {    

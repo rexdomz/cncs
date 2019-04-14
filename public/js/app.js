@@ -65525,6 +65525,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -65540,6 +65542,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         collector: '',
         contact: ''
       },
+      payments: [],
+      payment: {
+        id: '',
+        profile_id: '',
+        pay: '',
+        date_pay: ''
+      },
+      pay_id: '',
       profiles: [],
       profile: {
         id: '',
@@ -65574,6 +65584,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.fetchAreas();
   },
 
+
+  computed: {
+    totalAmountDaily: function totalAmountDaily() {
+      var sum = 0;
+      this.profiles.forEach(function (e) {
+        sum += (e.loan + e.loan * (e.interest / 100) * e.term) / (e.term * 30);
+      });
+      return sum;
+    },
+    totalAmountWeekly: function totalAmountWeekly() {
+      var sum = 0;
+      this.profiles.forEach(function (e) {
+        sum += (e.loan + e.loan * (e.interest / 100) * e.term) / (e.term * 30) * 7;
+      });
+      return sum;
+    },
+    totalAmount: function totalAmount() {
+      var sum = 0;
+      this.payments.forEach(function (e) {
+        sum += e.pay;
+      });
+      return sum;
+    }
+  },
 
   methods: {
     addprofile: function addprofile() {
@@ -65923,6 +65957,24 @@ var render = function() {
                                 )
                               ) +
                               " "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticClass: "badge bg-red" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("currency")(
+                                profile.loan +
+                                  profile.loan *
+                                    (profile.interest / 100) *
+                                    profile.term -
+                                  _vm.totalAmount -
+                                  profile.totalpay,
+                                "P"
+                              )
+                            )
                           )
                         ])
                       ]),
@@ -66594,6 +66646,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
       _c("th", [_vm._v("Loan Amount")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Balance")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/Day")]),
       _vm._v(" "),
