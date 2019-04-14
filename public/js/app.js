@@ -68552,24 +68552,6 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [
-                        _c("span", { staticClass: "badge bg-red" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("currency")(
-                                profile.loan +
-                                  profile.loan *
-                                    (profile.interest / 100) *
-                                    profile.term -
-                                  _vm.totalAmount -
-                                  profile.totalpay,
-                                "P"
-                              )
-                            )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
@@ -69098,8 +69080,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Loan Amount")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Interest(%)")]),
       _vm._v(" "),
       _c("th", [_vm._v("Term")]),
@@ -69285,6 +69265,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -69707,10 +69689,6 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
-                        _vm._v(" "),
                         _c("td", [
                           _c("span", { staticClass: "badge bg-red" }, [
                             _vm._v(
@@ -69728,6 +69706,10 @@ var render = function() {
                             )
                           ])
                         ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(
@@ -69931,11 +69913,11 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Loan Amount")]),
       _vm._v(" "),
+      _c("th", [_vm._v("Balance")]),
+      _vm._v(" "),
       _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
       _c("th", [_vm._v("Term")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
       _vm._v(" "),
