@@ -26,7 +26,7 @@
                         <table class="table">
                             <tr>                                
                                 <th>Full Name</th>                            
-                                <th>Principal Loan</th>
+                                <th>Loan Amount</th>
                                 <th>Interest Rate</th>                                
                                 <th>Term</th>
                                 <th>Interest</th>

@@ -33,10 +33,10 @@
                     <!--<th style="width: 100px">Record ID </th>-->
                     <th >Full Name</th>
                     <th >Address</th>
-                    <th >Principal Loan</th>
+                    <th >Loan Amount</th>
                     <th >Rate</th>
                     <th >Interest</th>
-                    <th>Amount Loan</th>  
+                    <th>Total Loan</th>  
                     <th>Rate/Day</th>                   
                     <th >Term</th>
                     <th >Contact</th>                    

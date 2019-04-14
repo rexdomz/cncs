@@ -25,8 +25,8 @@
                         <table style="margin-top: 1.5em; float: left" class="table">
                             <tr>                    
                             <th>Full Name</th>                    
-                            <th>Principal</th>
-                            <th>Loan</th> 
+                            <th>Loan Amount</th>
+                            <th>Total Loan</th> 
                             <th>Interest</th>
                             <th>Term</th>
                             <th>Rate/day</th>
