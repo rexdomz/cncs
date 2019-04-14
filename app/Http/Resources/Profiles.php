@@ -26,7 +26,8 @@ class Profiles extends Resource
             'term' => $this->term,
             'date_from' => $this->date_from,
             'date_to' => $this->date_to,
-            'contact' => $this->contact            
+            'contact' => $this->contact,
+            'totalpay' => $this->totalpay            
         ];
     }
 }

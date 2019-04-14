@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Profiles extends Model
 {
@@ -17,5 +18,17 @@ class Profiles extends Model
         'created_at',
         'updated_at'
     ];
+
+    protected $appends = ['totalpay'];
+
+    function getTotalPayAttribute() {                            
+        $payments = DB::table('payments')->where('profile_id', $this->id)->orderBy('date_pay', 'desc')->get();              
+        $totalPayment = 0;        
+        foreach($payments as $item) {
+            $totalPayment += $item->pay;
+        }                    
+        return $totalPayment;        
+
+      }
 
 }

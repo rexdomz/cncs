@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Profiles;
 use App\Http\Resources\Profiles as ProfilesResource;
+use App\Payments;
+use App\Http\Resources\Payments as PaymentsResource;
 use Carbon\Carbon;
 
 class ProfilesController extends Controller
@@ -18,7 +21,9 @@ class ProfilesController extends Controller
     public function index()
     {
         // Get profiles
-        $profiles = Profiles::orderBy('full_name', 'asc')->paginate(25);
+        $profiles = Profiles::orderBy('full_name', 'asc')->paginate(25);                        
+                        
+        //dd($profiles);          
         
         // Return collection of articles as a resource               
         return ProfilesResource::collection($profiles);        

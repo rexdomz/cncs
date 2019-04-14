@@ -26,19 +26,20 @@
                             <tr>                    
                             <th>Full Name</th>                    
                             <th>Loan Amount</th>
-                            <th>Total Loan</th> 
+                            <th>Total Loan</th>                             
                             <th>Interest</th>
                             <th>Term</th>
+                            <th>Balance</th>
                             <th>Rate/day</th>
                             <th>Rate/Week</th>
                             </tr>
                             <tr v-for="profile in profiles" v-bind:key="profile.id">                        
                                 <td>{{ profile.full_name }}</td>                        
-                                <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>
-                                <!--<td><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span></td>-->
+                                <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>                                
                                 <td><span class="badge bg-blue">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }}</span></td>
                                 <td>{{ profile.interest }}%</td>
                                 <td>{{ profile.term }} month(s)</td>
+                                <td><span class="badge bg-red">{{ ( ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) ) - profile.totalpay | currency('P') }}</span></td>
                                 <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
                                 <td>{{ ( ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) * 7 ) | currency('P') }}</td>
                             </tr>

@@ -69342,6 +69342,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -69682,6 +69683,24 @@ var render = function() {
                         _c("td", [_vm._v(_vm._s(profile.term) + " month(s)")]),
                         _vm._v(" "),
                         _c("td", [
+                          _c("span", { staticClass: "badge bg-red" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("currency")(
+                                  profile.loan +
+                                    profile.loan *
+                                      (profile.interest / 100) *
+                                      profile.term -
+                                    _vm.totalAmount -
+                                    profile.totalpay,
+                                  "P"
+                                )
+                              )
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
                           _vm._v(
                             _vm._s(
                               _vm._f("currency")(
@@ -69886,6 +69905,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Interest")]),
       _vm._v(" "),
       _c("th", [_vm._v("Term")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Balance")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
       _vm._v(" "),
