@@ -68883,7 +68883,7 @@ var render = function() {
                 _c("span", { staticStyle: { width: "130px", float: "left" } }, [
                   _vm._v("Balance: ")
                 ]),
-                _c("span", { staticClass: "badge bg-blue" }, [
+                _c("span", { staticClass: "badge bg-red" }, [
                   _vm._v(
                     _vm._s(
                       _vm._f("currency")(
@@ -68901,12 +68901,20 @@ var render = function() {
                 _c("br"),
                 _vm._v(" "),
                 _c("span", { staticStyle: { width: "130px", float: "left" } }, [
-                  _vm._v("Principal Loan: ")
+                  _vm._v("Loan Amount: ")
                 ]),
-                _c("span", { staticClass: "badge bg-green" }, [
+                _c("span", { staticClass: "badge bg-blue" }, [
                   _vm._v(
                     " " +
-                      _vm._s(_vm._f("currency")(_vm.profile.loan, "P")) +
+                      _vm._s(
+                        _vm._f("currency")(
+                          _vm.profile.loan +
+                            _vm.profile.loan *
+                              (_vm.profile.interest / 100) *
+                              _vm.profile.term,
+                          "P"
+                        )
+                      ) +
                       " "
                   )
                 ]),
@@ -69406,6 +69414,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -69448,6 +69458,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
+
+  filters: {
+    formatDate: function formatDate(value) {
+      return moment(String(value)).format('D MMM YYYY');
+    }
+  },
 
   watch: {
     myDate: function myDate() {
@@ -69492,6 +69508,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
+    checkDate: function checkDate(profile) {
+      var date = moment(profile.date_to);
+      var now = moment().valueOf();
+      if (date > now) {
+        this.profile.date_expire = true;
+        return true;
+      } else {
+        this.profile.date_expire = false;
+        return false;
+      }
+    },
     fetchPaymentsByID: function fetchPaymentsByID(id) {
       var _this = this;
 
@@ -69762,8 +69789,6 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(profile.interest) + "%")]),
-                        _vm._v(" "),
                         _c("td", [
                           _vm._v(
                             _vm._s(
@@ -69795,18 +69820,18 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("td", [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("currency")(
-                                ((profile.loan +
-                                  profile.loan *
-                                    (profile.interest / 100) *
-                                    profile.term) /
-                                  (profile.term * 30)) *
-                                  7,
-                                "P"
+                          _c(
+                            "span",
+                            {
+                              style: _vm.checkDate(profile)
+                                ? "color: #000;"
+                                : "color: red;"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm._f("formatDate")(profile.date_to))
                               )
-                            )
+                            ]
                           )
                         ])
                       ])
@@ -70008,14 +70033,12 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Balance")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Interest(%)")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Interest(Php)\n                          ")]),
       _c("th", [_vm._v("Term")]),
       _vm._v(" "),
       _c("th", [_vm._v("Rate/day")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Rate/Week")])
+      _c("th", [_vm._v("Maturity Date")])
     ])
   }
 ]

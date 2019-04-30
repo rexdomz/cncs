@@ -51,4 +51,8 @@ class HomeController extends Controller
         return view('areas');
     }
 
+    public function release() {
+        return view('release');
+    }
+
 }

@@ -41,7 +41,7 @@
         <th>Balance</th>                                            
         <th>Term</th>                            
         <th>Rate/day</th>
-        <th>Rate/Week</th>                                                            
+        <th>Maturity</th>                                                            
         </tr>   
         @foreach($profiles as $key => $profile)
         <tr>
@@ -69,7 +69,7 @@
             @endphp
 
             <td>{{ number_format($ratePerDay, 2) }}</td>
-            <td>{{ number_format($ratePerWeek, 2) }}</td>      
+            <td>{{ date('d-m-Y', strtotime($profile->date_to)) }}</td>      
         </tr>
         @endforeach                     
     </table>

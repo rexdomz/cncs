@@ -28,23 +28,25 @@
                             <th>Principal Loan</th>
                             <th>Loan Amount</th> 
                             <th>Balance</th>                            
-                            <th>Interest(%)</th>
+                            <!--<th>Interest(%)</th>-->
                             <th>Interest(Php)
                             <th>Term</th>                            
                             <th>Rate/day</th>
-                            <th>Rate/Week</th>
+                            <!--<th>Rate/Week</th>-->
+                            <th>Maturity Date</th>
                             </tr>
                             <tr v-for="profile in profiles" v-bind:key="profile.id">                        
                                 <td>{{ profile.full_name }}</td>                        
                                 <td><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span></td>                                
                                 <td><span class="badge bg-blue">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }}</span></td>
                                 <td><span class="badge bg-red">{{ ( ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) ) - profile.totalpay | currency('P') }}</span></td>
-                                <td>{{ profile.interest }}%</td>
+                                <!--<td>{{ profile.interest }}%</td>-->
                                 <td>{{ (profile.loan * (profile.interest/100) * profile.term) | currency('P') }}</td>
                                 <td>{{ profile.term }} month(s)</td>
                                 
                                 <td>{{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</td>
-                                <td>{{ ( ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) * 7 ) | currency('P') }}</td>
+                                <!--<td>{{ ( ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) * 7 ) | currency('P') }}</td>-->
+                                <td><span v-bind:style=" checkDate(profile) ? 'color: #000;' : 'color: red;' " >{{ profile.date_to | formatDate }}</span></td>
                             </tr>
                         </table>
                     </div>
@@ -130,6 +132,12 @@ export default {
     };
   },
 
+  filters: {
+    formatDate(value) {                
+      return moment(String(value)).format('D MMM YYYY');      
+    }
+  },
+
   watch: {
     myDate() {      
       this.myDate2 = new Date(this.myDate.setDate(this.myDate.getDate() + this.profile.term * 30));
@@ -172,6 +180,17 @@ export default {
   },
 
   methods: {    
+    checkDate(profile) {
+      var date = moment(profile.date_to)
+      var now = moment().valueOf();
+      if (date > now) {
+        this.profile.date_expire = true;     
+        return true;   
+      } else {
+        this.profile.date_expire = false;        
+        return false;
+      }        
+    },
     fetchPaymentsByID(id) {    
         let vm = this;                        
         var perpage = 20;                

@@ -107,8 +107,8 @@
                         <h3 class="box-title">Payment History</h3>
                         <h5><strong> Name: {{ profile.full_name | capitalize }} </strong></h5>
                         <p>                          
-                         <span style="width: 130px;float: left;">Balance: </span><span class="badge bg-blue">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }} </span> <br>
-                         <span style="width: 130px;float: left;">Principal Loan: </span><span class="badge bg-green"> {{ profile.loan | currency('P') }} </span> <br>
+                         <span style="width: 130px;float: left;">Balance: </span><span class="badge bg-red">{{ ( (( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) ) - totalAmount ) | currency('P') }} </span> <br>
+                         <span style="width: 130px;float: left;">Loan Amount: </span><span class="badge bg-blue"> {{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }} </span> <br>
                          <span style="width: 130px;float: left;">Interest rate: </span><span class="badge bg-green"> {{ profile.interest }}% </span> <br>
                          <span style="width: 130px;float: left;"> Rate/day: </span><span class="badge bg-green"> {{ ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) | currency('P') }}</span>
                         </p>
