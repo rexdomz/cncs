@@ -7,13 +7,18 @@
                 <div class="box">                    
                     
                     <div class="box-body">
-                        <h5 class="box-title">Filter By:</h5>  
+                        <h5 class="box-title">Filter by:</h5>  
                         <div class="col-md-4">
+                          <p>Search by area:</p>  
                           <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="area form-control select2">
                               <option value="0" selected="selected">Filter by Area</option>        
                               <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
                           </select>
-                        </div>
+                        </div>                        
+                        <!-- <div class="col-md-4">-->
+                        <!--   <p>Search by name:</p> --> 
+                        <!--   <input type="text" name="searchName" class="form-control">  -->
+                        <!-- </div> -->
 
                         <div class="box-tools">
                             <ul class="pagination pagination-sm no-margin pull-right">
@@ -344,7 +349,7 @@ export default {
           .then(res => res.json())
           .then(data => {
             //this.clearForm();
-            alert('Payment Added');
+            //alert('Payment Added');
             //this.fetchprofiles();
             this.fetchPaymentsByID(this.payment.profile_id);
           })
@@ -361,7 +366,7 @@ export default {
           .then(res => res.json())
           .then(data => {
             this.clearForm();
-            alert('Payment Updated');
+            //alert('Payment Updated');
             this.fetchPaymentsByID(this.payment.profile_id);
           })
           .catch(err => console.log(err));          
@@ -374,7 +379,7 @@ export default {
         })
           .then(res => res.json())
           .then(data => {
-            alert('profile Removed');
+            //alert('payment Removed');
             this.fetchPaymentsByID(this.payment.profile_id);
           })
           .catch(err => console.log(err));

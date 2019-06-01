@@ -25,10 +25,8 @@ class ProfilesController extends Controller
                         
         //dd($profiles);                  
         // Return collection of articles as a resource               
-        return ProfilesResource::collection($profiles);        
-        
+        return ProfilesResource::collection($profiles);                
     }
-
 
     public function get_profiles_by_area($id, $perpage)
     {

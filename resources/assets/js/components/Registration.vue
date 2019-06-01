@@ -14,7 +14,7 @@
 
     <section class="content">
         
-      <div class="col-md-6">
+      <div class="col-md-9">
         <div class="box box-default">
 
             <div class="box-header with-border">
@@ -27,19 +27,19 @@
                 <form @submit.prevent="addprofile" class="mb-4">
                     <div class="form-group">                               
                     <label for="inputFullName" class="col-sm-3 control-label">Full Name</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
+                    <div style="margin-bottom: 10px;" class="col-sm-9">
                         <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Lastname, Firstname  M.I. ...">
                     </div>
                     </div>
                     <div class="form-group">                               
                     <label for="inputFullName" class="col-sm-3 control-label">Address</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
+                    <div style="margin-bottom: 10px;" class="col-sm-9">
                         <input type="text" class="form-control" id="address" v-model="profile.address" placeholder="Address ...">
                     </div>
                     </div>
                     <div class="form-group">                               
                     <label for="inputFullName" class="col-sm-3 control-label">Area</label>
-                    <div style="margin-bottom: 10px;" class="col-sm-8">
+                    <div style="margin-bottom: 10px;" class="col-sm-9">
                         <select v-model="profile.area" id="area" name="area" class="form-control select2" style="width: 100%;">
                             <option value="0" selected="selected">Select Area ...</option>        
                             <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }}, {{ area.address }}</option>
@@ -49,19 +49,21 @@
 
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Loan Amount</label>
-                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                        <div style="margin-bottom: 10px;" class="col-sm-9">
                             <input type="text" class="form-control" id="loan" v-model="profile.loan" placeholder="e,g 1000, 2000, 5000...">
                         </div>
                     </div>
+
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Interest Rate</label>
-                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                        <div style="margin-bottom: 10px;" class="col-sm-9">
                             <input type="text" class="form-control" id="interest" v-model="profile.interest" placeholder="eg 10, 20, 30...">
                         </div>
                     </div>
+                    
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Term</label>
-                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                        <div style="margin-bottom: 10px;" class="col-sm-9">
                             <select v-model="profile.term" id="term" name="term" class="form-control select2" style="width: 100%;">
                             <option value="0" selected="selected">Select Term ...</option>        
                             <option v-for="i in (1, 12)" :value=i :key="i" > {{ i }} Month(s) </option>
@@ -71,7 +73,7 @@
 
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Date Start</label>
-                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                        <div style="margin-bottom: 10px;" class="col-sm-9">
                           <div class="input-group date">
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
@@ -85,7 +87,7 @@
 
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Date End</label>
-                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                        <div style="margin-bottom: 10px;" class="col-sm-9">
                           <div class="input-group date">
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
@@ -99,14 +101,14 @@
 
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Contact #</label>
-                        <div style="margin-bottom: 10px;" class="col-sm-8">
+                        <div style="margin-bottom: 10px;" class="col-sm-9">
                             <input type="text" class="form-control" id="contact" v-model="profile.contact" placeholder="Contact number (cp) ...">
                         </div>
                     </div>
 
                     <div class="form-group">                               
                         <div class="col-sm-3">&nbsp;</div>  
-                        <div style="margin-bottom: 10px;" class="col-sm-8">                    
+                        <div style="margin-bottom: 10px;" class="col-sm-9">                    
                             <button type="submit" class="btn btn-primary btn-block">Save</button>                                        
                             <button @click="clearForm()" class="btn btn-warning btn-block">Clear</button>                              
                         </div>
@@ -119,7 +121,7 @@
       </div>
       <!-- /.registration -->
 
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="box box-default">
 
             <div class="box-header with-border">
@@ -129,7 +131,7 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-sm-8">                                                
+                    <div class="col-sm-12">                                                
                         <div class="small-box bg-green">
                             <div class="inner">
                             <h3>{{ pagination.total }}</h3>
@@ -166,7 +168,7 @@
 export default {
   data() {
     return {   
-      myDate:   ``,  
+      myDate: '',  
       myDate2: null, 
       myDate3: null,
       profiles: [],  
@@ -207,14 +209,14 @@ export default {
   },
 
 created() {
-    this.fetchprofiles();      
     this.fetchAreas();  
+    this.fetchprofiles();          
   },
 
   methods: {   
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'api/profiles';
+      page_url = page_url || `api/allprofiles`;
       fetch(page_url)
         .then(res => res.json())
         .then(res => {

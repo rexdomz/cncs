@@ -69,7 +69,17 @@
             @endphp
 
             <td>{{ number_format($ratePerDay, 2) }}</td>
-            <td>{{ date('d-m-Y', strtotime($profile->date_to)) }}</td>      
+
+            @php
+                $date_now = date("Y-m-d");
+                if ( $date_now > $profile->date_to ) {
+                    $color = "red";
+                } else {
+                    $color = "#000";
+                }
+            @endphp
+
+            <td style="color: @php echo $color; @endphp">{{ date('d-m-Y', strtotime($profile->date_to)) }}</td>      
         </tr>
         @endforeach                     
     </table>

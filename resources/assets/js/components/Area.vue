@@ -14,7 +14,7 @@
 
     <section class="content">
         
-      <div class="col-md-6">
+      <div class="col-md-9">
         <div class="box box-default">
 
             <div class="box-header with-border">
@@ -97,7 +97,7 @@
       </div>
       <!-- /.registration -->
 
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="box box-default">
 
             <div class="box-header with-border">

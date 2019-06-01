@@ -64433,6 +64433,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -64480,8 +64482,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   created: function created() {
-    this.fetchprofiles();
     this.fetchAreas();
+    this.fetchprofiles();
   },
 
 
@@ -64490,7 +64492,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'api/profiles';
+      page_url = page_url || 'api/allprofiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -64606,7 +64608,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "col-md-9" }, [
         _c("div", { staticClass: "box box-default" }, [
           _vm._m(0),
           _vm._v(" "),
@@ -64637,7 +64639,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -64687,7 +64689,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -64737,7 +64739,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -64815,7 +64817,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -64861,7 +64863,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -64911,7 +64913,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -64983,7 +64985,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -65043,7 +65045,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -65103,7 +65105,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -65146,7 +65148,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-sm-8",
+                        staticClass: "col-sm-9",
                         staticStyle: { "margin-bottom": "10px" }
                       },
                       [
@@ -65181,13 +65183,13 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "col-md-3" }, [
         _c("div", { staticClass: "box box-default" }, [
           _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "box-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-8" }, [
+              _c("div", { staticClass: "col-sm-12" }, [
                 _c("div", { staticClass: "small-box bg-green" }, [
                   _c("div", { staticClass: "inner" }, [
                     _c("h3", [_vm._v(_vm._s(_vm.pagination.total))]),
@@ -67047,7 +67049,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "col-md-9" }, [
         _c("div", { staticClass: "box box-default" }, [
           _vm._m(0),
           _vm._v(" "),
@@ -67427,7 +67429,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "col-md-3" }, [
         _c("div", { staticClass: "box box-default" }, [
           _vm._m(2),
           _vm._v(" "),
@@ -67880,6 +67882,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 //npm install vue2-filters
@@ -68058,7 +68065,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
           return res.json();
         }).then(function (data) {
           //this.clearForm();
-          alert('Payment Added');
+          //alert('Payment Added');
           //this.fetchprofiles();
           _this5.fetchPaymentsByID(_this5.payment.profile_id);
         }).catch(function (err) {
@@ -68076,7 +68083,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
           return res.json();
         }).then(function (data) {
           _this5.clearForm();
-          alert('Payment Updated');
+          //alert('Payment Updated');
           _this5.fetchPaymentsByID(_this5.payment.profile_id);
         }).catch(function (err) {
           return console.log(err);
@@ -68092,7 +68099,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          alert('profile Removed');
+          //alert('payment Removed');
           _this6.fetchPaymentsByID(_this6.payment.profile_id);
         }).catch(function (err) {
           return console.log(err);
@@ -68442,9 +68449,11 @@ var render = function() {
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "box" }, [
             _c("div", { staticClass: "box-body" }, [
-              _c("h5", { staticClass: "box-title" }, [_vm._v("Filter By:")]),
+              _c("h5", { staticClass: "box-title" }, [_vm._v("Filter by:")]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4" }, [
+                _c("p", [_vm._v("Search by area:")]),
+                _vm._v(" "),
                 _c(
                   "select",
                   {
