@@ -48,19 +48,19 @@
                     </div>
 
                     <div class="form-group">                               
-                        <label for="inputFullName" class="col-sm-3 control-label">Loan Amount</label>
+                        <label for="inputFullName" class="col-sm-3 control-label">Loan</label>
                         <div style="margin-bottom: 10px;" class="col-sm-9">
                             <input type="text" class="form-control" id="loan" v-model="profile.loan" placeholder="e,g 1000, 2000, 5000...">
                         </div>
                     </div>
 
                     <div class="form-group">                               
-                        <label for="inputFullName" class="col-sm-3 control-label">Interest Rate</label>
+                        <label for="inputFullName" class="col-sm-3 control-label">Interest</label>
                         <div style="margin-bottom: 10px;" class="col-sm-9">
                             <input type="text" class="form-control" id="interest" v-model="profile.interest" placeholder="eg 10, 20, 30...">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">                               
                         <label for="inputFullName" class="col-sm-3 control-label">Term</label>
                         <div style="margin-bottom: 10px;" class="col-sm-9">

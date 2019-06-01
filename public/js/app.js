@@ -64811,7 +64811,7 @@ var render = function() {
                         staticClass: "col-sm-3 control-label",
                         attrs: { for: "inputFullName" }
                       },
-                      [_vm._v("Loan Amount")]
+                      [_vm._v("Loan")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -64857,7 +64857,7 @@ var render = function() {
                         staticClass: "col-sm-3 control-label",
                         attrs: { for: "inputFullName" }
                       },
-                      [_vm._v("Interest Rate")]
+                      [_vm._v("Interest")]
                     ),
                     _vm._v(" "),
                     _c(
