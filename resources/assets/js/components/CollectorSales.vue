@@ -7,18 +7,18 @@
                 <div class="box">                    
                     
                     <div class="box-body">
-                         
+                        <h5 class="box-title">Filter by:</h5>  
                         <div class="col-md-4">
-                          <p style="margin: 0 0 0 -10px">Search by area:</p>  
+                          <p>Search by area:</p>  
                           <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="area form-control select2">
                               <option value="0" selected="selected">Filter by Area</option>        
                               <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
                           </select>
                         </div>                        
-                        <div class="col-md-4">
-                          <p style="margin: 0">Search by name:</p> 
-                          <input type="text" name="searchName" class="form-control searchnameinpt">
-                        </div>
+                        <!-- <div class="col-md-4">-->
+                        <!--   <p>Search by name:</p> --> 
+                        <!--   <input type="text" name="searchName" class="form-control">  -->
+                        <!-- </div> -->
 
                         <div class="box-tools">
                             <ul class="pagination pagination-sm no-margin pull-right">
@@ -52,7 +52,7 @@
                                 <td>{{ ( ( ((profile.loan) + (profile.loan * (profile.interest/100) * profile.term)) / (profile.term * 30) ) * 7 ) | currency('P') }}</td>
                                 <!--<td>{{ ( (profile.loan) + (profile.loan * (profile.interest/100) * profile.term) ) | currency('P') }}</td>-->
                                 <td><span v-bind:style=" checkDate(profile) ? 'color: #000;' : 'color: red;' " >{{ profile.date_to | formatDate }}</span></td>
-                                <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs">View Profile</button></td>                                
+                                <td><button @click="editprofile(profile)" type="button" class="btn btn-block btn-info btn-xs">View Payment</button></td>                                
                             </tr>                                                        
                         </table>
                     </div>
@@ -253,7 +253,7 @@ export default {
       },
       paymentHref () {
         //console.log(this.profile.id);
-        return "payment-view/" + this.profile.id;
+        return "/payment-view/" + this.profile.id;
       }
   },
 
@@ -271,7 +271,7 @@ export default {
     },
 
     fetchAreas(page_url) {            
-        page_url = 'http://cn.com/api/areas';
+        page_url = 'admin/api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {
@@ -286,7 +286,7 @@ export default {
         var id = this.area
         var perpage = 25;
         console.log('Area:' + id)
-        fetch(`http://cn.com/api/profilesbyarea/${id}/${perpage}`)
+        fetch(`api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
             this.profiles = res.data;
@@ -296,7 +296,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -324,7 +324,7 @@ export default {
     fetchPaymentsByID(id) {    
         let vm = this;                        
         var perpage = 60;                
-        fetch(`http://cn.com/api/paymentsbyid/${id}/${perpage}`)
+        fetch(`api/paymentsbyid/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
             this.payments = res.data;
@@ -339,7 +339,7 @@ export default {
         this.payment.profile_id = this.profile.id;        
         this.payment.date_pay = moment(String(this.payDate)).format('YYYY-MM-DD hh:mm:ss');                
         // Add        
-        fetch('http://cn.com/api/newpayment', {
+        fetch('api/newpayment', {
           method: 'post',
           body: JSON.stringify(this.payment),
           headers: {
@@ -356,7 +356,7 @@ export default {
           .catch(err => console.log(err));
       } else {
         // Update
-        fetch('http://cn.com/api/updatepayment', {
+        fetch('api/updatepayment', {
           method: 'put',
           body: JSON.stringify(this.payment),
           headers: {
@@ -374,7 +374,7 @@ export default {
     },
     deletepay(id) {
       if (confirm('Are You Sure?')) {
-        fetch(`http://cn.com/api/deletepayment/${id}`, {
+        fetch(`api/deletepayment/${id}`, {
           method: 'delete'
         })
           .then(res => res.json())

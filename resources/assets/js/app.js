@@ -19,12 +19,15 @@ window.Vue = require('vue');
  */
 
 Vue.component('home', require('./components/Home.vue'));
+Vue.component('admin-dashboard', require('./components/Dashboard.vue'));
 Vue.component('lender-registration', require('./components/Registration.vue'));
 Vue.component('registered-users', require('./components/RegisteredUsers.vue'));
 Vue.component('areas', require('./components/Area.vue'));
 Vue.component('area-list', require('./components/AreaList.vue'));
 Vue.component('payment-list', require('./components/Payment.vue'));
 Vue.component('quota', require('./components/Quota.vue'));
+Vue.component('collector-view-only', require('./components/PaymentViewOnly.vue')); 
+Vue.component('quota-view-only', require('./components/QuotaViewOnly.vue'));
 
 import moment from 'moment'
 

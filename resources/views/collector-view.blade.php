@@ -2,7 +2,6 @@
 
 @section('content')
 
-<p><i>Member Cpanel</i></p>
-<home></home>
+<quota-view-only></quota-view-only>
 
 @endsection

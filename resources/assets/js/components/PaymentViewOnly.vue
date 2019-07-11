@@ -8,17 +8,12 @@
                     
                     <div class="box-body">
                          
-                        <div class="col-md-4">
-                          <p style="margin: 0 0 0 -10px">Search by area:</p>  
-                          <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="area form-control select2">
-                              <option value="0" selected="selected">Filter by Area</option>        
-                              <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
+                        <div class="col-md-4">                          
+                          <p style="margin: 0 0 0 -10px">Search by Collector's name:</p>  
+                          <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="area form-control select2">                                   
+                              <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.collector }} ( {{ area.area_code }} - {{ area.address }} )</option>
                           </select>
                         </div>                        
-                        <div class="col-md-4">
-                          <p style="margin: 0">Search by name:</p> 
-                          <input type="text" name="searchName" class="form-control searchnameinpt">
-                        </div>
 
                         <div class="box-tools">
                             <ul class="pagination pagination-sm no-margin pull-right">
@@ -63,50 +58,6 @@
             </div>
 
             <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Payment Form</h3>
-                    </div>
-                    <div class="box-body">                        
-                        <div style="margin: 1em 0;" class="row">
-                              <div class="form-group">                               
-                                  <label for="inputFullName" class="control-label col-sm-4">Name</label>    
-                                  <div class="col-sm-12">
-                                      <input type="text" class="form-control" id="full_name" v-model="profile.full_name" placeholder="Borrower's name...">                            
-                                  </div>
-                              </div>
-                        </div>
-                        <form @submit.prevent="addpayment" class="mb-4">                          
-                          <div style="margin: 1em 0;" class="row">
-                              <div class="form-group">                               
-                                  <label for="inputFullName" class="control-label col-sm-4">Amount</label>    
-                                  <div class="col-sm-12">
-                                      <input type="text" class="form-control" id="amount" v-model="payment.pay" placeholder="Amount to pay ...">                            
-                                  </div>
-                              </div>
-                          </div>
-
-                          <div style="margin: 1em 0;" class="row">
-                              <div class="input-group date">
-                                  <label for="inputFullName" class="control-label col-sm-4"> Date</label>                                                        
-                                  <div class="input-group-addon">
-                                      <i class="fa fa-calendar" style="margin: 0 20px 0 5px;"></i>
-                                  </div>                            
-                                  <!--<input id="payDate" class="form-control pull-right" type="date" :value="payDate && payDate.toISOString().split('T')[0]" @input="payDate = $event.target.valueAsDate">-->
-                                  <input v-model="payDate" id="payDate" type="date" class="form-control pull-right" style="padding: 0;margin: 0 15px 0 0;">
-                                  <input v-model="payDate" type="hidden">                                   
-                              </div>
-                          </div>
-
-                          <div style="margin: 0;" class="row col-sm-4">
-                            <div class="form-group"> 
-                              <button type="submit" value="submit" class="btn btn-primary btn-block">Save</button>                              
-                            </div>
-                          </div>
-                        </form>
-
-                    </div>
-                </div> <!-- /box -->
                 <div id="PrintArea" class="box">
                     <div class="box-header">
                         <h3 class="box-title">Payment History</h3>

@@ -39,10 +39,16 @@
 
  select.area {
     text-transform: none;
-    font-size: 12pt !important;
+    font-size: 11pt !important;
     padding: 0 !important;
-    height: 30px !important;
-    margin-left: -12px !important;
+    height: 30px !important;    
+    margin: 0 0 10px -12px !important;
+}
+
+input.searchnameinpt {
+  height: 30px;
+  font-size: 11pt;
+  margin: 0 0 10px 0;
 }
 
 </style>
@@ -54,7 +60,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="../../home" class="logo">
+    <a href="" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -81,7 +87,13 @@
               <!-- User image -->
               <li class="user-header">
                 <img src="{{ asset('img/avatar5.png') }}" class="img-circle" alt="User Image">
-                <p>Emersion - Administrator</p>
+                @if(Auth::guard('admin')->check())
+                <p>{{ Auth::user()->name }} - Administrator</p>
+                @else
+                <p>{{ Auth::user()->name }} - Member</p>
+                @endif
+                
+
               </li>
               <li class="user-footer">
                 <div class="pull-right">
@@ -129,50 +141,20 @@
       <ul class="sidebar-menu" data-widget="tree">
         <!-- li class="header">MAIN NAVIGATION</li> -->
         <li class="">
-        <a href="/home"><i class="fa fa-dashboard"></i> Home</a>
-        <a href="/registration"><i class="fa fa-edit"></i> New Registration</a>
-        <a href="/user-payment"><i class="fa fa-pie-chart"></i> Payments</a>
-        <a href="/registered-users"><i class="fa fa-table"></i>Registered Users</a>
-        <a href="/quota"><i class="fa fa-th"></i>Collector's Quota</a> 
-        <a href="/area"><i class="fa fa-laptop"></i>Areas</a>
-          <!--<a href="#">
-            <i class="fa fa-edit"></i> <span>Borrower's <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Transactions</span>
-            <span class="pull-right-container">
-            <span class="label label-primary pull-right">2</span>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/registration"><i class="fa fa-circle-o"></i> New Registration</a></li>
-            <li><a href="/user-payment"><i class="fa fa-circle-o"></i> Payment</a></li>
-          </ul>-->
+          @if(Auth::guard('admin')->check())
+            <a href="{{ URL::route('admin.home') }}"><i class="fa fa-dashboard"></i> Home</a>
+            <a href="{{ URL::route('admin.registration') }}"><i class="fa fa-edit"></i> New Registration</a>
+            <a href="{{ URL::route('admin.user-payment') }}"><i class="fa fa-pie-chart"></i> Customers</a>
+            <a href="{{ URL::route('admin.registered-users') }}"><i class="fa fa-table"></i>Registered Users</a>
+            <a href="{{ URL::route('admin.quota') }}"><i class="fa fa-th"></i>Collector's Quota</a> 
+            <a href="{{ URL::route('admin.area') }}"><i class="fa fa-laptop"></i>Areas</a>    
+          @else
+            <a href="/home"><i class="fa fa-dashboard"></i> Home</a>        
+            <a href="/user-payment"><i class="fa fa-pie-chart"></i> Customers</a>          
+            <a href="/quota"><i class="fa fa-th"></i>Collector's Quota</a>         
+          @endif
+          
         </li>
-        <!--<li class="treeview">
-          <a href="#">
-            <i class="fa fa-files-o"></i>
-            <span>Reports</span>
-            <span class="pull-right-container">
-              <span class="label label-primary pull-right">2</span>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/reports-all-accounts"><i class="fa fa-circle-o"></i>All Records</a></li>
-            <li><a href="/reports-weekly"><i class="fa fa-circle-o"></i>Quota</a></li>            
-          </ul>
-        </li>--> 
-        <!--<li class="treeview">
-          <a href="#">
-            <i class="fa fa-th"></i>
-            <span>Maintenance</span>
-            <span class="pull-right-container">
-              <span class="label label-primary pull-right">2</span>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/user-accounts"><i class="fa fa-circle-o"></i>User accounts</a></li>
-            <li><a href="/area"><i class="fa fa-circle-o"></i>Area</a></li>            
-          </ul>
-        </li>-->        
-        <!--<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> Developer <span>Information</span></a></li>-->
       </ul>
     </section>
     <!-- /.sidebar -->

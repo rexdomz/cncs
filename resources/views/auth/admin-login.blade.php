@@ -3,13 +3,13 @@
 
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../"><b>CNCS</b>app</a>    
-  </div>    
+    <a href="../../"><b>CNCS</b>app</a>
+  </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">This is for Member Login | Try Admin <a href="{{ URL::route('admin.home') }}">Login</a></p>
+  <p class="login-box-msg">This is for Admin Login | Try Member <a href="{{ URL::route('home') }}">Login</a></p>
 
-    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+    <form class="form-horizontal" method="POST" action="{{ route('admin.login.submit') }}">
         <div class="box-body">
             {{ csrf_field() }}
 
@@ -63,12 +63,11 @@
                 </div>
             </div>
         </div>    
-    </form>    
+    </form>
+
   </div>
   <!-- /.login-box-body -->
-  
 </div>
 <!-- /.login-box -->
-
 
 @endsection

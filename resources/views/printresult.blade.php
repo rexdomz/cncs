@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Printing result...</title>
+<title>CN</title>
 <style type="text/css">
     table{
         border: 1px solid #eee;
@@ -18,7 +18,14 @@
     tr {
         border: 1px solid #eee;
     }
+    h3 {
+        font-size: 17px;
+    }
+    h4 {
+        font-size: 15px;
+    }
     h5 {
+        font-size: 13px;
         margin: 2px auto;       
     }
 
@@ -26,8 +33,8 @@
 </head>
 <body>                    
 
-    <h3>Payment History</h3>    
-    <h4><strong> Name: {{ $profile->full_name }} </strong></h4>       
+    <h4>Payment History</h4>    
+    <h5><strong> Name: {{ $profile->full_name }} </strong></h5>       
     <h5><span style="float: left;">Principal Loan: P{{ number_format($profile->loan,2) }} </span> &nbsp; </h5>
     <h5><span style="float: left;">Interest: {{ $profile->interest }} %</span> &nbsp; </h5>
     <h5><span style="float: left;">Balance: P{{ number_format($originalBalance - $totalPayment,2) }}</span> &nbsp; </h5>

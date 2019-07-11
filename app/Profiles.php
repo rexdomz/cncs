@@ -19,7 +19,7 @@ class Profiles extends Model
         'updated_at'
     ];
 
-    protected $appends = ['totalpay', 'etc'];
+    protected $appends = ['totalpay', 'amountloan'];
 
     function getTotalPayAttribute() {                            
         $payments = DB::table('payments')->where('profile_id', $this->id)->orderBy('date_pay', 'desc')->get();              
@@ -30,8 +30,9 @@ class Profiles extends Model
         return $totalPayment;        
       }
     
-      function getEtcAttribute() {
-          //return 'rexdomz';
+      function getAmountLoanAttribute() {                        
+        $loanAmount = $this->loan + ($this->loan * $this->interest/100 * $this->term);
+        return $loanAmount; 
       }
 
 }

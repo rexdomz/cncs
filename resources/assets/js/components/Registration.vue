@@ -1,17 +1,6 @@
 <template>
   <div>
     
-    <!--<form @submit.prevent="addprofile" class="mb-3">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Title" v-model="profile.title">
-      </div>
-      <div class="form-group">
-        <textarea class="form-control" placeholder="Body" v-model="profile.body"></textarea>
-      </div>
-      <button type="submit" class="btn btn-light btn-block">Save</button>
-    </form>
-    <button @click="clearForm()" class="btn btn-danger btn-block">Cancel</button>-->
-
     <section class="content">
         
       <div class="col-md-9">
@@ -216,7 +205,7 @@ created() {
   methods: {   
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || `api/allprofiles`;
+      page_url = page_url || `http://cn.com/api/profiles`;
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -273,7 +262,7 @@ created() {
       if (this.edit === false && this.errors.length <= 0 ) {
         console.log(JSON.stringify(this.profile))        
         // Add
-        fetch(`api/profile`, {
+        fetch(`http://cn.com/api/profile`, {
           method: 'post',
           body: JSON.stringify(this.profile),
           headers: {
@@ -290,7 +279,7 @@ created() {
       }
     },
     fetchAreas(page_url) {            
-        page_url = page_url || 'api/areas';
+        page_url = 'http://cn.com/api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {

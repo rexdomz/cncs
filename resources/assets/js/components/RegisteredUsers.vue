@@ -273,7 +273,7 @@ export default {
     addprofile() {
       console.log(JSON.stringify(this.profile))
       if (this.edit === false) {
-        fetch('api/profile', {
+        fetch('http://cn.com/api/profile', {
             method: 'post',
             body: JSON.stringify(this.profile),
             headers: {
@@ -288,7 +288,7 @@ export default {
           })
           .catch(err => console.log(err));
       } else {       
-        fetch('api/profiler', {
+        fetch('http://cn.com/api/profiler', {
             method: 'put',
             body: JSON.stringify(this.profile),
             headers: {
@@ -305,7 +305,7 @@ export default {
       }      
     },
     fetchAreas(page_url) {            
-        page_url = page_url || 'api/areas';
+        page_url = 'http://cn.com/api/areas';
         fetch(page_url)
             .then(res => res.json())
             .then(res => {
@@ -318,7 +318,7 @@ export default {
         var id = this.area
         var perpage = 25;
         //console.log('Area:' + id)
-        fetch(`api/profilesbyarea/${id}/${perpage}`)
+        fetch(`http://cn.com/api/profilesbyarea/${id}/${perpage}`)
           .then(res => res.json())
           .then(res => {
             this.profiles = res.data;
@@ -328,7 +328,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = page_url || 'api/profiles';
+      page_url = 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -350,7 +350,7 @@ export default {
     },
     deleteProfile(id) {
       if (confirm('Are You Sure?')) {
-        fetch(`api/profile/${id}`, {
+        fetch(`http://cn.com/api/profile/${id}`, {
           method: 'delete'
         })
           .then(res => res.json())

@@ -159,7 +159,7 @@ export default {
   methods: {
     fetchareas(page_url) {
       let vm = this;
-      page_url = page_url || 'api/areas';
+      page_url = 'http://cn.com/api/areas';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -184,7 +184,7 @@ export default {
       console.log(JSON.stringify(this.area))
       if (this.edit === false) {
         // Add
-        fetch('api/area', {
+        fetch('http://cn.com/api/area', {
           method: 'post',
           body: JSON.stringify(this.area),
           headers: {
@@ -202,7 +202,7 @@ export default {
       } else {
         // Update
 
-        fetch('api/area', {
+        fetch('http://cn.com/api/area', {
           method: 'put',
           body: JSON.stringify(this.area),
           headers: {

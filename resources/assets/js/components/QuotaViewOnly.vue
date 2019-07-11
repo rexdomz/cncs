@@ -51,9 +51,9 @@
                         </table>
                     </div>
                     <div class="col-md-3">
-                        <div><p>Filter by Area:                    
-                            <select @change="fetchProfilesByAreas()" v-model="area" id="area" name="area" class="form-control select2" style="height: 30px !important; width: 50%; margin: 10px 0 5px 0;">                                     
-                                <option v-for="area in areas" :value="area" v-bind:key="area.id">{{ area.area_code }} - {{ area.address }}</option>
+                        <div><p>Filter by Collector's name:                    
+                            <select @change="fetchProfilesByAreas()" v-model="area" id="area" name="area" class="form-control select2" style="height: 30px !important; width: 90%; margin: 10px 0 5px 0;">                                     
+                                <option v-for="area in areas" :value="area" v-bind:key="area.id">{{ area.collector }} ( {{ area.area_code }} - {{ area.address }} )</option>
                             </select></p>
                         </div>
                         <div class="box">
@@ -65,7 +65,7 @@
                                 <span style="width: 150px;float: left;"> Total Loan: </span> <span class="badge bg-red">{{ totalLoanAmounts | currency('P') }}</span><br>                                                                
                                 <span style="width: 150px;float: left;"> Total Payments: </span> <span class="badge bg-blue">{{ totalPayments | currency('P') }}</span><br>
                                 <span style="width: 150px;float: left;"> Total Customers: </span> {{ pagination.total }}<br>
-                                <span style="width: 150px;float: left;"> Area Collector: </span> {{ area.collector }}</p>                                                                
+                                <span style="width: 150px;float: left;"> Area Collector: </span> {{ area.collector }}</p>                                
                             </div>
                             <div class="box-body">                                
                                 <a :href=paymentHref class="btnPrint btn btn-block btn-info btn-xs">Print</a>                                

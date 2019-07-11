@@ -42,6 +42,18 @@ class ProfilesController extends Controller
     }
 
 
+    public function get_profiles_by_area_and_keyword($id, $perpage, $keyword)
+    {
+        // Get profiles    
+        if ( $id > 0 ) {
+            $profiles = Profiles::where('area', $id)->orderBy('full_name', 'asc')->paginate($perpage);
+        } else {            
+            $profiles = Profiles::orderBy('full_name', 'asc')->paginate($perpage);            
+        }
+
+        // Return paginated records by area
+        return ProfilesResource::collection($profiles);        
+    }
 
     /**
      * Show the form for creating a new resource.
