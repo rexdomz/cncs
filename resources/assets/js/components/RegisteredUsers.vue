@@ -328,7 +328,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {

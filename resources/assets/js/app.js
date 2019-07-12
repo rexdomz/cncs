@@ -29,6 +29,8 @@ Vue.component('quota', require('./components/Quota.vue'));
 Vue.component('collector-view-only', require('./components/PaymentViewOnly.vue')); 
 Vue.component('quota-view-only', require('./components/QuotaViewOnly.vue'));
 
+Vue.component('autocomplete', require('./components/Autocomplete.vue'));
+
 import moment from 'moment'
 
 Vue.config.productionTip = false

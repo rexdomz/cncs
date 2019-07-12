@@ -16,8 +16,8 @@
                           </select>
                         </div>                        
                         <div class="col-md-4">
-                          <p style="margin: 0">Search by name:</p> 
-                          <input type="text" name="searchName" class="form-control searchnameinpt">
+                          <p style="margin: 0">Search by name:</p>                                                     
+                          <input type="text" placeholder="Type a customer lastname" v-model="query" v-on:keyup="autoComplete" name="query" class="form-control searchnameinpt">
                         </div>
 
                         <div class="box-tools">
@@ -191,6 +191,7 @@ Vue.use(Vue2Filters)
 export default {
   data() {    
     return {
+      query: '',
       payDate: new Date().toISOString().slice(0,10),
       areas: [],
       area: {
@@ -296,7 +297,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -385,6 +386,25 @@ export default {
           .catch(err => console.log(err));
       }
     },
+
+    autoComplete(page_url){
+      this.results = [];
+      if(this.query.length > 1){     
+          var query = this.query
+          page_url = `http://cn.com/api/profilesbykeyword/${query}`;
+          fetch(page_url)
+              .then(res => res.json())
+              .then(res => {
+              this.profiles = res.data;         
+              console.log(this.profiles);    
+              })
+              .catch(err => console.log('what error?: ' + err));
+              
+      } else {
+        this.fetchprofiles();
+      }
+    }, //end autocomplete
+
     editprofile(profile) {
       this.edit = true;
       this.profile.id = profile.id;

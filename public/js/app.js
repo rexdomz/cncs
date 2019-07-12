@@ -18246,6 +18246,8 @@ Vue.component('quota', __webpack_require__(194));
 Vue.component('collector-view-only', __webpack_require__(197));
 Vue.component('quota-view-only', __webpack_require__(200));
 
+Vue.component('autocomplete', __webpack_require__(215));
+
 
 
 Vue.config.productionTip = false;
@@ -66328,7 +66330,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       var vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -68544,6 +68546,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     var _ref;
 
     return _ref = {
+      query: '',
       payDate: new Date().toISOString().slice(0, 10),
       areas: [],
       area: {
@@ -68654,7 +68657,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this3 = this;
 
       var vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -68752,6 +68755,27 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
         });
       }
     },
+    autoComplete: function autoComplete(page_url) {
+      var _this7 = this;
+
+      this.results = [];
+      if (this.query.length > 1) {
+        var query = this.query;
+        page_url = 'http://cn.com/api/profilesbykeyword/' + query;
+        fetch(page_url).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this7.profiles = res.data;
+          console.log(_this7.profiles);
+        }).catch(function (err) {
+          return console.log('what error?: ' + err);
+        });
+      } else {
+        this.fetchprofiles();
+      }
+    },
+    //end autocomplete
+
     editprofile: function editprofile(profile) {
       this.edit = true;
       this.profile.id = profile.id;
@@ -68860,7 +68884,38 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(0),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("p", { staticStyle: { margin: "0" } }, [
+                  _vm._v("Search by name:")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.query,
+                      expression: "query"
+                    }
+                  ],
+                  staticClass: "form-control searchnameinpt",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Type a customer lastname",
+                    name: "query"
+                  },
+                  domProps: { value: _vm.query },
+                  on: {
+                    keyup: _vm.autoComplete,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.query = $event.target.value
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "box-tools" }, [
                 _c(
@@ -68944,7 +68999,7 @@ var render = function() {
                 "table",
                 { staticClass: "table" },
                 [
-                  _vm._m(1),
+                  _vm._m(0),
                   _vm._v(" "),
                   _vm._l(_vm.profiles, function(profile) {
                     return _c("tr", { key: profile.id }, [
@@ -69041,7 +69096,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "box" }, [
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "box-body" }, [
               _c(
@@ -69168,7 +69223,7 @@ var render = function() {
                           [_vm._v(" Date")]
                         ),
                         _vm._v(" "),
-                        _vm._m(3),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -69217,7 +69272,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _vm._m(3)
                 ]
               )
             ])
@@ -69316,7 +69371,7 @@ var render = function() {
                 "table",
                 { staticClass: "table" },
                 [
-                  _vm._m(5),
+                  _vm._m(4),
                   _vm._v(" "),
                   _vm._l(_vm.payments, function(payment) {
                     return _c("tr", { key: payment.id }, [
@@ -69405,7 +69460,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-dialog" }, [
               _c("div", { staticClass: "modal-content" }, [
-                _vm._m(6),
+                _vm._m(5),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -69478,13 +69533,13 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(6)
                       ]
                     )
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(8)
+                _vm._m(7)
               ])
             ])
           ]
@@ -69494,19 +69549,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("p", { staticStyle: { margin: "0" } }, [_vm._v("Search by name:")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control searchnameinpt",
-        attrs: { type: "text", name: "searchName" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -69954,7 +69996,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       var vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -70658,6 +70700,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 //npm install vue2-filters
@@ -70669,6 +70716,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
     var _ref;
 
     return _ref = {
+      query: '',
       payDate: new Date().toISOString().slice(0, 10),
       areas: [],
       area: {
@@ -70779,7 +70827,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       var _this3 = this;
 
       var vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -70890,6 +70938,27 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_filters___default.a);
       this.fetchPaymentsByID(profile.id);
       //this.fetchProfilesByAreas();       
     },
+    autoComplete: function autoComplete(page_url) {
+      var _this7 = this;
+
+      this.results = [];
+      if (this.query.length > 1) {
+        var query = this.query;
+        page_url = 'http://cn.com/api/profilesbykeyword/' + query;
+        fetch(page_url).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this7.profiles = res.data;
+          console.log(_this7.profiles);
+        }).catch(function (err) {
+          return console.log('what error?: ' + err);
+        });
+      } else {
+        this.fetchprofiles();
+      }
+    },
+    //end autocomplete
+
     editpayment: function editpayment(payment) {
       this.payedit = true;
       this.payment.id = payment.id;
@@ -70978,6 +71047,39 @@ var render = function() {
                   }),
                   0
                 )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("p", { staticStyle: { margin: "0" } }, [
+                  _vm._v("Search by customer's name:")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.query,
+                      expression: "query"
+                    }
+                  ],
+                  staticClass: "form-control searchnameinpt",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Type a customer lastname",
+                    name: "query"
+                  },
+                  domProps: { value: _vm.query },
+                  on: {
+                    keyup: _vm.autoComplete,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.query = $event.target.value
+                    }
+                  }
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "box-tools" }, [
@@ -71836,7 +71938,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       var vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -72632,6 +72734,172 @@ webpackContext.id = 203;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(216)
+/* template */
+var __vue_template__ = __webpack_require__(217)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Autocomplete.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3a5dcd9f", Component.options)
+  } else {
+    hotAPI.reload("data-v-3a5dcd9f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 216 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      query: '',
+      profiles: [],
+      profile: {
+        id: '',
+        full_name: '',
+        address: '',
+        area: '',
+        loan: '',
+        interest: '',
+        term: '',
+        date_from: '',
+        date_to: '',
+        contact: '',
+        date_expire: false
+      },
+      results: []
+    };
+  },
+
+  methods: {
+    autoComplete: function autoComplete(page_url) {
+      var _this = this;
+
+      this.results = [];
+      if (this.query.length > 2) {
+        var query = this.query;
+        page_url = 'http://cn.com/api/profilesbykeyword/' + query;
+        fetch(page_url).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this.profiles = res.data;
+          console.log(_this.profiles);
+        }).catch(function (err) {
+          return console.log('what error?: ' + err);
+        });
+      }
+    } //end autocomplete
+
+  }
+});
+
+/***/ }),
+/* 217 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.query,
+          expression: "query"
+        }
+      ],
+      staticClass: "form-control searchnameinpt",
+      attrs: {
+        type: "text",
+        placeholder: "Type a customer lastname",
+        name: "query"
+      },
+      domProps: { value: _vm.query },
+      on: {
+        keyup: _vm.autoComplete,
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.query = $event.target.value
+        }
+      }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3a5dcd9f", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

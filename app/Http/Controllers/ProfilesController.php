@@ -21,7 +21,7 @@ class ProfilesController extends Controller
     public function index()
     {
         // Get profiles
-        $profiles = Profiles::orderBy('full_name', 'asc')->paginate(25);                        
+        $profiles = Profiles::orderBy('full_name', 'asc')->paginate(30);                        
                         
         //dd($profiles);                  
         // Return collection of articles as a resource               
@@ -42,15 +42,11 @@ class ProfilesController extends Controller
     }
 
 
-    public function get_profiles_by_area_and_keyword($id, $perpage, $keyword)
+    public function get_profiles_by_keyword($keyword)
     {
-        // Get profiles    
-        if ( $id > 0 ) {
-            $profiles = Profiles::where('area', $id)->orderBy('full_name', 'asc')->paginate($perpage);
-        } else {            
-            $profiles = Profiles::orderBy('full_name', 'asc')->paginate($perpage);            
-        }
-
+        // Get profiles                
+        $profiles = Profiles::where('full_name', 'like', '%' . $keyword . '%')->get();   
+       
         // Return paginated records by area
         return ProfilesResource::collection($profiles);        
     }

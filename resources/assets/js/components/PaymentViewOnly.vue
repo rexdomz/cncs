@@ -13,7 +13,12 @@
                           <select @change="fetchProfilesByAreas" v-model="area" id="area" name="area" class="area form-control select2">                                   
                               <option v-for="area in areas" :value="area.id" v-bind:key="area.id">{{ area.collector }} ( {{ area.area_code }} - {{ area.address }} )</option>
                           </select>
-                        </div>                        
+                        </div>   
+
+                        <div class="col-md-4">
+                          <p style="margin: 0">Search by customer's name:</p>                                                     
+                          <input type="text" placeholder="Type a customer lastname" v-model="query" v-on:keyup="autoComplete" name="query" class="form-control searchnameinpt">
+                        </div>                     
 
                         <div class="box-tools">
                             <ul class="pagination pagination-sm no-margin pull-right">
@@ -142,6 +147,7 @@ Vue.use(Vue2Filters)
 export default {
   data() {    
     return {
+      query: '',
       payDate: new Date().toISOString().slice(0,10),
       areas: [],
       area: {
@@ -247,7 +253,7 @@ export default {
     },
     fetchprofiles(page_url) {
       let vm = this;
-      page_url = 'http://cn.com/api/profiles';
+      page_url = page_url || 'http://cn.com/api/profiles';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -349,6 +355,25 @@ export default {
       this.fetchPaymentsByID(profile.id); 
       //this.fetchProfilesByAreas();       
     },
+
+    autoComplete(page_url){
+      this.results = [];
+      if(this.query.length > 1){     
+          var query = this.query
+          page_url = `http://cn.com/api/profilesbykeyword/${query}`;
+          fetch(page_url)
+              .then(res => res.json())
+              .then(res => {
+              this.profiles = res.data;         
+              console.log(this.profiles);    
+              })
+              .catch(err => console.log('what error?: ' + err));
+              
+      } else {
+        this.fetchprofiles();
+      }
+    }, //end autocomplete
+
     editpayment(payment) {
       this.payedit = true;
       this.payment.id = payment.id;

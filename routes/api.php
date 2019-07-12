@@ -24,6 +24,9 @@ Route::get('profiles', 'ProfilesController@index');
 // List profiles by area
 Route::get('profilesbyarea/{id}/{perpage?}', 'ProfilesController@get_profiles_by_area');
 
+// List profiles by search key
+Route::get('profilesbykeyword/{keyword}', 'ProfilesController@get_profiles_by_keyword');
+
 // List single profile
 Route::get('profile/{id}', 'ProfilesController@show');
 
